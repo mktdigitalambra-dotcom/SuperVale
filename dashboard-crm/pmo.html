@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PMO · Plano de CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:#f5f4f0;color:#1a1916;padding:16px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;flex-wrap:wrap;gap:6px;padding-left:14px;border-left:4px solid #E30613;transition:border-color .2s}
+.caps{display:flex;gap:4px}
+.ct{padding:5px 13px;border-radius:7px;border:1px solid #d3d1c7;background:transparent;cursor:pointer;font-size:12px;font-weight:500;color:#636057}
+.ct.amc{background:#fff0f0;color:#a80000;border-color:#E30613}
+.ct.asm{background:#fffae6;color:#7a5200;border-color:#F9AE00}
+.ct.asv{background:#fff5e6;color:#7a3800;border-color:#FF7C07}
+.tabs{display:flex;gap:4px;margin-bottom:.8rem;flex-wrap:wrap}
+.tab{padding:5px 12px;border-radius:7px;border:1px solid #d3d1c7;background:#fff;cursor:pointer;font-size:12px;color:#636057}
+.tab.on{background:#1a1916;color:#fff;font-weight:500;border-color:#1a1916}
+
+.sec{display:none}.sec.on{display:block}
+.src{font-size:10px;color:#888780;background:#f0efe9;border:1px solid #d3d1c7;border-radius:6px;padding:6px 10px;margin-bottom:.8rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.src strong{color:#636057}
+.upd{margin-left:auto;background:#EAF3DE;border:1px solid #1D9E7544;border-radius:99px;font-size:10px;font-weight:600;color:#0e6647;padding:2px 8px;white-space:nowrap}
+.fb{display:flex;align-items:center;gap:4px;margin-bottom:.8rem;padding:5px 9px;background:#eeeee8;border-radius:7px;overflow-x:auto}
+.fb label{font-size:10px;color:#636057;white-space:nowrap;flex-shrink:0}
+.fb select,.fb input[type=date]{font-size:11px;padding:2px 5px;border-radius:5px;border:1px solid #d3d1c7;background:#fff;height:22px;flex-shrink:0}
+.fb select{width:80px}.fb input[type=date]{width:105px}
+.fb button{font-size:10px;padding:2px 8px;height:22px;border:1px solid #d3d1c7;border-radius:5px;background:#fff;cursor:pointer;flex-shrink:0}
+.fsep{width:1px;height:14px;background:#d3d1c7;margin:0 2px;flex-shrink:0}
+.ch-hdr{font-size:12px;font-weight:600;color:#636057;margin:.7rem 0 5px;display:flex;align-items:center;gap:5px}
+.dot8{width:7px;height:7px;border-radius:50%}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+.mk{background:#eeeee8;border-radius:7px;padding:9px 11px}
+.ml{font-size:10px;color:#636057;margin-bottom:2px}
+.mv{font-size:17px;font-weight:600;color:var(--cap-col,#1a1916)}
+.ms{font-size:10px;margin-top:1px;line-height:1.3}
+.up{color:#1D9E75}.dn{color:#D85A30}.neu{color:#888780}
+.card{background:#fff;border:1px solid #e8e6e0;border-radius:9px;padding:.85rem 1rem;margin-bottom:.8rem}
+.ct2{font-size:12px;font-weight:600;color:#636057;margin-bottom:7px}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem;margin-bottom:.8rem}
+.cw{width:100%}
+.leg{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:5px;font-size:11px;color:#636057}
+.leg span{display:flex;align-items:center;gap:3px}
+.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:11px;table-layout:fixed}
+th{text-align:left;padding:5px 7px;font-size:10px;font-weight:600;color:#636057;border-bottom:1px solid #e8e6e0;background:#f9f8f5}
+td{padding:5px 7px;border-bottom:1px solid #e8e6e0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr.hi td:first-child{color:#1D9E75;font-weight:600}
+tr.lo td:first-child{color:#D85A30}
+tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
+.ir{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid #e8e6e0}
+.ir:last-child{border-bottom:none}
+.ii{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.nb{font-size:11px;color:#636057;background:#eeeee8;padding:7px 10px;border-radius:7px;margin-bottom:.8rem;line-height:1.6}
+.nb.alert{background:#FFF0EE;border:1px solid #D85A3055;color:#7a1f0e}
+.nb.warn{background:#FFF8EC;border:1px solid #EF9F2755;color:#7a5200}
+.nb.ok{background:#EAF3DE;border:1px solid #1D9E7544;color:#0e6647}
+.cy{margin-bottom:6px}
+.cyn{display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px}
+.cyb{background:#eeeee8;border-radius:99px;height:4px;overflow:hidden}
+.cbf{height:100%;border-radius:99px}
+.catbadge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:99px;font-weight:600;white-space:nowrap}
+/* funil em pé */
+.vfunnel{display:flex;flex-direction:column;gap:0;max-width:480px;margin:0 auto}
+.vf-step{display:flex;align-items:center;gap:8px}
+.vf-bar-wrap{flex:1;display:flex;align-items:center;gap:6px}
+.vf-bar-bg{flex:1;background:#eeeee8;border-radius:5px;height:26px;overflow:hidden;position:relative}
+.vf-bar-fill{height:100%;border-radius:5px;display:flex;align-items:center;padding:0 8px;min-width:40px;transition:width .3s}
+.vf-bar-txt{font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+.vf-lbl{font-size:10px;color:#636057;min-width:90px;text-align:right;flex-shrink:0}
+.vf-val{font-size:11px;font-weight:600;min-width:55px;text-align:left;flex-shrink:0}
+.vf-arrow{padding:2px 0 2px 98px;font-size:10px;color:#888780;display:flex;align-items:center;gap:4px}
+.vf-arrow span{background:#eeeee8;border-radius:99px;padding:1px 7px;font-size:10px;font-weight:600}
+/* cr */
+.cr{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #e8e6e0}
+.cr:last-child{border-bottom:none}
+.cnm{font-size:11px;min-width:90px;font-weight:600}
+.cbw{flex:1;background:#eeeee8;border-radius:99px;height:5px;overflow:hidden}
+.cvl{font-size:11px;min-width:60px;text-align:right;color:#636057}
+/* base */
+.ptabs{display:flex;gap:3px;margin-bottom:.7rem;flex-wrap:wrap}
+.ptab{padding:3px 10px;border-radius:5px;border:1px solid #d3d1c7;cursor:pointer;font-size:11px;color:#636057;background:#fff}
+.ptab.on{background:#1a1916;color:#fff;font-weight:600;border-color:#1a1916}
+.bfs{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid #e8e6e0}
+.bfs:last-child{border-bottom:none}
+.bfs-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.bfs-lbl{flex:1}.bfs-t{font-size:12px;font-weight:600}.bfs-s{font-size:10px;color:#636057}
+.bfs-v{font-size:15px;font-weight:700;min-width:65px;text-align:right}
+.bfs-p{font-size:10px;color:#888780;min-width:36px;text-align:right}
+/* retenção */
+.ret-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #e8e6e0}
+.ret-row:last-child{border-bottom:none}
+.ret-label{font-size:11px;min-width:125px;color:#636057}
+.ret-bw{flex:1;background:#eeeee8;border-radius:99px;height:20px;overflow:hidden}
+.ret-bf{height:100%;border-radius:99px;display:flex;align-items:center;padding-left:9px}
+.ret-bt{font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+.ret-val{font-size:13px;font-weight:700;min-width:40px;text-align:right}
+.comp-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px}
+/* sankey */
+.sankey{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap}
+.sk-col{display:flex;flex-direction:column;gap:5px;flex:1;min-width:95px}
+.sk-block{border-radius:8px;padding:10px 12px;text-align:center}
+.sk-val{font-size:18px;font-weight:700;display:block}
+.sk-lbl{font-size:10px;line-height:1.3;display:block;margin-top:2px;opacity:.8}
+.sk-pct{font-size:12px;font-weight:700;display:block;margin-top:3px}
+.sk-arr{font-size:20px;color:#888780;flex-shrink:0;align-self:center}
+/* metas */
+.meta-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:700;white-space:nowrap}
+.meta-ok{background:#EAF3DE;color:#0e6647}
+.meta-over{background:#E6F1FB;color:#0C447C}
+.meta-miss{background:#FFF0EE;color:#7a1f0e}
+.meta-na{background:#eeeee8;color:#888780}
+.month-hdr{font-size:12px;font-weight:700;padding:6px 0;margin-bottom:6px;border-bottom:2px solid #d3d1c7;display:flex;justify-content:space-between;align-items:center}
+/* jornada */
+.jornada-step{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #e8e6e0}
+.jornada-step:last-child{border-bottom:none}
+.jornada-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff}
+.jornada-info{flex:1}
+.jornada-title{font-size:12px;font-weight:600}
+.jornada-sub{font-size:10px;color:#636057;margin-top:2px}
+.jornada-val{font-size:15px;font-weight:700;min-width:60px;text-align:right}
+.tab.ed5tab.on{background:#EF9F27 !important;border-color:#EF9F27 !important;color:#fff !important}
+.tab.saldotab.on{background:#c47a00 !important;border-color:#c47a00 !important;color:#fff !important}
+
+.dp-acao{background:#f8f7f4;border:1px solid #ece9e2;border-left:3px solid var(--dpc,#c9c6bd);border-radius:8px;padding:10px 12px;transition:box-shadow .15s,transform .15s,background .15s}
+.dp-acao:hover{background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.07);transform:translateY(-1px)}
+.dp-acao-off{opacity:.75}
+.dp-acao-off:hover{background:#f8f7f4;box-shadow:none;transform:none}
+.dp-acao-on{background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.10)}
+.dp-chip{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:.03em}
+
+body{padding:0;margin:0;background:#faf9f6}
+.pg{max-width:960px;margin:0 auto;padding:26px 16px 40px;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.pg-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.pg-brand{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#a29f97}
+</style></head><body>
+<div class="pg">
+<div id="ideias-panel-content"></div>
+</div>
+<script>
+const PMO = {
+  projeto: 'Personalizações CRM Set/2026',
+  caps: ['MC','SM','SV'],
+  equipe: ['Fernanda','Aline','Cathy'],
+  updated: '12/08/2026',
+  semanas: [
+    {
+      id:'s1', label:'Semana 1', periodo:'01–06/set',
+      acoes:[
+        {id:'lp_apaes',nome:'LP Filantropia — APAEs',tag:'RELACIONAMENTO',caps:['MC'],status:'em_andamento',prioridade:1,resp:['Fernanda','Cathy'],inicio:'01/set',entrega:'06/set',descricao:'Finalizar landing page de filantropia da Minas Cap com depoimentos e fotos das APAEs beneficiadas. LP v4 construída — pendente autorização de uso de fotos e alinhamento com FEAPAES-MG.',canal:['Landing Page'],historico:[],comentarios:[]},
+        {id:'canal_preferido',nome:'Canal Preferido',tag:'RELACIONAMENTO',caps:['MC','SM','SV'],status:'planejado',prioridade:2,resp:['Fernanda','Aline'],inicio:'01/set',entrega:'13/set',descricao:'Identificar clientes que não abrem email nos últimos 60 dias mas clicam em WP (e vice-versa). Criar segmentos no Insider e ativar exclusões automáticas nos disparos regulares.',canal:['Email','Web Push'],historico:[],comentarios:[]}
+      ]
+    },
+    {
+      id:'s2', label:'Semana 2', periodo:'08–13/set',
+      acoes:[
+        {id:'presentear',nome:'Presentear — Assíduos com Saldo',tag:'CONVERSÃO',caps:['MC','SM','SV'],status:'planejado',prioridade:1,resp:['Fernanda','Aline','Cathy'],inicio:'08/set',entrega:'13/set',descricao:'Campanha para compradores assíduos (3+ compras no mês) destacando a função Presentear. Os 100 primeiros que comprarem recebem saldo extra. Requer peças novas por cap.',canal:['Email','Web Push','App Push'],historico:[],comentarios:[]}
+      ]
+    },
+    {
+      id:'s3', label:'Semana 3', periodo:'15–20/set',
+      acoes:[
+        {id:'objecoes',nome:'Série Objeções',tag:'CONVERSÃO',caps:['MC','SM','SV'],status:'planejado',prioridade:1,resp:['Fernanda','Aline','Cathy'],inicio:'15/set',entrega:'27/set',descricao:'Série de 5 emails para base fria (sem compra há 90+ dias) desmontando as principais objeções: (1) Ninguém ganha de verdade (2) Isso é jogo (3) É impossível ganhar (4) Perdi meu dinheiro — falar sobre filantropia (5) Se eu ganhar, não vou conseguir receber. Criação de peças + configuração na semana 3, disparos na semana 4.',canal:['Email'],historico:[],comentarios:[]}
+      ]
+    },
+    {
+      id:'s4', label:'Semana 4', periodo:'22–27/set',
+      acoes:[
+        {id:'ganhadores_pequenos',nome:'Campanha Ganhadores de Prêmio Pequeno',tag:'CONVERSÃO',caps:['MC','SM','SV'],status:'planejado',prioridade:1,resp:['Fernanda','Aline','Cathy'],inicio:'22/set',entrega:'27/set',descricao:'Email e WP para quem ganhou prêmio menor (Gira Minas, Bateu na Trave, etc.) incentivando recompra. Copy: "Você já ganhou — agora vai pela sorte grande?"',canal:['Email','Web Push'],historico:[],comentarios:[]}
+      ]
+    }
+  ],
+    apos_setembro:[
+    {id:'recompra_12',nome:'Série Recompra — 1 ou 2 Compras na Vida',tag:'CONVERSÃO',caps:['MC','SM','SV'],resp:['Fernanda','Aline','Cathy']},
+    {id:'ganhadores_fotos',nome:'Email Semanal — Ganhadores com Fotos',tag:'RELACIONAMENTO',caps:['MC','SM','SV'],resp:['Fernanda','Aline','Cathy']},
+    {id:'aniversario_cidade',nome:'Push Aniversário da Cidade',tag:'RELACIONAMENTO',caps:['MC','SM','SV'],resp:['Fernanda','Aline']},
+    {id:'aniversario_cliente',nome:'Aniversário do Cliente com Saldo',tag:'CONVERSÃO',caps:['MC','SM','SV'],resp:['Fernanda','Aline']},
+    {id:'lp_ganhadores',nome:'LP Ganhadores por Cidades',tag:'RELACIONAMENTO',caps:['MC','SM','SV'],resp:['Fernanda','Cathy']},
+    {id:'lp_whatsapp',nome:'LP — WhatsApp para Credibilidade',tag:'RELACIONAMENTO',caps:['MC','SM','SV'],resp:['Fernanda','Cathy']}
+  ]
+};
+const IDEIAS = [
+  {
+    id:'canal_preferido',icon:'📡',titulo:'Canal Preferido',tag:'RELACIONAMENTO',
+    prioridade:1,status:'setembro',impacto:'alto',esforco:'medio',
+    cor:'#1D9E75',
+    objetivo:'Aumentar engajamento e conversão enviando cada cliente apenas pelo canal que ele de fato responde.',
+    desc:'Clientes que nunca abrem email mas clicam em Web Push param de receber email (e vice-versa). Reduz ruído, melhora entregabilidade e concentra esforço onde há retorno.',
+    base:'Segmentação por comportamento: quem não abriu email nos últimos 60 dias mas clicou em WP → exclui do email. Quem nunca clicou em WP mas abre email → exclui do WP.',
+    caps:['MC', 'SM', 'SV'],
+    canais:['Email', 'Web Push'],
+    deps:'Atributo de engajamento por canal — verificar com Abner se é possível via Insider ou precisa de criação manual.',
+    comentario:'Grande chance de engajamento.'
+  },
+  {
+    id:'presentear',icon:'🎁',titulo:'Presentear — Assíduos com Saldo',tag:'CONVERSÃO',
+    prioridade:2,status:'setembro',impacto:'alto',esforco:'baixo',
+    cor:'#E30613',
+    objetivo:'Converter os clientes mais assíduos usando a funcionalidade Presentear do site com oferta de saldo.',
+    desc:'Email e WP direcionados para compradores assíduos (3+ compras no último mês) destacando a função Presentear. Os 100 primeiros que comprarem recebem saldo extra como incentivo.',
+    base:'Compradores com 3+ compras no mês vigente. Base pequena e altamente qualificada.',
+    caps:['MC', 'SM', 'SV'],
+    canais:['Email', 'Web Push', 'ERP Push'],
+    deps:'Configuração da oferta de saldo para os 100 primeiros — alinhar com Lucas para acionar via ERP.',
+    comentario:'Muito bom. Saldo mais alto pros 100 primeiros que comprarem.'
+  },
+  {
+    id:'objecoes',icon:'💬',titulo:'Série Desmontando Objeções',tag:'CONVERSÃO',
+    prioridade:3,status:'setembro',impacto:'alto',esforco:'alto',
+    cor:'#378ADD',
+    objetivo:'Reativar base fria que nunca comprou ou parou de comprar, endereçando as principais barreiras de decisão.',
+    desc:'Série de 5 emails enviados ao longo de uma edição, cada um desmontando uma objeção real: (1) "Ninguém ganha de verdade" (2) "Isso é jogo" (3) "É impossível ganhar" (4) "Perdi meu dinheiro" — falar sobre filantropia (5) "Se eu ganhar, não vou conseguir receber" — explicar processo de pagamento.',
+    base:'Base que nunca comprou ou que não compra há mais de 90 dias, com opt-in de email.',
+    caps:['MC', 'SM', 'SV'],
+    canais:['Email'],
+    deps:'Criação de 5 peças por cap. Definir cadência de envio (1 email/dia nos últimos 5 dias da edição ou distribuídos ao longo da semana).',
+    comentario:null
+  },
+  {
+    id:'ganhadores_pequenos',icon:'🏆',titulo:'Campanha Ganhadores de Prêmio Pequeno',tag:'CONVERSÃO',
+    prioridade:4,status:'setembro',impacto:'medio',esforco:'baixo',
+    cor:'#EF9F27',
+    objetivo:'Ativar clientes que já ganharam prêmios menores (Gira Minas, Bateu na Trave, etc.) para recompra na próxima edição.',
+    desc:'Email e WP para quem ganhou algum prêmio pequeno, reforçando a experiência positiva e incentivando manter o título ativo. Copy: "Você já ganhou — agora vai pela sorte grande?"',
+    base:'Clientes com registro de premiação em prêmios menores. Verificar disponibilidade do atributo no ERP/Insider com Lucas.',
+    caps:['MC', 'SM', 'SV'],
+    canais:['Email', 'Web Push'],
+    deps:'Atributo "ganhou prêmio" disponível na base do Insider — verificar com Lucas.',
+    comentario:null
+  },
+  {
+    id:'recompra_12',icon:'🔁',titulo:'Série Recompra — 1 ou 2 Compras na Vida',tag:'CONVERSÃO',
+    prioridade:5,status:'depois',impacto:'medio',esforco:'medio',
+    cor:'#636057',
+    objetivo:'Converter clientes que compraram só 1 ou 2 vezes na vida em compradores recorrentes.',
+    desc:'Série de emails focada em construir o hábito de compra. Pode incluir oferta de saldo como incentivo para a segunda ou terceira compra. Base grande com potencial de conversão moderado.',
+    base:'Clientes com 1 ou 2 compras totais registradas no ERP. Excluir compradores ativos recentes.',
+    caps:['MC', 'SM', 'SV'],
+    canais:['Email', 'ERP Push'],
+    deps:'Atributo de número de compras na vida — disponível via ERP com Lucas.',
+    comentario:'Avaliar inclusão de saldo como incentivo.'
+  },
+  {
+    id:'ganhadores_fotos',icon:'📸',titulo:'Email Semanal — Ganhadores com Fotos',tag:'RELACIONAMENTO',
+    prioridade:6,status:'depois',impacto:'medio',esforco:'medio',
+    cor:'#636057',
+    objetivo:'Aumentar engajamento e prova social enviando fotos dos ganhadores do último sorteio toda semana.',
+    desc:'Email disparado toda segunda-feira com as fotos dos ganhadores do sorteio de domingo. Reforça credibilidade da marca e humaniza os resultados. Ref: instagram.com/p/DbjAjA6FaLE',
+    base:'Base completa com opt-in de email.',
+    caps:['MC', 'SM', 'SV'],
+    canais:['Email'],
+    deps:'Fotos dos ganhadores disponíveis após cada sorteio. Alinhar processo de coleta com equipe de operações.',
+    comentario:'Muito legal mas não sei se teremos as fotos de todos.'
+  },
+  {
+    id:'aniversario_cidade',icon:'🎂',titulo:'Push Aniversário da Cidade',tag:'RELACIONAMENTO',
+    prioridade:7,status:'depois',impacto:'medio',esforco:'alto',
+    cor:'#636057',
+    objetivo:'Criar conexão emocional com o cliente no aniversário da sua cidade, incentivando compra como celebração.',
+    desc:'WP e email no dia do aniversário da cidade do cliente com copy temático ("Comemore junto com sua cidade"). Pode incluir fotos dos ganhadores da cidade aniversariante e comunicação até por bairro.',
+    base:'Clientes com atributo de cidade preenchido na base. Segmentar por cidade e data de aniversário municipal.',
+    caps:['MC', 'SM', 'SV'],
+    canais:['Web Push', 'Email'],
+    deps:'Atributo de cidade na base do Insider + calendário de aniversários municipais de MG. Alimentação via Lucas.',
+    comentario:'Acho muito legal — tanto aniversário do cliente quanto da cidade. Mandar até pra bairro. Colocar fotos dos ganhadores da cidade aniversariante.'
+  },
+  {
+    id:'aniversario_cliente',icon:'🎈',titulo:'Aniversário do Cliente com Saldo',tag:'CONVERSÃO',
+    prioridade:8,status:'depois',impacto:'medio',esforco:'baixo',
+    cor:'#636057',
+    objetivo:'Fidelizar o cliente com uma oferta de saldo no seu aniversário, incentivando compra no mês de maior conexão emocional.',
+    desc:'Email de aniversário para clientes com compra recente, oferecendo saldo extra como presente. Copy personalizado com o nome do cliente.',
+    base:'Clientes com data de nascimento cadastrada e pelo menos 1 compra nos últimos 90 dias.',
+    caps:['MC', 'SM', 'SV'],
+    canais:['Email', 'Web Push'],
+    deps:'Atributo de data de nascimento na base do Insider.',
+    comentario:'Dar saldo pra cliente aniversariante com compra recente.'
+  },
+  {
+    id:'lp_apaes',icon:'🤝',titulo:'LP Filantropia — APAEs com Depoimentos',tag:'RELACIONAMENTO',
+    prioridade:9,status:'setembro',impacto:'medio',esforco:'baixo',
+    cor:'#E30613',
+    objetivo:'Reforçar o posicionamento filantrópico da cap com depoimentos reais das APAEs na landing page.',
+    desc:'Adicionar depoimentos das APAEs beneficiadas na LP de filantropia. LP já criada — pendente inclusão dos depoimentos.',
+    base:'N/A — landing page pública.',
+    caps:['MC'],
+    canais:['Landing Page'],
+    deps:'Depoimentos e fotos das APAEs. Contato com FEAPAES-MG pendente.',
+    comentario:null
+  },
+  ,
+  {
+    id:'lp_ganhadores_cidades',icon:'🗺️',titulo:'LP Ganhadores por Cidades',tag:'RELACIONAMENTO',
+    prioridade:10,status:'depois',impacto:'medio',esforco:'medio',
+    cor:'#636057',
+    objetivo:'Mostrar ganhadores organizados por cidade na landing page, gerando identificação e prova social local.',
+    desc:'Seção na LP exibindo ganhadores recentes por cidade. Reforça credibilidade e cria conexão emocional com o cliente ao ver alguém da sua região vencendo.',
+    base:'N/A — landing page pública.',
+    caps:['MC','SM','SV'],
+    canais:['Landing Page'],
+    deps:'Dados de ganhadores por cidade e fotos disponíveis. Desenvolvimento de seção na LP.',
+    comentario:null
+  },
+  {
+    id:'lp_whatsapp',icon:'💬',titulo:'LP — WhatsApp para Credibilidade',tag:'RELACIONAMENTO',
+    prioridade:11,status:'depois',impacto:'medio',esforco:'medio',
+    cor:'#636057',
+    objetivo:'Adicionar canal WhatsApp na LP para aumentar credibilidade e facilitar o contato direto com o cliente.',
+    desc:'Botão ou seção de WhatsApp na landing page para tirar dúvidas, receber depoimentos e gerar confiança. Complementa a comunicação CRM com um canal mais próximo.',
+    base:'N/A — landing page pública.',
+    caps:['MC','SM','SV'],
+    canais:['Landing Page','WhatsApp'],
+    deps:'Número de WhatsApp dedicado e definição de fluxo de atendimento.',
+    comentario:null
+  }
+];
+async function pmoLoad(){
+  try{
+    var res = await fetch(PMO_URL);
+    var text = await res.text();
+    if(text && text !== '{}'){
+      var data = JSON.parse(text);
+      if(Array.isArray(data)){
+        data.forEach(function(sem, si){
+          if(PMO.semanas[si]){
+            sem.acoes.forEach(function(a, ai){
+              if(PMO.semanas[si].acoes[ai]){
+                PMO.semanas[si].acoes[ai].comentarios = a.comentarios || [];
+                PMO.semanas[si].acoes[ai].historico = a.historico || [];
+                PMO.semanas[si].acoes[ai].status = a.status || PMO.semanas[si].acoes[ai].status;
+              }
+            });
+          }
+        });
+      }
+    }
+  } catch(e){ console.warn('pmoLoad error:', e); }
+}
+async function pmoSave(){
+  try{
+    var form = new FormData();
+    form.append('data', JSON.stringify(PMO.semanas));
+    await fetch(PMO_URL, {method:'POST', body:form, mode:'no-cors'});
+  } catch(e){ console.warn('pmoSave error:', e); }
+}
+function pmoToggle(id){
+  var el = document.getElementById(id);
+  if(el) el.style.display = el.style.display==='none'?'block':'none';
+}
+async function pmoSetStatus(acaoId, novoStatus){
+  PMO.semanas.forEach(function(s){
+    s.acoes.forEach(function(a){
+      if(a.id===acaoId){
+        var old = a.status;
+        a.status = novoStatus;
+        var ts = new Date().toLocaleDateString('pt-BR');
+        var statusLabels = {em_andamento:'Em andamento',planejado:'Planejado',concluido:'Concluído',bloqueado:'Bloqueado'};
+        a.historico.push(ts+' — Status alterado de "'+statusLabels[old]+'" para "'+statusLabels[novoStatus]+'"');
+      }
+    });
+  });
+  await pmoSave();
+  rPMO();
+}
+async function pmoAddComment(acaoId){
+  var inp = document.getElementById('inp-'+acaoId);
+  if(!inp || !inp.value.trim()) return;
+  var ts = new Date().toLocaleDateString('pt-BR');
+  var txt = inp.value.trim();
+  inp.value = '';
+  PMO.semanas.forEach(function(s){
+    s.acoes.forEach(function(a){
+      if(a.id===acaoId){
+        a.comentarios.push(ts+' — '+txt);
+        a.historico.push(ts+' — Comentário adicionado');
+      }
+    });
+  });
+  await pmoSave();
+  rPMO();
+}
+function crmToggle(ev){var el=ev.currentTarget.getAttribute("data-tid");var b=document.getElementById("b-"+el);var a=document.getElementById("a-"+el);if(!b)return;if(b.style.display==="none"){b.style.display="block";a.style.transform="rotate(180deg)";}else{b.style.display="none";a.style.transform="rotate(0deg)";}}
+function rPMO(){
+  var el = document.getElementById('ideias-panel-content');
+  var out = '';
+
+  var statusCfg = {
+    em_andamento: {label:'Em andamento',bg:'#e6f4ff',col:'#0066cc',dot:'#0066cc'},
+    planejado:    {label:'Planejado',   bg:'#f8f7f4',col:'#636057',dot:'#aaa'},
+    concluido:    {label:'Concluído',   bg:'#f0fff8',col:'#1D9E75',dot:'#1D9E75'},
+    bloqueado:    {label:'Bloqueado',   bg:'#fff0f0',col:'#E30613',dot:'#E30613'},
+  };
+
+  // ── Header
+  out += '<div style="background:linear-gradient(135deg,#0a1f4e 0%,#0d2b6b 60%,#1a3a80 100%);border-radius:12px;padding:20px 24px;margin-bottom:1.2rem">';
+  out += '<div style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">PMO · CRM</div>';
+  out += '<div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:4px">📋 '+PMO.projeto+'</div>';
+  out += '<div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:14px">Caps: '+PMO.caps.join(' · ')+' · Atualizado em '+PMO.updated+'</div>';
+  // Equipe chips
+  out += '<div style="display:flex;gap:8px;flex-wrap:wrap">';
+  PMO.equipe.forEach(function(p){
+    var col = p==='Fernanda'?'#FDC300':p==='Aline'?'#7DD3FC':'#F9A8D4';
+    out += '<div style="background:rgba(255,255,255,.08);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:700;color:'+col+'">'+p+'</div>';
+  });
+  out += '</div>';
+  // Summary counts
+  var total = 0, em_and = 0, plan = 0, conc = 0;
+  PMO.semanas.forEach(function(s){ s.acoes.forEach(function(a){ total++; if(a.status==='em_andamento') em_and++; else if(a.status==='planejado') plan++; else if(a.status==='concluido') conc++; }); });
+  out += '<div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">';
+  [[total,'Total','#fff'],[em_and,'Em andamento','#7DD3FC'],[plan,'Planejadas','#aaa'],[conc,'Concluídas','#1D9E75']].forEach(function(k){
+    out += '<div style="background:rgba(255,255,255,.06);border-radius:8px;padding:8px 16px;text-align:center"><div style="font-size:10px;color:rgba(255,255,255,.35)">'+k[1]+'</div><div style="font-size:20px;font-weight:700;color:'+k[2]+'">'+k[0]+'</div></div>';
+  });
+  out += '</div></div>';
+
+  // ── Semanas
+  PMO.semanas.forEach(function(sem){
+    out += '<div style="margin-bottom:1.2rem">';
+    out += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:.6rem">';
+    out += '<div style="font-size:12px;font-weight:700;color:#1a1916">'+sem.label+'</div>';
+    out += '<div style="font-size:11px;color:#888;background:#f0efe9;padding:2px 10px;border-radius:99px">'+sem.periodo+'</div>';
+    out += '<div style="flex:1;height:1px;background:#e8e6e0"></div></div>';
+
+    sem.acoes.forEach(function(a){
+      var sc = statusCfg[a.status] || statusCfg.planejado;
+      var tagCol = a.tag==='CONVERSÃO'?'#1D9E75':'#378ADD';
+      var tid = 'pmo-'+a.id;
+
+      out += '<div style="background:#fff;border:1px solid #e8e6e0;border-radius:10px;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)">';
+
+      // Card header — clickable
+      out += '<div onclick="pmoToggle(\''+tid+'\')" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 16px;border-left:4px solid '+tagCol+'">';
+      out += '<div style="width:8px;height:8px;border-radius:50%;background:'+sc.dot+';flex-shrink:0"></div>';
+      out += '<div style="flex:1">';
+      out += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px">';
+      out += '<div style="font-size:13px;font-weight:700;color:#1a1916">'+a.nome+'</div>';
+      out += '<span style="font-size:9px;font-weight:700;background:'+tagCol+'18;color:'+tagCol+';padding:2px 7px;border-radius:99px;text-transform:uppercase;letter-spacing:.06em">'+a.tag+'</span>';
+      out += '</div>';
+      out += '<div style="display:flex;gap:10px;font-size:10px;color:#888;flex-wrap:wrap">';
+      out += '<span>'+a.caps.join(' · ')+'</span>';
+      out += '<span>'+a.resp.join(' · ')+'</span>';
+      out += '<span>'+a.inicio+' → '+a.entrega+'</span>';
+      out += '</div></div>';
+      out += '<span style="font-size:10px;font-weight:700;background:'+sc.bg+';color:'+sc.col+';padding:3px 10px;border-radius:99px;white-space:nowrap;flex-shrink:0">'+sc.label+'</span>';
+      out += '</div>';
+
+      // Card body
+      out += '<div id="'+tid+'" style="display:none;padding:14px 16px;border-top:1px solid #f0efe9">';
+
+      // Description
+      out += '<div style="font-size:12px;color:#1a1916;line-height:1.6;margin-bottom:10px">'+a.descricao+'</div>';
+
+      // Canais
+      out += '<div style="margin-bottom:10px">';
+      out += '<div style="background:#f8f7f4;border-radius:7px;padding:8px 12px;display:inline-block"><div style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px">Canais</div><div style="font-size:11px;font-weight:700">'+a.canal.join(' · ')+'</div></div>';
+      out += '</div>';
+
+      // Status selector
+      out += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">';
+      out += '<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.08em">Status:</div>';
+      ['planejado','em_andamento','concluido','bloqueado'].forEach(function(st){
+        var sc2 = statusCfg[st];
+        var sel = a.status===st;
+      var sel = a.status===st; out += '<button data-aid="'+a.id+'" data-st="'+st+'" onclick="pmoSetStatus(this.dataset.aid,this.dataset.st)" style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid '+(sel?sc2.col:'#ddd')+';background:'+(sel?sc2.bg:'#fff')+';color:'+(sel?sc2.col:'#aaa')+';cursor:pointer">'+sc2.label+'</button>';
+      });
+      out += '</div>';
+
+      // Comentários + Histórico — sempre visíveis
+      out += '<div>';
+      out += '<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">💬 Comentários & Histórico</div>';
+      out += '<div id="hist-'+a.id+'" style="margin-bottom:8px">';
+      if(a.comentarios && a.comentarios.length){
+        a.comentarios.forEach(function(c){ out += '<div style="font-size:11px;background:#f8f7f4;border-radius:6px;padding:6px 10px;margin-bottom:4px">'+c+'</div>'; });
+      }
+      if(a.historico && a.historico.length){
+        a.historico.forEach(function(h){ out += '<div style="font-size:10px;color:#aaa;padding:3px 8px;border-left:2px solid #e8e6e0;margin-bottom:3px;font-style:italic">'+h+'</div>'; });
+      }
+      if((!a.comentarios||!a.comentarios.length)&&(!a.historico||!a.historico.length)){
+        out += '<div style="font-size:11px;color:#bbb;font-style:italic">Nenhum comentário ainda.</div>';
+      }
+      out += '</div>';
+      out += '<div style="display:flex;gap:6px">';
+      out += '<input id="inp-'+a.id+'" type="text" placeholder="Adicionar comentário..." style="flex:1;font-size:11px;padding:6px 10px;border:1px solid #e8e6e0;border-radius:6px;outline:none">';
+      out += '<button data-id="'+a.id+'" onclick="pmoAddComment(this.dataset.id)" style="font-size:11px;font-weight:700;padding:6px 14px;border-radius:6px;border:none;background:#1a1916;color:#fff;cursor:pointer">Adicionar</button>';
+      out += '</div>';
+      out += '</div>';
+      out += '</div></div>';
+
+      out += '</div></div>';
+    });
+    out += '</div>';
+  });
+
+  // ── Após setembro
+  out += '<div style="display:flex;align-items:center;gap:8px;margin:1.4rem 0 .6rem">';
+  out += '<div style="width:10px;height:10px;border-radius:50%;background:#636057"></div>';
+  out += '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#636057">Após Setembro</div>';
+  out += '<div style="flex:1;height:1px;background:#e8e6e0"></div></div>';
+  out += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px">';
+  PMO.apos_setembro.forEach(function(a){
+    var tagCol = a.tag==='CONVERSÃO'?'#1D9E75':'#378ADD';
+    out += '<div style="background:#fff;border:1px solid #e8e6e0;border-radius:8px;padding:10px 14px;border-left:3px solid '+tagCol+'">';
+    out += '<div style="font-size:12px;font-weight:700;color:#1a1916;margin-bottom:3px">'+a.nome+'</div>';
+    out += '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:10px">';
+    out += '<span style="background:'+tagCol+'18;color:'+tagCol+';padding:1px 7px;border-radius:99px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">'+a.tag+'</span>';
+    out += '<span style="color:#888">'+a.resp.join(' · ')+'</span>';
+    out += '</div></div>';
+  });
+  out += '</div>';
+
+  el.innerHTML = out;
+}
+
+var cap='mc';
+(async function(){ try{ await pmoLoad(); }catch(e){} rPMO(); })();
+</script>
+</body></html>

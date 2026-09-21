@@ -122,6 +122,7 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
 .jornada-val{font-size:15px;font-weight:700;min-width:60px;text-align:right}
 .tab.ed5tab.on{background:#EF9F27 !important;border-color:#EF9F27 !important;color:#fff !important}
 .tab.saldotab.on{background:#c47a00 !important;border-color:#c47a00 !important;color:#fff !important}
+.tab.zaptab.on{background:#128C7E !important;border-color:#128C7E !important;color:#fff !important}
 
 .dp-acao{background:#f8f7f4;border:1px solid #ece9e2;border-left:3px solid var(--dpc,#c9c6bd);border-radius:8px;padding:10px 12px;transition:box-shadow .15s,transform .15s,background .15s}
 .dp-acao:hover{background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.07);transform:translateY(-1px)}
@@ -397,7 +398,7 @@ function rPMO(){
   out += '<div style="background:linear-gradient(135deg,#0a1f4e 0%,#0d2b6b 60%,#1a3a80 100%);border-radius:12px;padding:20px 24px;margin-bottom:1.2rem">';
   out += '<div style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">PMO · CRM</div>';
   out += '<div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:4px">📋 '+PMO.projeto+'</div>';
-  out += '<div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:14px">Caps: '+PMO.caps.join(' · ')+' · Atualizado em '+PMO.updated+'</div>';
+
   // Equipe chips
   out += '<div style="display:flex;gap:8px;flex-wrap:wrap">';
   PMO.equipe.forEach(function(p){

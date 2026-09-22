@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farol de Atingimento — Super Vale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#081729; --navy-mid:#0F2547; --navy-panel:#122F53; --navy-line:#1E3F70;
+    --ivory:#EFE9DD; --ivory-dim:#B9C2D4; --slate:#7C8CA6;
+    --gold:#ff7c07; --gold-bright:#fdc300;
+    --burgundy:#8F1241; --burgundy-bright:#D14567;
+    --amber:#D98A2B; --green:#39A876; --green-bright:#5FD8A2;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(ellipse 900px 500px at 15% -10%, rgba(255,124,7,0.10), transparent 60%),
+      linear-gradient(180deg, var(--navy-deep) 0%, var(--navy-mid) 55%, #0A1D38 100%);
+    color:var(--ivory); font-family:'Inter',sans-serif; min-height:100vh; padding:28px 20px 60px;
+  }
+  .wrap{max-width:1000px;margin:0 auto;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 6px;}
+  h1{font-family:'Poppins',sans-serif;font-weight:900;font-size:clamp(22px,4vw,32px);line-height:1.1;margin:0 0 6px;letter-spacing:-0.01em;}
+  .subhead{color:var(--ivory-dim);font-size:13.5px;margin:0 0 22px;max-width:66ch;}
+  .note-box{
+    background:rgba(255,124,7,0.08); border:1px solid rgba(255,124,7,0.30); border-radius:10px;
+    padding:10px 14px; font-size:12.5px; color:var(--ivory-dim); margin-bottom:14px;
+  }
+  .weight-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--ivory-dim);margin-bottom:22px;}
+  .weight-legend span{display:flex;align-items:center;gap:6px;}
+  .weight-legend .sw{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .panel{background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
+    border:1px solid var(--navy-line);border-radius:18px;padding:26px;margin-bottom:18px;}
+  .legend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  @media(max-width:760px){.legend-grid{grid-template-columns:1fr;}}
+  .legend-col h4{font-family:'Poppins',sans-serif;font-weight:800;font-size:13px;margin:0 0 8px;color:var(--gold);}
+  .legend-col ul{margin:0;padding-left:18px;font-size:12.5px;color:var(--ivory-dim);line-height:1.6;}
+  .legend-col ul b{color:var(--ivory);font-family:'IBM Plex Mono',monospace;font-weight:600;}
+  .legend-col .src{color:var(--slate);font-size:11px;}
+  .cutoff-note{font-size:11px;color:var(--slate);margin-top:14px;text-align:right;}
+  .top-grid{display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:center;}
+  @media(max-width:680px){.top-grid{grid-template-columns:1fr;}}
+  .lighthouse-box{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .status-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 12px;border-radius:999px;border:1px solid var(--st-color, var(--slate));color:var(--st-color, var(--slate));}
+  .pct-readout{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:28px;color:var(--st-color, var(--ivory));letter-spacing:-0.02em;}
+  .pct-readout span{font-size:14px;color:var(--ivory-dim);font-weight:500;}
+  .pending-note{font-size:11px;color:var(--slate);text-align:center;max-width:180px;}
+  .pillar-bars{display:flex;flex-direction:column;gap:12px;}
+  .pillar-bar-row{display:flex;flex-direction:column;gap:5px;}
+  .pillar-bar-head{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ivory-dim);font-weight:600;}
+  .pillar-bar-head b{font-family:'IBM Plex Mono',monospace;color:var(--ivory);}
+  .pillar-bar-track{height:8px;border-radius:99px;background:rgba(255,255,255,0.06);overflow:hidden;}
+  .pillar-bar-fill{height:100%;border-radius:99px;transition:width .5s ease, background .5s ease;}
+  .section-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:15px;margin:22px 0 2px;}
+  .section-title:first-child{margin-top:0;}
+  .kr-row{display:grid;grid-template-columns:1fr 130px 118px 70px;gap:10px;align-items:center;
+    padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+  @media(max-width:760px){.kr-row{grid-template-columns:1fr;gap:8px;padding:14px 0;}}
+  .kr-title{font-size:13.5px;line-height:1.4;}
+  .kr-meta{font-size:11px;color:var(--slate);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;}
+  .kr-note{font-size:11px;color:var(--slate);margin-top:4px;max-width:60ch;line-height:1.5;}
+  .kr-pacing{font-size:10.5px;color:var(--slate);margin-top:5px;font-family:'IBM Plex Mono',monospace;
+    display:flex;gap:6px;flex-wrap:wrap;}
+  .kr-pacing b{color:var(--ivory-dim);font-weight:600;}
+  .badge{font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;
+    padding:2px 6px;border-radius:4px;border:1px solid var(--navy-line);color:var(--slate);}
+  .badge.conditional{border-color:var(--gold);color:var(--gold);}
+  .kr-input-wrap input[type=number]{width:100%;background:var(--navy-deep);border:1px solid var(--navy-line);
+    color:var(--ivory);font-family:'IBM Plex Mono',monospace;font-size:13px;padding:7px 9px;border-radius:7px;outline:none;}
+  .kr-input-wrap input:focus{border-color:var(--gold);}
+  .kr-input-wrap{display:flex;align-items:center;gap:6px;}
+  .kr-input-wrap .arrow{color:var(--slate);font-size:12px;white-space:nowrap;}
+  .kr-checkbox{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ivory-dim);cursor:pointer;}
+  .kr-checkbox input{width:16px;height:16px;accent-color:var(--gold);cursor:pointer;}
+  .kr-progress-pill{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:700;text-align:right;}
+  .baseline-target-inline{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+  .baseline-target-inline input{width:60px !important;}
+  .exclude-row{font-size:10.5px;color:var(--slate);margin-top:4px;}
+  .exclude-row label{display:flex;align-items:center;gap:5px;cursor:pointer;}
+  .exclude-row input{accent-color:var(--burgundy-bright);}
+  select.weight-select{width:100%;background:var(--navy-deep);border:1px solid var(--navy-line);color:var(--ivory);
+    font-family:'Inter',sans-serif;font-size:12px;padding:7px 8px;border-radius:7px;outline:none;cursor:pointer;}
+  select.weight-select:focus{border-color:var(--gold);}
+  label.field-label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ivory-dim);margin-bottom:5px;}
+  input[type=date]{background:var(--navy-deep);border:1px solid var(--navy-line);color:var(--ivory);
+    font-family:'IBM Plex Mono',monospace;font-size:13px;padding:8px 10px;border-radius:7px;outline:none;}
+  button{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;padding:10px 18px;border-radius:8px;
+    border:none;cursor:pointer;transition:transform .1s ease, opacity .15s;}
+  button:active{transform:scale(0.97);}
+  .btn-primary{background:var(--gold);color:#241505;}
+  .btn-primary:hover{background:var(--gold-bright);}
+  .action-row{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid var(--navy-line);}
+  .chart-empty{color:var(--slate);font-size:13px;padding:26px 0;text-align:center;border:1px dashed var(--navy-line);border-radius:10px;}
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px;}
+  th{text-align:left;color:var(--ivory-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;
+    padding:8px 6px;border-bottom:1px solid var(--navy-line);}
+  td{padding:9px 6px;border-bottom:1px solid rgba(255,255,255,0.04);font-family:'IBM Plex Mono',monospace;}
+  td.trend-up{color:var(--green-bright);} td.trend-down{color:var(--burgundy-bright);}
+  .btn-danger-text{background:none;border:none;color:var(--slate);font-size:11px;text-decoration:underline;cursor:pointer;padding:2px;}
+  .btn-danger-text:hover{color:var(--burgundy-bright);}
+  .foot-note{font-size:11px;color:var(--slate);margin-top:22px;text-align:center;}
+  .reset-link{color:var(--slate);cursor:pointer;text-decoration:underline;}
+  .reset-link:hover{color:var(--burgundy-bright);}
+  .timeline-row{display:flex;gap:0;overflow-x:auto;padding-bottom:4px;}
+  .timeline-col{min-width:150px;flex:1;border-left:1px solid var(--navy-line);padding:0 12px;}
+  .timeline-col:first-child{border-left:none;padding-left:0;}
+  .timeline-month{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--gold);font-weight:700;margin-bottom:10px;}
+  .timeline-item{font-size:12px;color:var(--ivory-dim);line-height:1.4;margin-bottom:10px;}
+  .timeline-pillar{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;
+    letter-spacing:.05em;color:var(--slate);margin-bottom:2px;}
+  .timeline-empty{font-size:12px;color:var(--slate);}
+  .timeline-nodate{font-size:12px;color:var(--ivory-dim);margin-top:14px;padding-top:12px;border-top:1px solid var(--navy-line);}
+  .timeline-nodate b{color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Grupo Caps · growth &amp; performance</p>
+  <h1>Farol de Atingimento — Super Vale</h1>
+  <div class="note-box">Ações condicionais (fora do controle direto do time) aparecem marcadas — você pode excluí-las do cálculo enquanto não forem aplicáveis.</div>
+  <div class="weight-legend">
+    <span><span class="sw" style="background:#7C8CA6"></span>Peso 1 — baixo</span>
+    <span><span class="sw" style="background:#D98A2B"></span>Peso 2 — médio</span>
+    <span><span class="sw" style="background:#D14567"></span>Peso 3 — alto</span>
+  </div>
+
+  <div class="panel">
+    <div class="top-grid">
+      <div class="lighthouse-box">
+        <svg id="svgLighthouse" viewBox="0 0 200 420" width="160" height="200">
+          <defs>
+            <clipPath id="towerClip">
+              <polygon points="55,405 145,405 145,392 55,392"/>
+              <polygon points="82,125 118,125 138,392 62,392"/>
+              <rect x="74" y="82" width="52" height="44"/>
+              <polygon points="74,82 126,82 100,52"/>
+            </clipPath>
+            <linearGradient id="fillGrad" x1="0" y1="1" x2="0" y2="0">
+              <stop id="gradStop1" offset="0%" stop-color="#8F1241"/>
+              <stop id="gradStop2" offset="100%" stop-color="#F0A93B"/>
+            </linearGradient>
+            <radialGradient id="beamGrad" cx="0" cy="0.5" r="1">
+              <stop offset="0%" stop-color="#fdc300" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#fdc300" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="405" rx="90" ry="10" fill="rgba(255,124,7,0.06)"/>
+          <g fill="none" stroke="#33547F" stroke-width="2">
+            <polygon points="55,405 145,405 145,392 55,392"/>
+            <polygon points="82,125 118,125 138,392 62,392"/>
+            <rect x="74" y="82" width="52" height="44"/>
+            <polygon points="74,82 126,82 100,52"/>
+          </g>
+          <g stroke="#28456E" stroke-width="1.4" opacity="0.9">
+            <line x1="68" y1="170" x2="132" y2="170"/><line x1="66" y1="215" x2="134" y2="215"/>
+            <line x1="64" y1="260" x2="136" y2="260"/><line x1="63" y1="305" x2="137" y2="305"/>
+            <line x1="62" y1="350" x2="138" y2="350"/>
+          </g>
+          <g id="beamGroup" transform-origin="100 104" opacity="0">
+            <polygon points="100,104 400,60 400,148" fill="url(#beamGrad)"/>
+          </g>
+          <rect id="mercuryFill" x="40" y="405" width="120" height="0" fill="url(#fillGrad)" clip-path="url(#towerClip)"
+            style="transition: y .7s cubic-bezier(.4,0,.2,1), height .7s cubic-bezier(.4,0,.2,1);"/>
+          <rect x="78" y="86" width="44" height="36" fill="none" stroke="#4A6B99" stroke-width="1"/>
+          <circle id="lanternDot" cx="100" cy="104" r="5" fill="#33547F" style="transition: fill .5s;"/>
+          <rect x="48" y="398" width="104" height="10" rx="2" fill="none" stroke="#33547F" stroke-width="2"/>
+        </svg>
+        <div class="status-label" id="statusLabel" style="--st-color:#7C8CA6">SEM DADOS</div>
+        <div class="pct-readout" id="pctReadout" style="--st-color:#EFE9DD">—<span> % do bônus</span></div>
+        <div class="pending-note" id="pendingNote"></div>
+      </div>
+      <div class="pillar-bars" id="pillarBars"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <p class="section-title">Bases da praça</p>
+    <div class="legend-grid"><div class="legend-col"><h4>Ativação</h4><ul><li>Usuários que acessam o site mas não realizaram cadastro — <b>272.210</b> <span class="src">(Insider)</span></li><li>Clientes que fizeram cadastro nos últimos 3 dias sem compra</li><li>Clientes com cadastro sem compra há mais de 30 dias</li></ul></div><div class="legend-col"><h4>Retenção</h4><ul><li>Clientes com compra em 2026 — <b>90.701</b> <span class="src">(ERP)</span></li><li>Base de clientes Norte com cadastro (com ID cliente) — <b>70.184</b> <span class="src">(Insider — Painel Minas Cap Norte)</span></li></ul></div><div class="legend-col"><h4>Reativação</h4><ul><li>Já compraram alguma vez na vida mas não compraram em 2026 — <b>118.966</b> <span class="src">(ERP)</span></li></ul></div></div>
+    <p class="cutoff-note">Data de corte dos volumes: 31/08/2026</p>
+  </div>
+
+  <div class="panel" id="krPanel"></div>
+
+  <div class="panel">
+    <p class="section-title" style="display:flex;justify-content:space-between;">Evolução <span id="checkinCount" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--slate);font-weight:500;"></span></p>
+    <p style="font-size:12px;color:var(--ivory-dim);margin:0 0 12px;">Snapshot do % geral ponderado a cada apuração registrada.</p>
+    <div id="chartHolder"></div>
+    <div id="tableHolder"></div>
+  </div>
+
+  <div class="panel">
+    <p class="section-title">Timeline de entregas</p>
+    <p style="font-size:12px;color:var(--ivory-dim);margin:0 0 12px;">Prazos de cada ação ao longo do 2º semestre/2026.</p>
+    <div id="timelineHolder"></div>
+  </div>
+
+  <p class="foot-note">Dados de Super Vale salvos apenas neste navegador. <span class="reset-link" id="resetBtn">Limpar dados de Super Vale</span></p>
+</div>
+
+<script>
+const W_LOW=1, W_MED=2, W_HIGH=3;
+const activeBrand = "super-vale";
+const KR_DATA = {
+  "super-vale": { label:"Super Vale", pillars:[
+    {name:"Ativação", krs:[
+      {id:"sv-a1", title:"Régua de estímulo ao cadastro (4% → 5%)", type:"numeric", direction:"up", baseline:4, target:5, unit:"%", deadline:"dez/26", defaultWeight:1, note:"Ativação de clientes que acessam o site mas não realizam cadastro. Maior atrito: impacto dos usuários — sem dados de e-mail ou telefone, difícil impactar a base além do pop-up no site."},
+      {id:"sv-a2", title:"Teste de novo canal (alcance e tráfego)", type:"deliverable", deadline:"set/26", defaultWeight:3, note:"Teste em canais como programática, UOL, Globo, TikTok, entre outros, com foco em ampliar alcance e levar mais usuários pro site."},
+      {id:"sv-a3", title:"Captação de revendedor virtual (canal)", type:"numeric", direction:"up", baseline:3, target:7, unit:"% do online", deadline:"out/26", defaultWeight:3, note:"Ação com foco em aumentar vendas pelo canal revendedor virtual — hoje 3% do online, meta desejável de 7%."},
+      {id:"sv-a4", title:"Ativação de vendas via WhatsApp (Pliqz)", type:"deliverable", deadline:"dez/26", defaultWeight:3, conditional:true, note:"Converter clientes com cadastro sem compra via bot da Pliqz — venda pelo WhatsApp automática, apenas via PIX."},
+      {id:"sv-a5", title:"Teste de conversão em cidades definidas", type:"deliverable", deadline:"nov/26", defaultWeight:1, note:"Campanha nas cidades V. Conselheiro Pena, Itueta, Aimorés e Mantena (região Vale) e Unaí, Paracatu, Itacarambi e Bocaiúva (Norte), com foco em aumento de vendas."},
+      {id:"sv-a6", title:"Teste de régua de onboarding com foco em conversão", type:"deliverable", deadline:"out/26", defaultWeight:2, note:"Testar régua que impacta novos cadastros nos últimos 3 dias com foco em compra."},
+      {id:"sv-a7", title:"Teste de régua — cadastros últimos 30 dias sem compra + saldo", type:"deliverable", deadline:"nov/26", defaultWeight:1, note:"Avaliar conversão de clientes com cadastro mas sem compra, aplicando saldo para essa base."},
+      {id:"sv-a8", title:"Aumentar 10pp base de compradores 2026 (90,7k → 99,8k)", type:"numeric", direction:"up", baseline:90701, target:99771, unit:" clientes", deadline:"dez/26", defaultWeight:1, note:"Foco em aumentar volume a partir de ações voltadas a trazer novos clientes. Base: clientes com compra em 2026 (90.701 — ERP, corte 31/08)."},
+    ]},
+    {name:"Retenção", krs:[
+      {id:"sv-r1", title:"Aumentar ROAS de canais de conversão (2,7 → 3,5)", type:"numeric", direction:"up", baseline:2.7, target:3.5, unit:"x", deadline:"dez/26", defaultWeight:1, note:"Aumentar retorno de investimento nos canais com foco em conversão (Meta, Google, WhatsApp etc.)."},
+      {id:"sv-r2", title:"Aumentar 25% tráfego das cidades do Norte (27,3k → 34,2k)", type:"numeric", direction:"up", baseline:27330, target:34163, unit:" visitas/mês", deadline:"dez/26", defaultWeight:1, note:"Média de tráfego mensal das cidades do Norte: 27.330. Meta: +25% de out a dez/26, com e-mail, web push e outras ações de CRM."},
+    ]},
+    {name:"Reativação (Churn)", krs:[
+      {id:"sv-c1", title:"Reduzir base dormente — reversão de 10pp (119k)", type:"numeric", direction:"up", baseline:0, target:11897, unit:" clientes reativados", deadline:"dez/26", defaultWeight:1, note:"Estimular clientes que já compraram uma vez na vida mas não compraram em 2026. Black Friday, Natal e campanhas de saldo como oportunidade."},
+    ]}
+  ]},
+};
+
+const MONTH_IDX = {jan:1,fev:2,mar:3,abr:4,mai:5,jun:6,jul:7,ago:8,set:9,out:10,nov:11,dez:12};
+const MONTH_LABEL = ['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+function parseDeadlineMonth(deadline){
+  if(!deadline) return null;
+  const m = deadline.toLowerCase().match(/([a-zç]{3})\/(\d{2})/);
+  if(!m) return null;
+  const mi = MONTH_IDX[m[1]];
+  if(!mi) return null;
+  return mi;
+}
+function fmtPacingVal(v, unit){
+  if(unit==='%' || (unit && unit.includes('%'))) return (Math.round(v*10)/10)+ (unit==='%'?'%':unit);
+  if(unit==='x') return (Math.round(v*100)/100)+'x';
+  return Math.round(v).toLocaleString('pt-BR');
+}
+function monthlyPacing(krDef){
+  if(krDef.type==='deliverable') return null;
+  const baseline = krDef.baseline, target = krDef.target;
+  if(baseline==null || target==null) return null;
+  const endMonth = parseDeadlineMonth(krDef.deadline);
+  if(!endMonth) return null;
+  const startMonth = 7; // início do 2º semestre (jul/26)
+  if(endMonth < startMonth) return null;
+  const steps = endMonth - startMonth + 1;
+  const pts = [];
+  for(let i=0;i<steps;i++){
+    const v = baseline + (target-baseline)*(i/(steps-1||1));
+    pts.push({m:MONTH_LABEL[startMonth+i], v});
+  }
+  return pts;
+}
+
+const cache = {};
+
+const els = {
+  krPanel: document.getElementById('krPanel'),
+  pillarBars: document.getElementById('pillarBars'),
+  statusLabel: document.getElementById('statusLabel'),
+  pctReadout: document.getElementById('pctReadout'),
+  pendingNote: document.getElementById('pendingNote'),
+  mercuryFill: document.getElementById('mercuryFill'),
+  beamGroup: document.getElementById('beamGroup'),
+  lanternDot: document.getElementById('lanternDot'),
+  gradStop1: document.getElementById('gradStop1'),
+  gradStop2: document.getElementById('gradStop2'),
+  chartHolder: document.getElementById('chartHolder'),
+  tableHolder: document.getElementById('tableHolder'),
+  checkinCount: document.getElementById('checkinCount'),
+  resetBtn: document.getElementById('resetBtn'),
+};
+
+function storageKey(brand){ return `farol-okr:${brand}`; }
+function emptyState(){ return { krState:{}, history:[] }; }
+
+async function loadBrand(brand){
+  if(cache[brand]) return cache[brand];
+  try{
+    const res = await window.storage.get(storageKey(brand), false);
+    cache[brand] = (res && res.value) ? JSON.parse(res.value) : emptyState();
+  } catch(e){ cache[brand] = emptyState(); }
+  return cache[brand];
+}
+async function saveBrand(brand){
+  try{ await window.storage.set(storageKey(brand), JSON.stringify(cache[brand]), false); }
+  catch(e){ console.error(e); alert('Não foi possível salvar agora. Tente novamente.'); }
+}
+
+function getKRState(state, krId){ return state.krState[krId] || {}; }
+function getWeight(krDef, krState){
+  const w = krState.weight!=null ? Number(krState.weight) : krDef.defaultWeight;
+  return w || W_MED;
+}
+function krProgress(krDef, krState){
+  if(krState.excluded) return null;
+  if(krDef.type==='deliverable'){
+    if(krState.done===undefined) return null;
+    return krState.done ? 100 : 0;
+  }
+  const baseline = krDef.editableRange ? krState.baseline : krDef.baseline;
+  const target = krDef.editableRange ? krState.target : krDef.target;
+  if(krDef.type==='threshold'){
+    if(krState.value==null || krState.value==='' || !target) return null;
+    return Math.max(0, Math.min((Number(krState.value)/target)*100, 150));
+  }
+  if(baseline==null || baseline==='' || target==null || target==='' || krState.value==null || krState.value===''){
+    return null;
+  }
+  const b = Number(baseline), t = Number(target), v = Number(krState.value);
+  let range = krDef.direction==='up' ? (t-b) : (b-t);
+  if(range<=0) return null;
+  let raw = krDef.direction==='up' ? (v-b)/range : (b-v)/range;
+  return Math.max(0, Math.min(raw*100, 150));
+}
+function statusFor(pct){
+  if(pct===null) return {label:'SEM DADOS', color:'#7C8CA6'};
+  if(pct < 70) return {label:'ATENÇÃO', color:'#D14567'};
+  if(pct < 95) return {label:'EM ROTA', color:'#D98A2B'};
+  return {label:'META BATIDA', color:'#5FD8A2'};
+}
+function colorForPct(pct){
+  if(pct===null) return '#33547F';
+  if(pct<70) return '#D14567';
+  if(pct<95) return '#D98A2B';
+  return '#5FD8A2';
+}
+
+function computeOverall(brandKey, state){
+  const brandDef = KR_DATA[brandKey];
+  let sumWP=0, sumW=0, pendingCount=0;
+  let pillarResults = [];
+  brandDef.pillars.forEach(pillar=>{
+    let pSumWP=0, pSumW=0;
+    pillar.krs.forEach(kr=>{
+      const st = getKRState(state, kr.id);
+      const p = krProgress(kr, st);
+      const w = getWeight(kr, st);
+      if(p===null){ if(!st.excluded) pendingCount++; }
+      else { sumWP += p*w; sumW += w; pSumWP += p*w; pSumW += w; }
+    });
+    pillarResults.push({name:pillar.name, avg: pSumW>0 ? pSumWP/pSumW : null});
+  });
+  const overall = sumW>0 ? sumWP/sumW : null;
+  return {overall, pillarResults, pendingCount};
+}
+
+function renderLighthouse(overall, pendingCount){
+  const st = statusFor(overall);
+  els.statusLabel.textContent = st.label;
+  els.statusLabel.style.setProperty('--st-color', st.color);
+  els.pctReadout.style.setProperty('--st-color', overall===null ? '#EFE9DD' : st.color);
+  els.pctReadout.innerHTML = (overall===null ? '—' : Math.round(overall*10)/10) + '<span> % do bônus</span>';
+  els.pendingNote.textContent = pendingCount>0 ? `${pendingCount} ação${pendingCount>1?'ões':''} sem apuração ainda` : '';
+
+  const clamped = overall===null ? 0 : Math.max(0, Math.min(overall,130));
+  const fillRatio = Math.min(clamped,100)/100;
+  const towerTop=52, towerBottom=405;
+  const h = fillRatio*(towerBottom-towerTop);
+  els.mercuryFill.setAttribute('y', towerBottom-h);
+  els.mercuryFill.setAttribute('height', h);
+  const colorMap = {
+    'SEM DADOS':['#33547F','#33547F'], 'ATENÇÃO':['#8F1241','#D14567'],
+    'EM ROTA':['#8F1241','#D98A2B'], 'META BATIDA':['#D98A2B','#5FD8A2'],
+  };
+  const [c1,c2] = colorMap[st.label];
+  els.gradStop1.setAttribute('stop-color', c1);
+  els.gradStop2.setAttribute('stop-color', c2);
+  const lit = overall!==null && overall>=70;
+  els.beamGroup.style.opacity = lit ? Math.min(0.35+(overall-70)/130, 0.9) : 0;
+  els.beamGroup.style.animation = lit ? 'spin 6s linear infinite' : 'none';
+  els.lanternDot.setAttribute('fill', lit ? '#fdc300' : '#33547F');
+}
+
+function renderPillarBars(pillarResults){
+  els.pillarBars.innerHTML = pillarResults.map(p=>{
+    const pct = p.avg===null ? 0 : Math.min(p.avg,100);
+    const label = p.avg===null ? '—' : Math.round(p.avg*10)/10+'%';
+    const color = colorForPct(p.avg);
+    return `<div class="pillar-bar-row">
+      <div class="pillar-bar-head"><span>${p.name}</span><b>${label}</b></div>
+      <div class="pillar-bar-track"><div class="pillar-bar-fill" style="width:${pct}%;background:${color};"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function weightSelectHtml(krId, currentWeight){
+  const opts = [[W_LOW,'Peso 1 (baixo)'],[W_MED,'Peso 2 (médio)'],[W_HIGH,'Peso 3 (alto)']];
+  return `<select class="weight-select" data-kr="${krId}" data-kind="weight">
+    ${opts.map(([v,l])=>`<option value="${v}" ${Number(currentWeight)===v?'selected':''}>${l}</option>`).join('')}
+  </select>`;
+}
+
+function pacingHtml(kr){
+  const pts = monthlyPacing(kr);
+  if(!pts || pts.length<2) return '';
+  const chips = pts.map(p=>`<b>${p.m}</b> ${fmtPacingVal(p.v, kr.unit||'')}`).join(' · ');
+  return `<div class="kr-pacing">${chips}</div>`;
+}
+
+function renderKRPanel(brandKey, state){
+  const brandDef = KR_DATA[brandKey];
+  let html = '';
+  brandDef.pillars.forEach(pillar=>{
+    html += `<p class="section-title">${pillar.name}</p>`;
+    pillar.krs.forEach(kr=>{
+      const st = getKRState(state, kr.id);
+      const progress = krProgress(kr, st);
+      const pct = progress===null ? '—' : Math.round(progress*10)/10+'%';
+      const pctColor = colorForPct(progress);
+      const weight = getWeight(kr, st);
+      const deadline = kr.deadline && kr.deadline!=='—' ? `<span>até ${kr.deadline}</span>` : '';
+      const condBadge = kr.conditional ? `<span class="badge conditional">Condicional</span>` : '';
+      let inputHtml = '';
+      if(kr.type==='deliverable'){
+        inputHtml = `<label class="kr-checkbox"><input type="checkbox" data-kr="${kr.id}" data-kind="done" ${st.done?'checked':''}/> ${st.done?'Concluído':'Pendente'}</label>`;
+      } else if(kr.type==='threshold'){
+        inputHtml = `<div class="kr-input-wrap"><span class="arrow">≥${kr.target}${kr.unit}</span><input type="number" step="any" placeholder="atual" data-kr="${kr.id}" data-kind="value" value="${st.value ?? ''}"/></div>`;
+      } else if(kr.editableRange){
+        inputHtml = `<div class="baseline-target-inline">
+          <input type="number" step="any" placeholder="base" data-kr="${kr.id}" data-kind="baseline" value="${st.baseline ?? ''}"/>
+          <span class="arrow">→</span>
+          <input type="number" step="any" placeholder="meta" data-kr="${kr.id}" data-kind="target" value="${st.target ?? ''}"/>
+          <input type="number" step="any" placeholder="atual" data-kr="${kr.id}" data-kind="value" value="${st.value ?? ''}" style="margin-left:6px;"/>
+        </div>`;
+      } else {
+        inputHtml = `<div class="kr-input-wrap"><span class="arrow">${kr.baseline}→${kr.target}${kr.unit}</span><input type="number" step="any" placeholder="atual" data-kr="${kr.id}" data-kind="value" value="${st.value ?? ''}"/></div>`;
+      }
+      let excludeHtml = '';
+      if(kr.conditional){
+        excludeHtml = `<div class="exclude-row"><label><input type="checkbox" data-kr="${kr.id}" data-kind="excluded" ${st.excluded?'checked':''}/> não aplicável agora (excluir do cálculo)</label></div>`;
+      }
+      const noteHtml = kr.note ? `<div class="kr-note">${kr.note}</div>` : '';
+      html += `<div class="kr-row">
+        <div>
+          <div class="kr-title">${kr.title}</div>
+          <div class="kr-meta">${deadline}${condBadge}</div>
+          ${noteHtml}
+          ${pacingHtml(kr)}
+          ${excludeHtml}
+        </div>
+        <div>${inputHtml}</div>
+        <div>${weightSelectHtml(kr.id, weight)}</div>
+        <div class="kr-progress-pill" style="color:${pctColor}">${pct}</div>
+      </div>`;
+    });
+  });
+  html += `<div class="action-row">
+    <div>
+      <label class="field-label" for="apuracaoDate">Data da apuração</label>
+      <input type="date" id="apuracaoDate">
+    </div>
+    <button class="btn-primary" id="registrarBtn">Registrar apuração</button>
+  </div>`;
+  els.krPanel.innerHTML = html;
+  document.getElementById('apuracaoDate').valueAsDate = new Date();
+
+  function handleFieldChange(el){
+    const krId = el.getAttribute('data-kr');
+    const kind = el.getAttribute('data-kind');
+    const state = cache[activeBrand];
+    if(!state.krState[krId]) state.krState[krId] = {};
+    if(kind==='done' || kind==='excluded'){
+      state.krState[krId][kind] = el.checked;
+    } else {
+      state.krState[krId][kind] = el.value===''? null : el.value;
+    }
+    const {overall, pillarResults, pendingCount} = computeOverall(activeBrand, state);
+    renderLighthouse(overall, pendingCount);
+    renderPillarBars(pillarResults);
+    const krDef = findKRDef(activeBrand, krId);
+    const p = krProgress(krDef, getKRState(state, krId));
+    const row = el.closest('.kr-row');
+    const pill = row.querySelector('.kr-progress-pill');
+    pill.textContent = p===null ? '—' : Math.round(p*10)/10+'%';
+    pill.style.color = colorForPct(p);
+    if(kind==='done'){
+      const lbl = row.querySelector('.kr-checkbox');
+      lbl.childNodes[lbl.childNodes.length-1].textContent = ' ' + (el.checked?'Concluído':'Pendente');
+    }
+  }
+  els.krPanel.querySelectorAll('input[data-kr]').forEach(inp=> inp.addEventListener('input', ()=>handleFieldChange(inp)));
+  els.krPanel.querySelectorAll('select[data-kr]').forEach(sel=> sel.addEventListener('change', ()=>handleFieldChange(sel)));
+
+  document.getElementById('registrarBtn').onclick = async ()=>{
+    const state = cache[activeBrand];
+    const {overall} = computeOverall(activeBrand, state);
+    if(overall===null){ alert('Preencha ao menos uma ação antes de registrar a apuração.'); return; }
+    const date = document.getElementById('apuracaoDate').value;
+    if(!date){ alert('Selecione a data da apuração.'); return; }
+    state.history = state.history.filter(h=>h.date!==date);
+    state.history.push({date, pct: overall});
+    state.history.sort((a,b)=> a.date < b.date ? -1 : 1);
+    await saveBrand(activeBrand);
+    renderAll();
+  };
+}
+
+function findKRDef(brandKey, krId){
+  for(const pillar of KR_DATA[brandKey].pillars){
+    const found = pillar.krs.find(k=>k.id===krId);
+    if(found) return found;
+  }
+  return null;
+}
+
+function fmtDate(iso){ const [y,m,d]=iso.split('-'); return `${d}/${m}/${y}`; }
+
+function renderChart(state){
+  const data = state.history;
+  els.checkinCount.textContent = data.length ? `· ${data.length} apuração${data.length>1?'ões':''}` : '';
+  if(data.length < 1){
+    els.chartHolder.innerHTML = `<div class="chart-empty">Registre ao menos uma apuração para ver a evolução.</div>`;
+    els.tableHolder.innerHTML = '';
+    return;
+  }
+  const w = els.chartHolder.clientWidth || 900, h = 160, pad = 28;
+  const maxPct = Math.max(100, ...data.map(d=>d.pct)) * 1.1;
+  const xStep = data.length>1 ? (w-pad*2)/(data.length-1) : 0;
+  const pts = data.map((d,i)=>{
+    const x = pad + i*xStep;
+    const y = h - pad - (d.pct/maxPct)*(h-pad*1.5);
+    return {x,y,pct:d.pct,date:d.date};
+  });
+  const linePath = pts.map((p,i)=>(i===0?'M':'L')+p.x.toFixed(1)+','+p.y.toFixed(1)).join(' ');
+  const goalY = h - pad - (100/maxPct)*(h-pad*1.5);
+  let svg = `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="overflow:visible;">`;
+  svg += `<line x1="${pad}" y1="${goalY.toFixed(1)}" x2="${w-pad}" y2="${goalY.toFixed(1)}" stroke="#5FD8A2" stroke-width="1" stroke-dasharray="4 4" opacity="0.5"/>`;
+  svg += `<text x="${w-pad}" y="${(goalY-6).toFixed(1)}" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="#5FD8A2" opacity="0.7">100%</text>`;
+  svg += `<path d="${linePath}" fill="none" stroke="#ff7c07" stroke-width="2.5"/>`;
+  pts.forEach(p=>{
+    const color = colorForPct(p.pct);
+    svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="${color}" stroke="#0F2547" stroke-width="1.5"/>`;
+  });
+  svg += `</svg>`;
+  els.chartHolder.innerHTML = svg;
+
+  let rows = '';
+  const ordered = [...data].sort((a,b)=> a.date < b.date ? 1 : -1);
+  ordered.forEach((c,idx)=>{
+    let trendCell = '<td>—</td>';
+    if(idx+1 < ordered.length){
+      const diff = c.pct - ordered[idx+1].pct;
+      const cls = diff>=0 ? 'trend-up' : 'trend-down';
+      const arrow = diff>=0 ? '▲' : '▼';
+      trendCell = `<td class="${cls}">${arrow} ${Math.abs(diff).toFixed(1)} p.p.</td>`;
+    }
+    rows += `<tr><td>${fmtDate(c.date)}</td><td>${c.pct.toFixed(1)}%</td>${trendCell}
+      <td><span class="btn-danger-text" data-del="${c.date}">remover</span></td></tr>`;
+  });
+  els.tableHolder.innerHTML = `<table><thead><tr><th>Data</th><th>% do bônus</th><th>Variação</th><th></th></tr></thead>
+    <tbody>${rows}</tbody></table>`;
+  els.tableHolder.querySelectorAll('[data-del]').forEach(elm=>{
+    elm.onclick = async ()=>{
+      const date = elm.getAttribute('data-del');
+      cache[activeBrand].history = cache[activeBrand].history.filter(h=>h.date!==date);
+      await saveBrand(activeBrand);
+      renderAll();
+    };
+  });
+}
+
+function renderTimeline(){
+  const months = [9,10,11,12];
+  const buckets = {};
+  months.forEach(m=> buckets[m]=[]);
+  const noDeadline = [];
+  KR_DATA[activeBrand].pillars.forEach(pillar=>{
+    pillar.krs.forEach(kr=>{
+      const mi = parseDeadlineMonth(kr.deadline);
+      if(mi && buckets[mi]) buckets[mi].push({title:kr.title, pillar:pillar.name});
+      else noDeadline.push({title:kr.title, pillar:pillar.name});
+    });
+  });
+  let html = '<div class="timeline-row">';
+  months.forEach(m=>{
+    html += `<div class="timeline-col"><div class="timeline-month">${MONTH_LABEL[m]}/26</div>`;
+    if(buckets[m].length===0){
+      html += `<div class="timeline-empty">—</div>`;
+    } else {
+      buckets[m].forEach(item=>{
+        html += `<div class="timeline-item"><span class="timeline-pillar">${item.pillar}</span>${item.title}</div>`;
+      });
+    }
+    html += `</div>`;
+  });
+  html += '</div>';
+  if(noDeadline.length){
+    html += `<div class="timeline-nodate"><b>Sem prazo definido:</b> ${noDeadline.map(i=>i.title).join(' · ')}</div>`;
+  }
+  document.getElementById('timelineHolder').innerHTML = html;
+}
+
+async function renderAll(){
+  const state = await loadBrand(activeBrand);
+  const {overall, pillarResults, pendingCount} = computeOverall(activeBrand, state);
+  renderLighthouse(overall, pendingCount);
+  renderPillarBars(pillarResults);
+  renderKRPanel(activeBrand, state);
+  renderChart(state);
+  renderTimeline();
+}
+
+els.resetBtn.onclick = async ()=>{
+  const brandLabel = KR_DATA[activeBrand].label;
+  if(!confirm(`Limpar todos os dados de ${brandLabel}? Essa ação não pode ser desfeita.`)) return;
+  try{ await window.storage.delete(storageKey(activeBrand), false); } catch(e){}
+  cache[activeBrand] = emptyState();
+  renderAll();
+};
+
+const styleTag = document.createElement('style');
+styleTag.textContent = `@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@media (prefers-reduced-motion: reduce){ #beamGroup{animation:none !important;} }`;
+document.head.appendChild(styleTag);
+
+renderAll();
+</script>
+</body>
+</html>

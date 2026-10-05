@@ -304,6 +304,11 @@
   .peca-links a:hover{ background:var(--brand-text); color:#fff; }
   :root{ --brand1:#ff7c07; --brand2:#fdc300; --brand-text:#b85400; }
   .leituras h3.sub-h{ margin-top:14px; }
+
+  .kpi-row.six{ grid-template-columns:repeat(6,1fr); }
+  .kpi-card.extra{ border-top:3px solid var(--brand2); }
+  @media (max-width:1100px){ .kpi-row.six{ grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:600px){ .kpi-row.six{ grid-template-columns:repeat(2,1fr); } }
 </style>
 </head>
 <body>
@@ -325,18 +330,20 @@
 
 <!-- CARD 1 -->
 <h2 class="section-title">Vendas gerais</h2>
-<p class="section-desc">Total de títulos vendidos na edição, separados entre canal físico e canais online.</p>
+<p class="section-desc">Total de títulos vendidos na edição, separados entre canal físico e canais online. Fonte: Tabela - Super Vale, edição 446.</p>
 
-<div class="kpi-row">
+<div class="kpi-row six">
   <div class="kpi-card total"><div class="label">Total de vendas</div><div class="value">68.389</div><div class="foot">títulos na edição</div></div>
   <div class="kpi-card fisico"><div class="label">Total físico</div><div class="value">56.348</div><div class="foot">82,4% do total · Físico, Pos Comum e Pos Smart</div></div>
   <div class="kpi-card online"><div class="label">Total online</div><div class="value">12.041</div><div class="foot">App, Compra Rápida, Rev. Virtual e Site</div></div>
   <div class="kpi-card share"><div class="label">% Online no total</div><div class="value">17,6%</div><div class="foot">12.041 de 68.389</div></div>
+  <div class="kpi-card extra"><div class="label">Cartelas vendidas</div><div class="value">12.041</div><div class="foot">em 9.923 compras</div></div>
+  <div class="kpi-card extra"><div class="label">Média de cartelas por compra</div><div class="value">1,21</div><div class="foot">cartelas ÷ compras</div></div>
 </div>
 
 <!-- CARD 2 -->
 <h2 class="section-title">Vendas canal online</h2>
-<p class="section-desc">Distribuição das vendas online por origem. Os percentuais são calculados sobre o total online da edição (12.041), e não sobre o total geral.</p>
+<p class="section-desc">Distribuição das vendas online por origem. Os percentuais são calculados sobre o total online da edição (12.041), e não sobre o total geral. Fonte: Tabela - Super Vale, edição 446.</p>
 
 <div class="card">
   <div class="table-wrap">

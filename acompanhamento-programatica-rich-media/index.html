@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Acompanhamento — Programática | Super Vale</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  :root{
+    --bg:#f5f5f5; --card:#fff; --ink:#1a1a1a; --sub:#666;
+    --navy:#1a1a2e; --navy2:#2d2d5e;
+    --mc:#1565c0; --mc-dark:#0d47a1; --mc-bg:#e3f2fd;
+    --rich:#8e44ad; --rich-dark:#6c3483; --rich-bg:#f5edf9;
+    --br:#2e7d32; --br-bg:#e8f5e9;
+    --us:#c62828; --us-bg:#fce4ec;
+    --border:#e2e2e2;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#111113; --card:#1b1b1f; --ink:#eee; --sub:#a8a8b3;
+      --mc-bg:#10233a; --rich-bg:#241a2c; --br-bg:#132417; --us-bg:#2a151a;
+      --border:#333340;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#111113; --card:#1b1b1f; --ink:#eee; --sub:#a8a8b3;
+    --mc-bg:#10233a; --rich-bg:#241a2c; --br-bg:#132417; --us-bg:#2a151a;
+    --border:#333340;
+  }
+  html{ scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    font-family:'Segoe UI', Arial, sans-serif; font-size:13px; color:var(--ink);
+    background:var(--bg); padding:16px 16px 40px;
+  }
+  .wrap{ max-width:1240px; margin:0 auto; }
+  .page{ background:var(--card); border-radius:10px; overflow:hidden; box-shadow:0 1px 8px rgba(0,0,0,.08); }
+
+  .header{ background:var(--navy); padding:18px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .header-left{ display:flex; align-items:center; gap:14px; }
+  .header-icon{ background:var(--navy2); border-radius:10px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .h-title{ color:#fff; font-size:17px; font-weight:700; }
+  .h-sub{ color:#aab0c8; font-size:11px; margin-top:3px; }
+  .badge{ display:flex; align-items:center; gap:6px; border-radius:20px; padding:5px 12px; font-size:10px; font-weight:700; white-space:nowrap; background:#e8f5e9; color:#2e7d32; }
+  .btn-report{ display:inline-flex; align-items:center; gap:7px; background:var(--navy); color:#fff; text-decoration:none; font-size:11px; font-weight:700; padding:9px 16px; border-radius:8px; margin-bottom:16px; transition:background .15s; }
+  .btn-report:hover{ background:var(--navy2); }
+  .btn-report svg{ width:14px; height:14px; flex-shrink:0; }
+
+  .tabbar{ display:flex; background:var(--navy2); padding:0 20px; gap:4px; }
+  .tabbtn{ appearance:none; border:none; background:transparent; color:#c9cbe0; font-size:12px; font-weight:700; padding:12px 20px; cursor:pointer; border-radius:8px 8px 0 0; display:flex; align-items:center; gap:7px; transition:background .15s,color .15s; }
+  .tabbtn:hover{ background:rgba(255,255,255,.08); color:#fff; }
+  .tabbtn.active{ background:var(--card); color:var(--ink); }
+  .tabbtn.active.tab-prog{ box-shadow:inset 0 3px 0 var(--mc); }
+  .tabbtn.active.tab-rich{ box-shadow:inset 0 3px 0 var(--rich); }
+  .tabbtn:disabled{ opacity:.45; cursor:not-allowed; }
+  .tabbtn:disabled:hover{ background:transparent; color:#c9cbe0; }
+
+  .tabpanel{ display:none; }
+  .tabpanel.active{ display:block; }
+
+  .section-title{ background:var(--navy); color:#fff; font-size:11px; font-weight:700; padding:9px 20px; letter-spacing:.4px; text-transform:uppercase; display:flex; align-items:center; justify-content:space-between; }
+  .section-title .st-period{ font-weight:500; opacity:.75; text-transform:none; letter-spacing:0; font-size:10px; }
+  .content{ padding:18px 24px; }
+
+  .kpi-grid{ display:grid; grid-template-columns:repeat(9,1fr); gap:10px; }
+  @media(max-width:1100px){ .kpi-grid{ grid-template-columns:repeat(4,1fr);} }
+  @media(max-width:600px){ .kpi-grid{ grid-template-columns:repeat(2,1fr);} }
+  .kpi{ background:var(--card); border:1px solid var(--border); border-radius:9px; padding:11px 10px; }
+  .kpi-label{ font-size:8.5px; color:var(--sub); text-transform:uppercase; letter-spacing:.3px; font-weight:700; line-height:1.3; min-height:22px; }
+  .kpi-value{ font-size:17px; font-weight:800; margin-top:5px; color:var(--ink); }
+  .kpi-note{ font-size:8.5px; color:var(--sub); margin-top:2px; }
+  .accent-prog{ border-top:3px solid var(--mc); }
+  .accent-rich{ border-top:3px solid var(--rich); }
+
+  .panel{ background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin-top:16px; }
+  .panel-title{ font-size:12px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .panel-sub{ font-size:10.5px; color:var(--sub); margin-bottom:12px; }
+  .chart-box{ position:relative; height:280px; }
+
+  .contrato-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media(max-width:700px){ .contrato-grid{ grid-template-columns:1fr; } }
+  .contrato-item{ margin-bottom:14px; }
+  .contrato-item:last-child{ margin-bottom:0; }
+  .contrato-labels{ display:flex; justify-content:space-between; font-size:10.5px; margin-bottom:5px; }
+  .contrato-labels .l1{ font-weight:700; color:var(--ink); }
+  .contrato-labels .l2{ color:var(--sub); }
+  .bar-track{ background:rgba(128,128,128,.15); border-radius:20px; height:14px; overflow:hidden; }
+  .bar-fill{ height:100%; border-radius:20px; display:flex; align-items:center; justify-content:flex-end; padding-right:6px; }
+  .bar-fill.prog{ background:linear-gradient(90deg,#1565c0,#5e9bf0); }
+  .bar-fill.rich{ background:linear-gradient(90deg,#8e44ad,#c07fdb); }
+  .bar-pct{ font-size:8.5px; font-weight:800; color:#fff; }
+
+  table{ width:100%; border-collapse:collapse; }
+  thead th{ background:#f0f0f0; border:1px solid var(--border); padding:7px 8px; font-size:9px; font-weight:700; text-align:left; color:#333; text-transform:uppercase; letter-spacing:.3px; position:sticky; top:0; z-index:2; }
+  :root[data-theme="dark"] thead th{ background:#26262c; color:#ddd; }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) thead th{ background:#26262c; color:#ddd; } }
+  td{ border:1px solid var(--border); padding:6px 8px; font-size:10.5px; vertical-align:middle; }
+  tbody tr:nth-child(even) td{ background:rgba(128,128,128,.05); }
+  .num{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .tag{ display:inline-block; border-radius:10px; padding:2px 8px; font-size:9px; font-weight:700; }
+  .tag-prog{ background:var(--mc-bg); color:var(--mc-dark); }
+  .tag-rich{ background:var(--rich-bg); color:var(--rich); }
+  .tfoot-row td{ font-weight:700; background:rgba(128,128,128,.08) !important; }
+
+  .table-scroll{ overflow-x:auto; }
+  .table-scroll-y{ max-height:420px; overflow-y:auto; overflow-x:auto; border:1px solid var(--border); border-radius:8px; }
+  .table-scroll-y table{ margin:0; }
+  .table-scroll-y td, .table-scroll-y th{ border-left:none; border-right:none; }
+
+  .callout{ border-radius:8px; padding:11px 13px; font-size:10.5px; line-height:1.55; display:flex; gap:9px; align-items:flex-start; margin-top:12px; }
+  .callout-good{ background:var(--br-bg); color:#1b5e20; }
+  .callout-watch{ background:var(--us-bg); color:#8a1c1c; }
+  .callout-info{ background:#fff8e1; color:#7a5200; }
+
+  .foot{ padding:14px 24px; font-size:9px; color:var(--sub); border-top:1px solid var(--border); }
+  .search-box{ margin-bottom:8px; }
+  .search-box input{ width:100%; max-width:260px; padding:7px 10px; border:1px solid var(--border); border-radius:6px; font-size:11px; background:var(--card); color:var(--ink); }
+
+  .creative-grid{ display:flex; flex-wrap:wrap; gap:18px; }
+  .creative-card{ background:var(--card); border:1px solid var(--border); border-radius:10px; padding:12px; }
+  .creative-frame{
+    background:repeating-conic-gradient(#e8e8e8 0% 25%, #f5f5f5 0% 50%) 0 0/16px 16px;
+    border-radius:6px; overflow:hidden; display:flex; align-items:center; justify-content:center;
+  }
+  .creative-frame img{ display:block; max-width:480px; width:100%; height:auto; }
+  .creative-caption{ margin-top:8px; font-size:10px; color:var(--sub); display:flex; align-items:center; gap:6px; }
+  .creative-caption a{ color:var(--rich); text-decoration:none; font-weight:600; }
+  .creative-caption a:hover{ text-decoration:underline; }
+
+  .empty-state{ text-align:center; padding:40px 20px; color:var(--sub); }
+  .empty-state-icon{ font-size:32px; margin-bottom:10px; }
+  .empty-state-title{ font-size:13px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+  .empty-state-sub{ font-size:11px; max-width:420px; margin:0 auto; line-height:1.5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="page">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="header-icon">📡</div>
+      <div>
+        <div class="h-title">Acompanhamento — Programática</div>
+        <div class="h-sub">Super Vale · Fontes: Publya (Programática) + GA4 (super-vale-fb7aa)</div>
+      </div>
+    </div>
+    <div class="badge">🟢 Campanha ativa · atualizado até 06/10/2026</div>
+  </div>
+
+  <div class="tabpanel active" id="panel-prog">
+
+    <div class="section-title">OVERVIEW <span class="st-period">02/10 a 06/10/2026</span></div>
+    <div class="content">
+      <a class="btn-report" href="https://portal.publya.com/report/campaign/super-vale/v2/57c72dd5-c0bd-4b78-9c51-ba9403eb8dc2" target="_blank" rel="noopener">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3H4a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1v-5"/><path d="M12 3h5v5"/><path d="M8.5 11.5L17 3"/></svg>
+        Ver relatório detalhado na Publya
+      </a>
+      <div class="kpi-grid">
+        <div class="kpi accent-prog"><div class="kpi-label">Investimento</div><div class="kpi-value">R$ 2.017</div><div class="kpi-note">Publya</div></div>
+        <div class="kpi accent-prog"><div class="kpi-label">Cliques</div><div class="kpi-value">1.165</div></div>
+        <div class="kpi accent-prog"><div class="kpi-label">Impressões</div><div class="kpi-value">182.329</div></div>
+        <div class="kpi accent-prog"><div class="kpi-label">CPC</div><div class="kpi-value">R$ 1,73</div></div>
+        <div class="kpi accent-prog"><div class="kpi-label">CTR</div><div class="kpi-value">0,64%</div></div>
+        <div class="kpi accent-prog"><div class="kpi-label">Sessões</div><div class="kpi-value">1.373</div><div class="kpi-note">GA4</div></div>
+        <div class="kpi accent-prog"><div class="kpi-label">Taxa de Engajamento</div><div class="kpi-value">7,6%</div><div class="kpi-note">GA4</div></div>
+        <div class="kpi accent-prog"><div class="kpi-label">Purchase</div><div class="kpi-value">0</div></div>
+        <div class="kpi accent-prog"><div class="kpi-label">Taxa de Conversão</div><div class="kpi-value">0,00%</div><div class="kpi-note">Purchase / Cliques</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">INVESTIMENTO + CLIQUES + SESSÕES (DIÁRIO)</div>
+    <div class="content">
+      <div class="panel" style="margin-top:0;">
+        <div class="chart-box"><canvas id="chartProgCombo"></canvas></div>
+      </div>
+    </div>
+
+    <div class="section-title">RESULTADOS POR EDIÇÃO</div>
+    <div class="content">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Edição</th><th>Data do sorteio</th><th>Período de veiculação</th><th class="num">Investimento</th><th class="num">Cliques</th><th class="num">Impressões</th><th class="num">CPC</th><th class="num">CTR</th><th class="num">Sessões</th><th class="num">Tx. Engajamento</th><th class="num">Purchase</th><th class="num">Tx. Conversão</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Edição 447</td><td>04/10/2026</td><td>02/10 a 03/10</td>
+              <td class="num">R$ 1.521,49</td><td class="num">158</td><td class="num">108.340</td>
+              <td class="num">R$ 9,63</td><td class="num">0,15%</td><td class="num">933</td><td class="num">2,8%</td><td class="num">0</td><td class="num">0,00%</td>
+            </tr>
+            <tr>
+              <td>Edição 448</td><td>11/10/2026 (em andamento)</td><td>04/10 a 06/10</td>
+              <td class="num">R$ 495,07</td><td class="num">1.007</td><td class="num">73.989</td>
+              <td class="num">R$ 0,49</td><td class="num">1,36%</td><td class="num">440</td><td class="num">18,0%</td><td class="num">0</td><td class="num">0,00%</td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr class="tfoot-row"><td>Total</td><td></td><td>02/10 a 06/10</td><td class="num">R$ 2.016,56</td><td class="num">1.165</td><td class="num">182.329</td><td class="num">R$ 1,73</td><td class="num">0,64%</td><td class="num">1.373</td><td class="num">7,6%</td><td class="num">0</td><td class="num">0,00%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-title">TRÁFEGO POR CAMPANHA</div>
+    <div class="content">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Campanha</th><th class="num">Sessões</th><th class="num">Tx. Engajamento</th><th class="num">Pageviews</th><th class="num">Purchase</th></tr></thead>
+          <tbody>
+            <tr><td>instititucional_sua-sorte</td><td class="num">655</td><td class="num">12,4%</td><td class="num">714</td><td class="num">0</td></tr>
+            <tr><td>ed-447-premiacao-v2</td><td class="num">362</td><td class="num">2,8%</td><td class="num">370</td><td class="num">0</td></tr>
+            <tr><td>ed-447-premiacao</td><td class="num">260</td><td class="num">2,3%</td><td class="num">260</td><td class="num">0</td></tr>
+            <tr><td>ed-448-premiacao</td><td class="num">96</td><td class="num">8,3%</td><td class="num">108</td><td class="num">0</td></tr>
+          </tbody>
+          <tbody>
+            <tr class="tfoot-row"><td>Total</td><td class="num">1.373</td><td class="num">7,6%</td><td class="num">1.452</td><td class="num">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-title">QUADRO DE SITES <span class="st-period">02 a 03/10/2026 · 259 sites</span></div>
+    <div class="content">
+      <div class="search-box"><input type="text" id="searchSitesProg" placeholder="🔎 Buscar site..."></div>
+      <div class="table-scroll-y">
+        <table>
+          <thead><tr><th>Site</th><th class="num">Impressões</th><th class="num">Cliques</th><th class="num">CTR</th></tr></thead>
+          <tbody id="tbodySitesProg"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-title">QUADRO DE REGIÕES <span class="st-period">02 a 03/10/2026 · 51 regiões</span></div>
+    <div class="content">
+      <div class="search-box"><input type="text" id="searchCitiesProg" placeholder="🔎 Buscar região..."></div>
+      <div class="table-scroll-y">
+        <table>
+          <thead><tr><th>Região</th><th class="num">Impressões</th><th class="num">Cliques</th><th class="num">CTR</th></tr></thead>
+          <tbody id="tbodyCitiesProg"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-title">PEÇAS DE EXEMPLO</div>
+    <div class="content">
+      <div class="creative-grid">
+        <div class="creative-card"><div class="creative-frame"><img src="assets/peca-institucional.png" alt="Peça institucional Super Vale" loading="lazy"></div><div class="creative-caption"><span class="tag tag-prog">Institucional</span> 728x90</div></div>
+        <div class="creative-card"><div class="creative-frame"><img src="assets/peca-edicao-447-v1.png" alt="Peça Edição 447 v1 Super Vale" loading="lazy"></div><div class="creative-caption"><span class="tag tag-prog">Edição 447 · V1</span> 728x90</div></div>
+        <div class="creative-card"><div class="creative-frame"><img src="assets/peca-edicao-447-v2.png" alt="Peça Edição 447 v2 Super Vale" loading="lazy"></div><div class="creative-caption"><span class="tag tag-prog">Edição 447 · V2</span> 728x90</div></div>
+        <div class="creative-card"><div class="creative-frame"><img src="assets/peca-edicao-448.png" alt="Peça Edição 448 Super Vale" loading="lazy"></div><div class="creative-caption"><span class="tag tag-prog">Edição 448</span> 728x90</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    Relatório gerado a partir dos arquivos de entrega da Programática (Publya, SharePoint, pasta "Análise Programática Publya e Rich Media 2026") e do GA4 (conta super-vale-fb7aa). Peça "Atualizar" para recalcular com dados mais recentes.
+  </div>
+
+</div>
+</div>
+
+<script id="data-sites-prog" type="application/json">[{"site": "msn.com", "impr": 5789, "clicks": 3}, {"site": "uol.com.br", "impr": 5749, "clicks": 7}, {"site": "globo.com", "impr": 4991, "clicks": 13}, {"site": "noticias.uol.com.br", "impr": 4625, "clicks": 8}, {"site": "veja.abril.com.br", "impr": 4037, "clicks": 3}, {"site": "terra.com.br", "impr": 3634, "clicks": 2}, {"site": "cnnbrasil.com.br", "impr": 3355, "clicks": 0}, {"site": "climatempo.com.br", "impr": 2546, "clicks": 11}, {"site": "oglobo.globo.com", "impr": 2414, "clicks": 7}, {"site": "metropoles.com", "impr": 2178, "clicks": 2}, {"site": "itatiaia.com.br", "impr": 2154, "clicks": 3}, {"site": "diariodoaco.com.br", "impr": 2064, "clicks": 4}, {"site": "tuasaude.com", "impr": 2013, "clicks": 2}, {"site": "g1.globo.com", "impr": 1821, "clicks": 2}, {"site": "otempo.com.br", "impr": 1358, "clicks": 1}, {"site": "r7.com", "impr": 1202, "clicks": 1}, {"site": "revistaquem.globo.com", "impr": 1156, "clicks": 9}, {"site": "extra.globo.com", "impr": 968, "clicks": 1}, {"site": "weather.com", "impr": 934, "clicks": 0}, {"site": "portaltemponovo.com.br", "impr": 836, "clicks": 2}, {"site": "correiobraziliense.com.br", "impr": 763, "clicks": 0}, {"site": "exame.com", "impr": 756, "clicks": 0}, {"site": "abril.com.br", "impr": 736, "clicks": 0}, {"site": "uai.com.br", "impr": 731, "clicks": 0}, {"site": "poder360.com.br", "impr": 716, "clicks": 1}, {"site": "caras.com.br", "impr": 674, "clicks": 2}, {"site": "revistaoeste.com", "impr": 624, "clicks": 1}, {"site": "adorocinema.com", "impr": 606, "clicks": 1}, {"site": "tudocelular.com", "impr": 560, "clicks": 0}, {"site": "accuweather.com", "impr": 551, "clicks": 2}, {"site": "estadao.com.br", "impr": 533, "clicks": 0}, {"site": "receiteria.com.br", "impr": 398, "clicks": 2}, {"site": "dicio.com.br", "impr": 345, "clicks": 0}, {"site": "correio24horas.com.br", "impr": 322, "clicks": 0}, {"site": "techtudo.com.br", "impr": 322, "clicks": 1}, {"site": "jmonline.com.br", "impr": 279, "clicks": 0}, {"site": "canaltech.com.br", "impr": 257, "clicks": 0}, {"site": "olhardigital.com.br", "impr": 254, "clicks": 0}, {"site": "tecnoblog.net", "impr": 252, "clicks": 0}, {"site": "mundopositivo.com.br", "impr": 243, "clicks": 0}, {"site": "purepeople.com.br", "impr": 217, "clicks": 0}, {"site": "as.com", "impr": 212, "clicks": 0}, {"site": "chavesnamao.com.br", "impr": 206, "clicks": 0}, {"site": "omelete.com.br", "impr": 204, "clicks": 3}, {"site": "conjur.com.br", "impr": 199, "clicks": 0}, {"site": "canalrural.com.br", "impr": 189, "clicks": 0}, {"site": "w3schools.com", "impr": 182, "clicks": 0}, {"site": "diariodolitoral.com.br", "impr": 167, "clicks": 0}, {"site": "culturagenial.com", "impr": 163, "clicks": 0}, {"site": "sbt.com.br", "impr": 161, "clicks": 0}, {"site": "lance.com.br", "impr": 160, "clicks": 0}, {"site": "comidinhasdochef.com", "impr": 158, "clicks": 0}, {"site": "fogaonet.com", "impr": 153, "clicks": 1}, {"site": "band.com.br", "impr": 145, "clicks": 0}, {"site": "palcomp3.com.br", "impr": 137, "clicks": 0}, {"site": "brasildefato.com.br", "impr": 124, "clicks": 0}, {"site": "minhaconexao.com.br", "impr": 117, "clicks": 0}, {"site": "portalleodias.com", "impr": 117, "clicks": 0}, {"site": "midiamax.com.br", "impr": 112, "clicks": 0}, {"site": "receitatodahora.com.br", "impr": 108, "clicks": 0}, {"site": "atarde.com.br", "impr": 105, "clicks": 0}, {"site": "campograndenews.com.br", "impr": 102, "clicks": 1}, {"site": "clicrbs.com.br", "impr": 96, "clicks": 0}, {"site": "infojobs.com.br", "impr": 84, "clicks": 0}, {"site": "calculoexato.com.br", "impr": 79, "clicks": 0}, {"site": "clubedohardware.com.br", "impr": 79, "clicks": 0}, {"site": "bolavip.com", "impr": 76, "clicks": 0}, {"site": "contabeis.com.br", "impr": 71, "clicks": 0}, {"site": "babycenter.com", "impr": 70, "clicks": 0}, {"site": "radiomuriae.com.br", "impr": 64, "clicks": 0}, {"site": "ingresso.com", "impr": 61, "clicks": 0}, {"site": "bhaz.com.br", "impr": 60, "clicks": 0}, {"site": "estrelando.com.br", "impr": 58, "clicks": 0}, {"site": "eurogamer.pt", "impr": 57, "clicks": 0}, {"site": "carrosnaweb.com.br", "impr": 55, "clicks": 0}, {"site": "hojeemdia.com.br", "impr": 53, "clicks": 0}, {"site": "tribunapr.com.br", "impr": 52, "clicks": 0}, {"site": "rollingstone.com.br", "impr": 51, "clicks": 0}, {"site": "sofascore.com", "impr": 50, "clicks": 0}, {"site": "pciconcursos.com.br", "impr": 49, "clicks": 0}, {"site": "dictionary.cambridge.org", "impr": 48, "clicks": 0}, {"site": "bandab.com.br", "impr": 46, "clicks": 0}, {"site": "climaeradar.com.br", "impr": 44, "clicks": 0}, {"site": "infomoney.com.br", "impr": 44, "clicks": 0}, {"site": "vrum.com.br", "impr": 44, "clicks": 0}, {"site": "ovicio.com.br", "impr": 43, "clicks": 0}, {"site": "tribunademinas.com.br", "impr": 42, "clicks": 0}, {"site": "vagalume.com.br", "impr": 40, "clicks": 0}, {"site": "bbc.com", "impr": 39, "clicks": 0}, {"site": "sistemampa.com.br", "impr": 38, "clicks": 0}, {"site": "ofuxico.com.br", "impr": 37, "clicks": 0}, {"site": "opovo.com.br", "impr": 37, "clicks": 0}, {"site": "mantosdofutebol.com.br", "impr": 35, "clicks": 0}, {"site": "autoo.com.br", "impr": 33, "clicks": 0}, {"site": "minhavida.com.br", "impr": 33, "clicks": 0}, {"site": "bahianoticias.com.br", "impr": 32, "clicks": 0}, {"site": "jornaldebrasilia.com.br", "impr": 30, "clicks": 0}, {"site": "noticiasaominuto.com.br", "impr": 30, "clicks": 0}, {"site": "tudoreceitas.com", "impr": 30, "clicks": 0}, {"site": "surfguru.com.br", "impr": 29, "clicks": 0}, {"site": "patoshoje.com.br", "impr": 28, "clicks": 0}, {"site": "tvgazeta.com.br", "impr": 28, "clicks": 0}, {"site": "comprerural.com", "impr": 27, "clicks": 0}, {"site": "gaz.com.br", "impr": 27, "clicks": 0}, {"site": "historiadomundo.com.br", "impr": 27, "clicks": 0}, {"site": "acheconcursos.com.br", "impr": 26, "clicks": 0}, {"site": "amandocozinhar.com", "impr": 26, "clicks": 0}, {"site": "aquinoticias.com", "impr": 26, "clicks": 0}, {"site": "autoracing.com.br", "impr": 24, "clicks": 0}, {"site": "diariodorio.com", "impr": 23, "clicks": 0}, {"site": "moneytimes.com.br", "impr": 22, "clicks": 0}, {"site": "espn.com.br", "impr": 21, "clicks": 0}, {"site": "acordacidade.com.br", "impr": 20, "clicks": 0}, {"site": "archdaily.com", "impr": 20, "clicks": 0}, {"site": "motonline.com.br", "impr": 20, "clicks": 0}, {"site": "noticiasagricolas.com.br", "impr": 20, "clicks": 0}, {"site": "infoescola.com", "impr": 19, "clicks": 0}, {"site": "macmagazine.com.br", "impr": 19, "clicks": 0}, {"site": "tribunadepetropolis.com.br", "impr": 19, "clicks": 0}, {"site": "wordreference.com", "impr": 19, "clicks": 0}, {"site": "arkade.com.br", "impr": 18, "clicks": 0}, {"site": "corridasbr.com.br", "impr": 18, "clicks": 0}, {"site": "portugues.com.br", "impr": 18, "clicks": 0}, {"site": "verdesmares.com.br", "impr": 18, "clicks": 0}, {"site": "jornalvozativa.com", "impr": 17, "clicks": 0}, {"site": "euronews.com", "impr": 16, "clicks": 0}, {"site": "plox.com.br", "impr": 16, "clicks": 0}, {"site": "tomadadetempo.com.br", "impr": 16, "clicks": 0}, {"site": "motorshow.com.br", "impr": 15, "clicks": 0}, {"site": "atribuna.com.br", "impr": 14, "clicks": 0}, {"site": "elle.com.br", "impr": 14, "clicks": 0}, {"site": "folhabv.com.br", "impr": 14, "clicks": 0}, {"site": "futebolinterior.com.br", "impr": 14, "clicks": 0}, {"site": "noticiasautomotivas.com.br", "impr": 14, "clicks": 1}, {"site": "opopular.com.br", "impr": 14, "clicks": 0}, {"site": "theguardian.com", "impr": 14, "clicks": 0}, {"site": "folhavitoria.com.br", "impr": 13, "clicks": 0}, {"site": "jovemnerd.com.br", "impr": 13, "clicks": 0}, {"site": "metsul.com", "impr": 13, "clicks": 0}, {"site": "panelinha.com.br", "impr": 13, "clicks": 0}, {"site": "receitasnaturais.com.br", "impr": 12, "clicks": 0}, {"site": "tnh1.com.br", "impr": 12, "clicks": 0}, {"site": "webvolei.com.br", "impr": 12, "clicks": 1}, {"site": "aficionados.com.br", "impr": 11, "clicks": 0}, {"site": "folhamax.com", "impr": 11, "clicks": 0}, {"site": "publico.pt", "impr": 11, "clicks": 0}, {"site": "seudinheiro.com", "impr": 11, "clicks": 0}, {"site": "usatoday.com", "impr": 11, "clicks": 0}, {"site": "wimoveis.com.br", "impr": 11, "clicks": 0}, {"site": "adventurouskate.com", "impr": 10, "clicks": 0}, {"site": "kboing.com.br", "impr": 10, "clicks": 0}, {"site": "oficinadanet.com.br", "impr": 10, "clicks": 0}, {"site": "tabelafipebrasil.com", "impr": 10, "clicks": 0}, {"site": "webmotors.com.br", "impr": 10, "clicks": 0}, {"site": "car.blog.br", "impr": 9, "clicks": 0}, {"site": "folhape.com.br", "impr": 9, "clicks": 0}, {"site": "portalcaparao.com.br", "impr": 9, "clicks": 0}, {"site": "varginhaonline.com.br", "impr": 9, "clicks": 0}, {"site": "buzzfeed.com", "impr": 8, "clicks": 0}, {"site": "catracalivre.com.br", "impr": 8, "clicks": 0}, {"site": "correiodoestado.com.br", "impr": 8, "clicks": 0}, {"site": "montesclaros.com", "impr": 8, "clicks": 0}, {"site": "redenoticia.com.br", "impr": 8, "clicks": 0}, {"site": "cadaminuto.com.br", "impr": 7, "clicks": 0}, {"site": "correiodopovo.com.br", "impr": 7, "clicks": 0}, {"site": "infonet.com.br", "impr": 7, "clicks": 0}, {"site": "mundoboaforma.com.br", "impr": 7, "clicks": 0}, {"site": "sampi.net.br", "impr": 7, "clicks": 0}, {"site": "acidadeon.com", "impr": 6, "clicks": 0}, {"site": "anoticiaregional.com.br", "impr": 6, "clicks": 0}, {"site": "bonde.com.br", "impr": 6, "clicks": 0}, {"site": "cinepop.com.br", "impr": 6, "clicks": 0}, {"site": "en.softonic.com", "impr": 6, "clicks": 0}, {"site": "gazetasp.com.br", "impr": 6, "clicks": 0}, {"site": "imirante.com", "impr": 6, "clicks": 0}, {"site": "manualdohomemmoderno.com.br", "impr": 6, "clicks": 0}, {"site": "marca.com", "impr": 6, "clicks": 0}, {"site": "elpais.com", "impr": 5, "clicks": 0}, {"site": "interligadonline.com", "impr": 5, "clicks": 0}, {"site": "jornalnoroeste.com.br", "impr": 5, "clicks": 0}, {"site": "quizlet.com", "impr": 5, "clicks": 0}, {"site": "stealthelook.com.br", "impr": 5, "clicks": 0}, {"site": "blogdopaulinho.com.br", "impr": 4, "clicks": 0}, {"site": "businessinsider.com", "impr": 4, "clicks": 0}, {"site": "dci.com.br", "impr": 4, "clicks": 0}, {"site": "deezer.com", "impr": 4, "clicks": 0}, {"site": "diariodepernambuco.com.br", "impr": 4, "clicks": 0}, {"site": "istoedinheiro.com.br", "impr": 4, "clicks": 0}, {"site": "oparana.com.br", "impr": 4, "clicks": 0}, {"site": "thesun.co.uk", "impr": 4, "clicks": 0}, {"site": "tribunadointerior.com.br", "impr": 4, "clicks": 0}, {"site": "tripadvisor.com", "impr": 4, "clicks": 0}, {"site": "vivareal.com.br", "impr": 4, "clicks": 0}, {"site": "daninoce.com.br", "impr": 3, "clicks": 0}, {"site": "diariodecaratinga.com.br", "impr": 3, "clicks": 0}, {"site": "empregacampinas.com.br", "impr": 3, "clicks": 0}, {"site": "maistocadas.mus.br", "impr": 3, "clicks": 0}, {"site": "maringa.com", "impr": 3, "clicks": 0}, {"site": "nytimes.com", "impr": 3, "clicks": 0}, {"site": "preparaenem.com", "impr": 3, "clicks": 0}, {"site": "raquelicias.com.br", "impr": 3, "clicks": 0}, {"site": "sulbahianews.com.br", "impr": 3, "clicks": 0}, {"site": "todateen.com.br", "impr": 3, "clicks": 0}, {"site": "agazeta.com.br", "impr": 2, "clicks": 0}, {"site": "alterosa.com.br", "impr": 2, "clicks": 0}, {"site": "clube.fm", "impr": 2, "clicks": 0}, {"site": "coinmarketcap.com", "impr": 2, "clicks": 0}, {"site": "diariodocomercio.com.br", "impr": 2, "clicks": 0}, {"site": "eltiempo.com", "impr": 2, "clicks": 0}, {"site": "folhadomate.com", "impr": 2, "clicks": 0}, {"site": "h2foz.com.br", "impr": 2, "clicks": 0}, {"site": "istoe.com.br", "impr": 2, "clicks": 0}, {"site": "jobrapido.com", "impr": 2, "clicks": 0}, {"site": "lugarcerto.com.br", "impr": 2, "clicks": 0}, {"site": "mdsaude.com", "impr": 2, "clicks": 0}, {"site": "oimparcial.com.br", "impr": 2, "clicks": 0}, {"site": "polemicaparaiba.com.br", "impr": 2, "clicks": 0}, {"site": "time.com", "impr": 2, "clicks": 0}, {"site": "tribunadonorte.com.br", "impr": 2, "clicks": 0}, {"site": "tribunaonline.com.br", "impr": 2, "clicks": 0}, {"site": "vgnoticias.com.br", "impr": 2, "clicks": 0}, {"site": "viomundo.com.br", "impr": 2, "clicks": 0}, {"site": "aquiagora.net", "impr": 1, "clicks": 0}, {"site": "biologianet.com", "impr": 1, "clicks": 0}, {"site": "ciudad.com.ar", "impr": 1, "clicks": 0}, {"site": "clarin.com", "impr": 1, "clicks": 0}, {"site": "cnet.com", "impr": 1, "clicks": 0}, {"site": "cntraveler.com", "impr": 1, "clicks": 0}, {"site": "coladaweb.com", "impr": 1, "clicks": 0}, {"site": "d24am.com", "impr": 1, "clicks": 0}, {"site": "decolar.com", "impr": 1, "clicks": 0}, {"site": "diarinho.net", "impr": 1, "clicks": 0}, {"site": "diariosm.com.br", "impr": 1, "clicks": 0}, {"site": "dicasdetreino.com.br", "impr": 1, "clicks": 0}, {"site": "essareceitafunciona.com.br", "impr": 1, "clicks": 0}, {"site": "eusemfronteiras.com.br", "impr": 1, "clicks": 0}, {"site": "focoregional.com.br", "impr": 1, "clicks": 0}, {"site": "giphy.com", "impr": 1, "clicks": 0}, {"site": "guiadasemana.com.br", "impr": 1, "clicks": 0}, {"site": "itabiraonline.com.br", "impr": 1, "clicks": 0}, {"site": "justwatch.com", "impr": 1, "clicks": 0}, {"site": "medicalnewstoday.com", "impr": 1, "clicks": 0}, {"site": "meiobit.com", "impr": 1, "clicks": 0}, {"site": "motociclismoonline.com.br", "impr": 1, "clicks": 0}, {"site": "olhardireto.com.br", "impr": 1, "clicks": 0}, {"site": "petitchef.com", "impr": 1, "clicks": 0}, {"site": "reuters.com", "impr": 1, "clicks": 0}, {"site": "revistaartesanato.com.br", "impr": 1, "clicks": 0}, {"site": "semana.com", "impr": 1, "clicks": 0}, {"site": "sitedelinhares.com.br", "impr": 1, "clicks": 0}, {"site": "sohistoria.com.br", "impr": 1, "clicks": 0}, {"site": "techradar.com", "impr": 1, "clicks": 0}, {"site": "tiempo.com", "impr": 1, "clicks": 0}, {"site": "tntsports.com.br", "impr": 1, "clicks": 0}, {"site": "tracklist.com.br", "impr": 1, "clicks": 0}, {"site": "trovit.com.br", "impr": 1, "clicks": 0}, {"site": "umcomo.com.br", "impr": 1, "clicks": 0}, {"site": "urbandictionary.com", "impr": 1, "clicks": 0}, {"site": "viajoteca.com", "impr": 1, "clicks": 0}]</script>
+<script id="data-cities-prog" type="application/json">[{"city": "Montes Claros", "impr": 10224, "clicks": 9}, {"city": "Governador Valadares", "impr": 9807, "clicks": 14}, {"city": "Ipatinga", "impr": 7152, "clicks": 18}, {"city": "Unknown", "impr": 7127, "clicks": 8}, {"city": "Teofilo Otoni", "impr": 2892, "clicks": 2}, {"city": "Caratinga", "impr": 2688, "clicks": 3}, {"city": "Muriae", "impr": 2560, "clicks": 5}, {"city": "Timoteo", "impr": 2479, "clicks": 1}, {"city": "Ponte Nova", "impr": 2147, "clicks": 3}, {"city": "Curvelo", "impr": 1894, "clicks": 2}, {"city": "Coronel Fabriciano", "impr": 1733, "clicks": 1}, {"city": "Diamantina", "impr": 1608, "clicks": 2}, {"city": "Uberaba", "impr": 1511, "clicks": 1}, {"city": "Manhuacu", "impr": 1423, "clicks": 2}, {"city": "Paracatu", "impr": 1367, "clicks": 2}, {"city": "Pirapora", "impr": 1206, "clicks": 2}, {"city": "Unai", "impr": 1202, "clicks": 3}, {"city": "Januaria", "impr": 912, "clicks": 0}, {"city": "Janauba", "impr": 796, "clicks": 4}, {"city": "Carangola", "impr": 679, "clicks": 1}, {"city": "Aracuai", "impr": 624, "clicks": 0}, {"city": "Tres Marias", "impr": 603, "clicks": 1}, {"city": "Santana do Paraiso", "impr": 563, "clicks": 1}, {"city": "Taiobeiras", "impr": 546, "clicks": 3}, {"city": "Capelinha", "impr": 543, "clicks": 0}, {"city": "Joao Pinheiro", "impr": 527, "clicks": 0}, {"city": "Almenara", "impr": 517, "clicks": 0}, {"city": "Manhumirim", "impr": 489, "clicks": 0}, {"city": "Espera Feliz", "impr": 478, "clicks": 3}, {"city": "Nanuque", "impr": 435, "clicks": 0}, {"city": "Raul Soares", "impr": 435, "clicks": 0}, {"city": "Turmalina", "impr": 404, "clicks": 1}, {"city": "Sao Francisco", "impr": 396, "clicks": 1}, {"city": "Salinas", "impr": 324, "clicks": 3}, {"city": "Ipanema", "impr": 306, "clicks": 0}, {"city": "Nova Era", "impr": 302, "clicks": 1}, {"city": "Medina", "impr": 225, "clicks": 0}, {"city": "Aimores", "impr": 224, "clicks": 0}, {"city": "Barra de Sao Francisco", "impr": 222, "clicks": 0}, {"city": "Divinolandia de Minas", "impr": 217, "clicks": 0}, {"city": "Serro", "impr": 187, "clicks": 0}, {"city": "Ibatiba", "impr": 96, "clicks": 1}, {"city": "Itabira", "impr": 74, "clicks": 0}, {"city": "Brumado", "impr": 66, "clicks": 0}, {"city": "Guanambi", "impr": 39, "clicks": 0}, {"city": "Porciuncula", "impr": 38, "clicks": 0}, {"city": "Joao Monlevade", "impr": 26, "clicks": 0}, {"city": "Conceicao do Mato Dentro", "impr": 23, "clicks": 0}, {"city": "Vitoria da Conquista", "impr": 15, "clicks": 0}, {"city": "Baixo Guandu", "impr": 4, "clicks": 0}, {"city": "Ecoporanga", "impr": 2, "clicks": 0}]</script>
+
+<script>
+Chart.register(ChartDataLabels);
+Chart.defaults.font.family = "'Segoe UI', Arial, sans-serif";
+function baseGrid(){ return { color:'rgba(128,128,128,.15)' }; }
+function baseTicks(){ return { color:getComputedStyle(document.body).color || '#333', font:{size:10} }; }
+function fmtInt(n){ return n.toLocaleString('pt-BR'); }
+function fmtPct(n, d){ return n.toFixed(d===undefined?2:d).replace('.',',')+'%'; }
+const sitesProg = JSON.parse(document.getElementById('data-sites-prog').textContent);
+const citiesProg = JSON.parse(document.getElementById('data-cities-prog').textContent);
+function renderSitesTable(tbodyId, rows, keyLabel){
+  const tbody = document.getElementById(tbodyId);
+  const frag = document.createDocumentFragment();
+  rows.forEach(r=>{
+    const ctr = r.impr>0 ? (r.clicks/r.impr*100) : 0;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${r[keyLabel]}</td><td class="num">${fmtInt(r.impr)}</td><td class="num">${fmtInt(r.clicks)}</td><td class="num">${fmtPct(ctr)}</td>`;
+    frag.appendChild(tr);
+  });
+  tbody.innerHTML = '';
+  tbody.appendChild(frag);
+}
+renderSitesTable('tbodySitesProg', sitesProg, 'site');
+renderSitesTable('tbodyCitiesProg', citiesProg, 'city');
+document.getElementById('searchSitesProg').addEventListener('input', function(){
+  const q = this.value.toLowerCase();
+  renderSitesTable('tbodySitesProg', sitesProg.filter(r=>r.site.toLowerCase().includes(q)), 'site');
+});
+document.getElementById('searchCitiesProg').addEventListener('input', function(){
+  const q = this.value.toLowerCase();
+  renderSitesTable('tbodyCitiesProg', citiesProg.filter(r=>r.city.toLowerCase().includes(q)), 'city');
+});
+const progDates = ["02/10", "03/10", "04/10", "05/10", "06/10"];
+const progSpend = [535.01, 986.48, 162.36, 166.22, 166.49];
+const progClicks = [90, 68, 382, 344, 281];
+const progSessions = [645.0, 288.0, 171.0, 119.0, 150.0];
+new Chart(document.getElementById('chartProgCombo'), {
+  data:{ labels:progDates, datasets:[
+    { type:'bar', label:'Investimento (R$)', data:progSpend, backgroundColor:'#1565c0', borderRadius:4, yAxisID:'y', order:2 },
+    { type:'line', label:'Cliques', data:progClicks, borderColor:'#1a1a2e', backgroundColor:'#1a1a2e', tension:.3, yAxisID:'y1', order:1 },
+    { type:'line', label:'Sessões (GA4)', data:progSessions, borderColor:'#2e7d32', backgroundColor:'#2e7d32', tension:.3, yAxisID:'y1', order:0 }
+  ]},
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:10} } }, datalabels:{ display:false } },
+    scales:{ x:{ grid:{display:false}, ticks:baseTicks() },
+      y:{ position:'left', grid:baseGrid(), ticks:{...baseTicks(), callback:(v)=>'R$'+v}, beginAtZero:true },
+      y1:{ position:'right', grid:{display:false}, ticks:baseTicks(), beginAtZero:true } } }
+});
+</script>
+</body>
+</html>

@@ -340,7 +340,8 @@
       <option value="Maio">Maio</option>
       <option value="Junho">Junho</option>
       <option value="Julho">Julho</option>
-      <option value="Agosto" selected>Agosto</option>
+      <option value="Agosto">Agosto</option>
+      <option value="Setembro" selected>Setembro</option>
     </select>
   </div>
 </header>
@@ -473,10 +474,12 @@ const DATA = {
 "Julho":{"n25":4,"n26":4,"TT25":295794,"TT26":275455,"Fisico25":228154,"Fisico26":227688,"Online25":67640,"Online26":47214,"ReceitaTT25":2568250,"ReceitaTT26":2754550,"Ticket25":8.68,"Ticket26":10.00,"varReceitaRaw":7.3,"varTTRaw":-6.9,"ReceitaPorEd25":642062,"ReceitaPorEd26":688638,"TTPorEd25":73948,"TTPorEd26":68864,"varReceitaEd":7.3,"varTTEd":-6.9,
 "leituras":["Mix de edições: 2025 teve 2 de R$10, 1 de R$20 e 1 de R$5; 2026 teve 3 de R$10 e 1 de R$15 — estratégia de valores diferente entre os anos.","Considerando o volume da edição de R$5 ajustado (dividido por 2), o TT cresceu <b>18% (+42,4 mil títulos)</b> e o Físico <b>27% (+48 mil títulos)</b>; o Online recuou <b>-12% (-9,3 mil títulos)</b>.","Receita ficou <b>7% acima</b> de julho/2025 (<b>+R$186.300</b>). No Online, a divisão Leste/Norte segue em <b>88%/12%</b> — 1pp acima de maio, mantendo o padrão observado desde junho."]},
 "Agosto":{"n25":5,"n26":5,"TT25":287635,"TT26":365379,"Fisico25":218371,"Fisico26":300857,"Online25":69264,"Online26":64084,"ReceitaTT25":3481160,"ReceitaTT26":4419410,"Ticket25":12.10,"Ticket26":12.10,"varReceitaRaw":27.0,"varTTRaw":27.0,"ReceitaPorEd25":696232,"ReceitaPorEd26":883882,"TTPorEd25":57527,"TTPorEd26":73076,"varReceitaEd":27.0,"varTTEd":27.0,
-"leituras":["Agosto tem edições iguais nos dois anos (5) — comparação 100% limpa: receita e volume cresceram no mesmo ritmo, <b>+27,0%</b> cada, superando o ano passado. Ainda assim, <b>fica 13 pontos percentuais abaixo da meta de +40%</b> traçada para a expansão no Norte de Minas.","Ticket médio ficou idêntico (R$ 12,10 nos dois anos), sinal de que o crescimento veio de volume real, não de mudança de mix.","Participação Online seguiu baixa (24,1% → 17,5% do TT) — efeito estrutural da entrada do Norte de Minas (região com forte resistência à compra online), não uma perda de eficiência de mídia."]}
+"leituras":["Agosto tem edições iguais nos dois anos (5) — comparação 100% limpa: receita e volume cresceram no mesmo ritmo, <b>+27,0%</b> cada, superando o ano passado. Ainda assim, <b>fica 13 pontos percentuais abaixo da meta de +40%</b> traçada para a expansão no Norte de Minas.","Ticket médio ficou idêntico (R$ 12,10 nos dois anos), sinal de que o crescimento veio de volume real, não de mudança de mix.","Participação Online seguiu baixa (24,1% → 17,5% do TT) — efeito estrutural da entrada do Norte de Minas (região com forte resistência à compra online), não uma perda de eficiência de mídia."]},
+"Setembro":{"n25":4,"n26":4,"TT25":205732,"TT26":271906,"Fisico25":158802,"Fisico26":223739,"Online25":46930,"Online26":48167,"ReceitaTT25":2301170,"ReceitaTT26":3031890,"Ticket25":11.19,"Ticket26":11.15,"varReceitaRaw":31.8,"varTTRaw":32.2,"ReceitaPorEd25":575293,"ReceitaPorEd26":757973,"TTPorEd25":51433,"TTPorEd26":67977,"varReceitaEd":31.8,"varTTEd":32.2,
+"leituras":["Mix de edições idêntico nos dois anos: 4 edições (1 de R$15,00 e 3 de R$10,00) — comparação direta. Receita <b>+31,8%</b> (R$2,30MM → R$3,03MM, <b>+R$730,7k</b>) e volume (TT) <b>+32,2%</b> (+66.174 títulos), com ticket médio estável (R$11,19 → R$11,15).","O crescimento veio do canal Físico: <b>+40,9%</b> (+64.937 títulos), contra apenas <b>+2,6%</b> no Online (+1.237 títulos). A participação do Online caiu de <b>22,8% para 17,7%</b> do TT, coerente com a entrada do Norte de Minas, região com forte resistência à compra online.","O crescimento de volume por edição (+32,2%) fica <b>cerca de 8 pontos percentuais abaixo da expectativa de +40%</b> traçada para a expansão no Norte de Minas."]}
 };
 
-const MES_ABREV = {"Janeiro":"Jan","Fevereiro":"Fev","Março":"Mar","Abril":"Abr","Maio":"Mai","Junho":"Jun","Julho":"Jul","Agosto":"Ago"};
+const MES_ABREV = {"Janeiro":"Jan","Fevereiro":"Fev","Março":"Mar","Abril":"Abr","Maio":"Mai","Junho":"Jun","Julho":"Jul","Agosto":"Ago","Setembro":"Set"};
 
 const fmt = n => Math.round(n).toLocaleString('pt-BR');
 const fmtR = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
@@ -645,6 +648,12 @@ const EDICOES_DATA = {
   {edicao:440, data:"16/08/2026", valor:10, fisico:59895, online:12723, tt:72758, midia:2407},
   {edicao:441, data:"23/08/2026", valor:10, fisico:60108, online:12701, tt:72809, midia:2741},
   {edicao:442, data:"30/08/2026", valor:10, fisico:57845, online:12409, tt:70254, midia:2512}
+],
+"Setembro": [
+  {edicao:443, data:"06/09/2026", valor:15, fisico:51516, online:11050, tt:62566, midia:2672},
+  {edicao:444, data:"13/09/2026", valor:10, fisico:58862, online:12636, tt:71498, midia:2803},
+  {edicao:445, data:"20/09/2026", valor:10, fisico:57013, online:12440, tt:69453, midia:2777},
+  {edicao:446, data:"27/09/2026", valor:10, fisico:56348, online:12041, tt:68389, midia:2526}
 ]
 };
 
@@ -686,6 +695,13 @@ const LEITURAS_EDICOES = {
 "Agosto": [
   "Participação do Físico ficou estável entre 81,4% e 83,2% em todas as edições — sem grandes oscilações de mix dentro do mês.",
   "% Mídia sobre Online variou de 18,9% (edição 440) a 33,2% (edição 439) — a edição de R$20 (Dia dos Pais) teve o maior investimento proporcional em mídia por venda Online, mas também o melhor retorno em volume."
+],
+"Setembro": [
+  "Participação do Físico estável nas 4 edições (<b>82,1% a 82,4%</b> do TT), sem oscilação de mix dentro do mês; o Online ficou entre 17,6% e 17,9%.",
+  "Vendas de mídia entre <b>2.526 e 2.803 títulos por edição</b> (total de 10.778 no mês), equivalente a <b>22,4% do Online</b>. O % Mídia/Online variou de 24,2% (edição 443) a 21,0% (edição 446), em leve queda ao longo do mês.",
+  "A edição de R$15 (443) teve o menor volume TT do mês (<b>62.566</b>, contra 68.389 a 71.498 nas de R$10) e o maior % Mídia/Online — comportamento padrão de edições com tickets mais altos.",
+  "<b style='color:var(--orange);'>Meta:</b> por conta das rejeições de criativos, as peças das campanhas não foram atualizadas no mês.",
+  "<b style='color:var(--orange);'>Entrada do TikTok na edição 446</b>, que já ocupa o <b>2º lugar</b> como canal pago com maior volume de visitas ao site, acima do Google."
 ]
 };
 
@@ -878,6 +894,11 @@ const FUNNEL_DATA = {
   label1:"28/06 a 25/07/26", label2:"26/07 a 29/08/26",
   p1:{sessions:307063, users:107673, novos:38256, addcart:73260, checkout:45023, compras:47830},
   p2:{sessions:425562, users:135394, novos:58610, addcart:100508, checkout:63467, compras:67511}
+},
+"Setembro": {
+  label1:"26/07 a 29/08/26", label2:"30/08 a 25/09/26",
+  p1:{sessions:425562, users:135394, novos:58610, addcart:100508, checkout:63467, compras:67511},
+  p2:{sessions:288405, users:103538, novos:33771, addcart:63574, checkout:42091, compras:42192}
 }
 };
 
@@ -916,6 +937,12 @@ const LEITURAS_FUNIL = {
   "Todas as métricas cresceram do primeiro para o segundo período: Sessões <b>+38,6%</b>, Usuários <b>+25,7%</b>, Novos usuários <b>+53,2%</b>, Add ao Carrinho <b>+37,2%</b>, Finalização de Compra <b>+41,0%</b> e Compras <b>+41,1%</b>. Aumento foi puxado pela semana da edição de Pais (02 a 08/08), que respondeu por <b>84% do aumento absoluto de Sessões</b> e <b>82% do aumento absoluto de Compras</b> entre os dois períodos.",
   "Sessões para Usuários caiu de <b>35% para 32%</b>, mas Usuários para Add. ao Carrinho melhorou (<b>68%→74%</b>) e a fatia de Novos usuários subiu (<b>36%→43%</b>) — sinal de tráfego mais qualificado nesse trecho do funil, mesmo com mais visitantes recorrentes por sessão.",
   "Finalização de Compra para Compras ficou estável em torno de <b>106%</b> nos dois períodos. <b style='color:var(--orange);'>⚠️ Esse comportamento (Compras acima de Finalização de Compra) não é a regra no ano: de janeiro a junho/2026 a relação ficou entre 81% e 97% (padrão normal de funil). Só em julho e agosto ela passou de 100%. Vamos investigar a causa dessa mudança.</b>"
+],
+"Setembro": [
+  "O período 2 tem <b>27 dias</b> contra 35 do período 1, que ainda inclui a semana de Pais (02 a 08/08) — ela concentrou <b>23% das sessões e 24% das compras</b> do período 1. Por isso a queda bruta (Sessões <b>-32,2%</b>, Compras <b>-37,5%</b>) exagera o movimento. Na média por dia: Sessões <b>-12,1%</b>, Usuários <b>-0,9%</b>, Novos usuários <b>-25,3%</b>, Add ao Carrinho <b>-18,0%</b>, Finalização de Compra <b>-14,0%</b> e Compras <b>-19,0%</b>.",
+  "Melhoras no funil: Sessões para Usuários subiu de <b>32% para 36%</b> e Add ao Carrinho para Finalização de Compra de <b>63% para 66%</b>.",
+  "<b style='color:var(--red);'>⚠️ Pontos de atenção:</b> Usuários para Novos Usuários caiu de <b>43% para 33%</b> (-10,7pp) e Usuários para Add ao Carrinho de <b>74% para 61%</b> (-12,8pp). Isso acontece porque, na edição de Pais, houve aporte de mídia principalmente nas campanhas com foco em alcançar novas pessoas para o site.",
+  "Finalização de Compra para Compras ficou em <b>100,2%</b> (era 106% no período anterior): praticamente equiparados, mas ainda acima de 100%. Segue em investigação."
 ]
 };
 

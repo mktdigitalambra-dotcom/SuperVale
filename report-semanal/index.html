@@ -548,12 +548,12 @@
       <thead><tr><th>Origem</th><th>Vendas</th><th>% do online</th><th>Investimento</th><th>Receita</th><th>ROAS</th><th>CPA</th></tr></thead>
       <tbody>
         <tr class="group"><td>Mídia</td><td>2.201</td><td>23,1%</td><td>R$ 12.547,00</td><td>R$ 44.020,00</td><td>3,5</td><td>R$ 5,70</td></tr>
-        <tr class="group"><td>CRM</td><td>—</td><td>—</td><td>R$ 2.175,00</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr class="group"><td>CRM</td><td>388</td><td>4,1%</td><td>R$ 2.175,00</td><td>R$ 7.760,00</td><td>3,6</td><td>R$ 5,61</td></tr>
         <tr class="tt"><td>Online geral</td><td>9.511</td><td>100%</td><td>R$ 14.722,00</td><td>R$ 190.220,00</td><td>12,9</td><td>R$ 1,55</td></tr>
       </tbody>
     </table>
   </div>
-  <div class="note">Vendas e investimento de mídia vêm da Tabela - Super Vale (colunas Mídia e Investimento), considerando todos os canais de mídia. Investimento de CRM semanal fixo de R$ 2.175; vendas de CRM aguardando os dados da Insider. O investimento do Online geral soma mídia e CRM.</div>
+  <div class="note">Vendas e investimento de mídia vêm da Tabela - Super Vale (colunas Mídia e Investimento), considerando todos os canais de mídia. Vendas de CRM vêm do GA4 (agrupamento "Sessão Super Vale"); investimento de CRM semanal fixo de R$ 2.175. O investimento do Online geral soma mídia e CRM.</div>
 </div>
 
 <div class="card">
@@ -648,7 +648,25 @@
 <h2 class="section-title">Leitura final</h2>
 
 <div class="leituras">
-  <p class="pend">Leitura final aguardando o fechamento dos dados da edição 448.</p>
+  <h3>Mídia</h3>
+  <ul>
+    <li>No <b>Meta Ads</b>, as campanhas de conversão geraram <b>1.974 vendas</b> com R$ 5.236 investidos, CPA de <b>R$ 2,65</b>. A <b>AON</b> foi a mais eficiente, com 1.258 vendas e CPA de R$ 2,48. A RMKT teve 716 vendas (CPA de R$ 2,93), e a WhatsApp não registrou vendas (R$ 14 investidos).</li>
+    <li>Em relação à edição 447, as vendas de conversão do Meta caíram 7,3% (de 2.129 para 1.974), com investimento 10,3% maior (de R$ 4.746 para R$ 5.236). O CPA passou de R$ 2,23 para <b>R$ 2,65</b>.</li>
+    <li>O <b>Google Ads</b> segue com baixa eficiência: <b>67 vendas</b> com R$ 1.543 investidos, CPA de <b>R$ 23,04</b>. O Search consumiu R$ 1.195 para 43 vendas (CPA de R$ 27,80), e o PMax teve 24 vendas com R$ 348 (CPA de R$ 14,50).</li>
+    <li>O <b>TikTok Ads</b> teve R$ 952 investidos e trouxe <b>4.533 sessões</b> ao site. É a <b>segunda maior origem de visitas da mídia paga</b>, atrás apenas do Meta Ads (5.030 sessões).</li>
+    <li>No total da Tabela - Super Vale, a mídia gerou <b>2.201 vendas</b>, 8,1% abaixo da edição 447 (2.394), com investimento 5,0% menor (R$ 12.547 contra R$ 13.206). O CPA passou de R$ 5,52 para <b>R$ 5,70</b>. O ticket subiu de R$ 10 para R$ 20.</li>
+  </ul>
+  <h3 class="sub-h">CRM</h3>
+  <ul>
+    <li>O CRM gerou <b>388 vendas</b> (4,1% do online), com R$ 2.175 investidos na semana: <b>ROAS de 3,6</b> e CPA de <b>R$ 5,61</b>.</li>
+    <li>Em relação à edição 447 (R$ 10), as vendas de CRM caíram de <b>421 para 388</b> (−7,8%).</li>
+    <li>O <b>web push</b> concentrou 79% das sessões de CRM e 70% das vendas (270). O <b>e-mail</b> respondeu por 116 vendas (30%) e o <b>pop-up</b> por 2.</li>
+    <li>Na conversão de sessão em compra, o <b>e-mail</b> teve 11,5%, o web push 6,8% e o pop-up 2,9%.</li>
+  </ul>
+  <h3 class="sub-h">Mensuração</h3>
+  <ul>
+    <li>As compras sem origem identificada ("Unassigned") no GA4 ficaram em <b>73%</b> do total (7.770 de 10.589), estável em relação à edição 447.</li>
+  </ul>
 </div>
 </section>
 
@@ -832,10 +850,7 @@
     document.querySelectorAll("section.edition").forEach(function(sec){ sec.hidden = sec.getAttribute("data-ed")!==ed; });
     document.getElementById("ed-periodo").textContent=ED[ed].periodo;
     document.getElementById("ed-footer").textContent=ED[ed].footer;
-    try{ localStorage.setItem("sv-edicao",ed); }catch(e){}
   }
-  var saved=null; try{ saved=localStorage.getItem("sv-edicao"); }catch(e){}
-  if(saved && ED[saved]) sel.value=saved;
   sel.addEventListener("change",function(){ show(sel.value); });
   show(sel.value);
 })();

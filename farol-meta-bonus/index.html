@@ -102,6 +102,11 @@
   td.trend-up{color:var(--green-bright);} td.trend-down{color:var(--burgundy-bright);}
   .btn-danger-text{background:none;border:none;color:var(--slate);font-size:11px;text-decoration:underline;cursor:pointer;padding:2px;}
   .btn-danger-text:hover{color:var(--burgundy-bright);}
+
+  .track-list{margin:0;padding:0;list-style:none;font-size:12.5px;color:var(--ivory-dim);}
+  .track-list li{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+  .track-list li:last-child{border-bottom:none;}
+  .track-list b{font-family:'IBM Plex Mono',monospace;color:var(--ivory);font-weight:600;white-space:nowrap;}
   .foot-note{font-size:11px;color:var(--slate);margin-top:22px;text-align:center;}
   .reset-link{color:var(--slate);cursor:pointer;text-decoration:underline;}
   .reset-link:hover{color:var(--burgundy-bright);}
@@ -184,6 +189,12 @@
     <p class="cutoff-note">Data de corte dos volumes: 31/08/2026</p>
   </div>
 
+  <div class="panel">
+    <p class="section-title">Números para acompanhar</p>
+    <ul class="track-list"><li><span>Cadastros em 2026 sem compra</span><b>4.460</b></li><li><span>Já compraram alguma vez mas não compraram em 2026</span><b>115.512</b></li><li><span>Clientes com compra em 2026 (Power BI)</span><b>97.421</b></li></ul>
+    <p class="cutoff-note">Posição em 12/10/2026</p>
+  </div>
+
   <div class="panel" id="krPanel"></div>
 
   <div class="panel">
@@ -199,32 +210,146 @@
     <div id="timelineHolder"></div>
   </div>
 
-  <p class="foot-note">Dados de Super Vale salvos apenas neste navegador. <span class="reset-link" id="resetBtn">Limpar dados de Super Vale</span></p>
+  <p class="foot-note">Valores de Super Vale atualizados em 12/10/2026. Alterações feitas aqui ficam salvas só neste navegador. <span class="reset-link" id="resetBtn">Restaurar valores publicados</span></p>
 </div>
 
 <script>
 const W_LOW=1, W_MED=2, W_HIGH=3;
 const activeBrand = "super-vale";
 const KR_DATA = {
-  "super-vale": { label:"Super Vale", pillars:[
-    {name:"Ativação", krs:[
-      {id:"sv-a1", title:"Régua de estímulo ao cadastro (4% → 5%)", type:"numeric", direction:"up", baseline:4, target:5, unit:"%", deadline:"dez/26", defaultWeight:1, note:"Ativação de clientes que acessam o site mas não realizam cadastro. Maior atrito: impacto dos usuários — sem dados de e-mail ou telefone, difícil impactar a base além do pop-up no site."},
-      {id:"sv-a2", title:"Teste de novo canal (alcance e tráfego)", type:"deliverable", deadline:"set/26", defaultWeight:3, note:"Teste em canais como programática, UOL, Globo, TikTok, entre outros, com foco em ampliar alcance e levar mais usuários pro site."},
-      {id:"sv-a3", title:"Captação de revendedor virtual (canal)", type:"numeric", direction:"up", baseline:3, target:7, unit:"% do online", deadline:"out/26", defaultWeight:3, note:"Ação com foco em aumentar vendas pelo canal revendedor virtual — hoje 3% do online, meta desejável de 7%."},
-      {id:"sv-a4", title:"Ativação de vendas via WhatsApp (Pliqz)", type:"deliverable", deadline:"dez/26", defaultWeight:3, conditional:true, note:"Converter clientes com cadastro sem compra via bot da Pliqz — venda pelo WhatsApp automática, apenas via PIX."},
-      {id:"sv-a5", title:"Teste de conversão em cidades definidas", type:"deliverable", deadline:"nov/26", defaultWeight:1, note:"Campanha nas cidades V. Conselheiro Pena, Itueta, Aimorés e Mantena (região Vale) e Unaí, Paracatu, Itacarambi e Bocaiúva (Norte), com foco em aumento de vendas."},
-      {id:"sv-a6", title:"Teste de régua de onboarding com foco em conversão", type:"deliverable", deadline:"out/26", defaultWeight:2, note:"Testar régua que impacta novos cadastros nos últimos 3 dias com foco em compra."},
-      {id:"sv-a7", title:"Teste de régua — cadastros últimos 30 dias sem compra + saldo", type:"deliverable", deadline:"nov/26", defaultWeight:1, note:"Avaliar conversão de clientes com cadastro mas sem compra, aplicando saldo para essa base."},
-      {id:"sv-a8", title:"Aumentar 10pp base de compradores 2026 (90,7k → 99,8k)", type:"numeric", direction:"up", baseline:90701, target:99771, unit:" clientes", deadline:"dez/26", defaultWeight:1, note:"Foco em aumentar volume a partir de ações voltadas a trazer novos clientes. Base: clientes com compra em 2026 (90.701 — ERP, corte 31/08)."},
-    ]},
-    {name:"Retenção", krs:[
-      {id:"sv-r1", title:"Aumentar ROAS de canais de conversão (2,7 → 3,5)", type:"numeric", direction:"up", baseline:2.7, target:3.5, unit:"x", deadline:"dez/26", defaultWeight:1, note:"Aumentar retorno de investimento nos canais com foco em conversão (Meta, Google, WhatsApp etc.)."},
-      {id:"sv-r2", title:"Aumentar 25% tráfego das cidades do Norte (27,3k → 34,2k)", type:"numeric", direction:"up", baseline:27330, target:34163, unit:" visitas/mês", deadline:"dez/26", defaultWeight:1, note:"Média de tráfego mensal das cidades do Norte: 27.330. Meta: +25% de out a dez/26, com e-mail, web push e outras ações de CRM."},
-    ]},
-    {name:"Reativação (Churn)", krs:[
-      {id:"sv-c1", title:"Reduzir base dormente — reversão de 10pp (119k)", type:"numeric", direction:"up", baseline:0, target:11897, unit:" clientes reativados", deadline:"dez/26", defaultWeight:1, note:"Estimular clientes que já compraram uma vez na vida mas não compraram em 2026. Black Friday, Natal e campanhas de saldo como oportunidade."},
-    ]}
-  ]},
+  "super-vale": {
+    "label": "Super Vale",
+    "pillars": [
+      {
+        "name": "Ativação",
+        "krs": [
+          {
+            "id": "sv-a1",
+            "title": "Régua de estímulo ao cadastro (4% → 5%)",
+            "type": "numeric",
+            "direction": "up",
+            "baseline": 4,
+            "target": 5,
+            "unit": "%",
+            "deadline": "dez/26",
+            "defaultWeight": 3,
+            "note": "Ativação de clientes que acessam o site mas não realizam cadastro. Maior atrito: impacto dos usuários — sem dados de e-mail ou telefone, difícil impactar a base além do pop-up no site."
+          },
+          {
+            "id": "sv-a2",
+            "title": "Teste de novo canal (alcance e tráfego)",
+            "type": "deliverable",
+            "deadline": "set/26",
+            "defaultWeight": 1,
+            "note": "Teste em canais como programática, UOL, Globo, TikTok, entre outros, com foco em ampliar alcance e levar mais usuários pro site."
+          },
+          {
+            "id": "sv-a3",
+            "title": "Captação de revendedor virtual (canal)",
+            "type": "numeric",
+            "direction": "up",
+            "baseline": 3,
+            "target": 7,
+            "unit": "% do online",
+            "deadline": "out/26",
+            "defaultWeight": 1,
+            "note": "Ação com foco em aumentar vendas pelo canal revendedor virtual — hoje 3% do online, meta desejável de 7%."
+          },
+          {
+            "id": "sv-a4",
+            "title": "Ativação de vendas via WhatsApp (Pliqz)",
+            "type": "deliverable",
+            "deadline": "dez/26",
+            "defaultWeight": 1,
+            "conditional": true,
+            "note": "Converter clientes com cadastro sem compra via bot da Pliqz — venda pelo WhatsApp automática, apenas via PIX."
+          },
+          {
+            "id": "sv-a5",
+            "title": "Teste de conversão em cidades definidas",
+            "type": "deliverable",
+            "deadline": "nov/26",
+            "defaultWeight": 1,
+            "note": "Campanha nas cidades V. Conselheiro Pena, Itueta, Aimorés e Mantena (região Vale) e Unaí, Paracatu, Itacarambi e Bocaiúva (Norte), com foco em aumento de vendas."
+          },
+          {
+            "id": "sv-a6",
+            "title": "Teste de régua de onboarding com foco em conversão",
+            "type": "deliverable",
+            "deadline": "out/26",
+            "defaultWeight": 2,
+            "note": "Testar régua que impacta novos cadastros nos últimos 3 dias com foco em compra."
+          },
+          {
+            "id": "sv-a7",
+            "title": "Teste de régua — cadastros últimos 30 dias sem compra + saldo",
+            "type": "deliverable",
+            "deadline": "nov/26",
+            "defaultWeight": 3,
+            "note": "Avaliar conversão de clientes com cadastro mas sem compra, aplicando saldo para essa base."
+          },
+          {
+            "id": "sv-a8",
+            "title": "Aumentar 10pp base de compradores 2026 (90,7k → 99,8k)",
+            "type": "numeric",
+            "direction": "up",
+            "baseline": 90701,
+            "target": 99771,
+            "unit": " clientes",
+            "deadline": "dez/26",
+            "defaultWeight": 3,
+            "note": "Foco em aumentar volume a partir de ações voltadas a trazer novos clientes. Base: clientes com compra em 2026 (90.701 — ERP, corte 31/08)."
+          }
+        ]
+      },
+      {
+        "name": "Retenção",
+        "krs": [
+          {
+            "id": "sv-r1",
+            "title": "Aumentar ROAS de canais de conversão (2,7 → 3,5)",
+            "type": "numeric",
+            "direction": "up",
+            "baseline": 2.7,
+            "target": 3.5,
+            "unit": "x",
+            "deadline": "dez/26",
+            "defaultWeight": 3,
+            "note": "Aumentar retorno de investimento nos canais com foco em conversão (Meta, Google, WhatsApp etc.)."
+          },
+          {
+            "id": "sv-r2",
+            "title": "Aumentar 25% tráfego das cidades do Norte (27,3k → 34,2k)",
+            "type": "numeric",
+            "direction": "up",
+            "baseline": 27330,
+            "target": 34163,
+            "unit": " visitas/mês",
+            "deadline": "dez/26",
+            "defaultWeight": 3,
+            "note": "Média de tráfego mensal das cidades do Norte: 27.330. Meta: +25% de out a dez/26, com e-mail, web push e outras ações de CRM."
+          }
+        ]
+      },
+      {
+        "name": "Reativação (Churn)",
+        "krs": [
+          {
+            "id": "sv-c1",
+            "title": "Reduzir base dormente — reversão de 10pp (119k → 107k)",
+            "type": "numeric",
+            "direction": "down",
+            "baseline": 118966,
+            "target": 107069,
+            "unit": " clientes",
+            "deadline": "dez/26",
+            "defaultWeight": 3,
+            "note": "Estimular clientes que já compraram uma vez na vida mas não compraram em 2026. Black Friday, Natal e campanhas de saldo como oportunidade."
+          }
+        ]
+      }
+    ]
+  }
 };
 
 const MONTH_IDX = {jan:1,fev:2,mar:3,abr:4,mai:5,jun:6,jul:7,ago:8,set:9,out:10,nov:11,dez:12};
@@ -237,6 +362,7 @@ function parseDeadlineMonth(deadline){
   if(!mi) return null;
   return mi;
 }
+function fmtNum(n){ return (typeof n==='number') ? n.toLocaleString('pt-BR',{maximumFractionDigits:2}) : n; }
 function fmtPacingVal(v, unit){
   if(unit==='%' || (unit && unit.includes('%'))) return (Math.round(v*10)/10)+ (unit==='%'?'%':unit);
   if(unit==='x') return (Math.round(v*100)/100)+'x';
@@ -278,20 +404,45 @@ const els = {
   resetBtn: document.getElementById('resetBtn'),
 };
 
+const SEED_VERSION = "2026-10-12";
+const SEED = {"krState": {"sv-a1": {"value": 2.7}, "sv-a2": {"done": true}, "sv-a3": {"value": 3.6}, "sv-a6": {"done": true}, "sv-a8": {"value": 96979}, "sv-r1": {"value": 4.6}, "sv-r2": {"value": 29989}, "sv-c1": {"value": 115512}}, "history": [{"date": "2026-10-12", "pct": 61.9206034955429}]};
+function seedState(){ return JSON.parse(JSON.stringify({seedVersion:SEED_VERSION, krState:SEED.krState, history:SEED.history})); }
 function storageKey(brand){ return `farol-okr:${brand}`; }
-function emptyState(){ return { krState:{}, history:[] }; }
+function emptyState(){ return seedState(); }
+
+async function storeGet(key){
+  try{
+    if(window.storage && typeof window.storage.get==='function'){
+      const r = await window.storage.get(key, false);
+      return (r && r.value) ? r.value : null;
+    }
+  }catch(e){}
+  try{ return localStorage.getItem(key); }catch(e){ return null; }
+}
+async function storeSet(key, val){
+  try{
+    if(window.storage && typeof window.storage.set==='function'){ await window.storage.set(key, val, false); return true; }
+  }catch(e){}
+  try{ localStorage.setItem(key, val); return true; }catch(e){ return false; }
+}
+async function storeDel(key){
+  try{ if(window.storage && typeof window.storage.delete==='function'){ await window.storage.delete(key, false); } }catch(e){}
+  try{ localStorage.removeItem(key); }catch(e){}
+}
 
 async function loadBrand(brand){
   if(cache[brand]) return cache[brand];
+  let st = null;
   try{
-    const res = await window.storage.get(storageKey(brand), false);
-    cache[brand] = (res && res.value) ? JSON.parse(res.value) : emptyState();
-  } catch(e){ cache[brand] = emptyState(); }
+    const raw = await storeGet(storageKey(brand));
+    if(raw){ const p = JSON.parse(raw); if(p && p.seedVersion===SEED_VERSION) st = p; }
+  }catch(e){}
+  cache[brand] = st || seedState();
   return cache[brand];
 }
 async function saveBrand(brand){
-  try{ await window.storage.set(storageKey(brand), JSON.stringify(cache[brand]), false); }
-  catch(e){ console.error(e); alert('Não foi possível salvar agora. Tente novamente.'); }
+  const ok = await storeSet(storageKey(brand), JSON.stringify(cache[brand]));
+  if(!ok) alert('Não foi possível salvar neste navegador. Tente novamente.');
 }
 
 function getKRState(state, krId){ return state.krState[krId] || {}; }
@@ -422,7 +573,7 @@ function renderKRPanel(brandKey, state){
       if(kr.type==='deliverable'){
         inputHtml = `<label class="kr-checkbox"><input type="checkbox" data-kr="${kr.id}" data-kind="done" ${st.done?'checked':''}/> ${st.done?'Concluído':'Pendente'}</label>`;
       } else if(kr.type==='threshold'){
-        inputHtml = `<div class="kr-input-wrap"><span class="arrow">≥${kr.target}${kr.unit}</span><input type="number" step="any" placeholder="atual" data-kr="${kr.id}" data-kind="value" value="${st.value ?? ''}"/></div>`;
+        inputHtml = `<div class="kr-input-wrap"><span class="arrow">≥${fmtNum(kr.target)}${kr.unit}</span><input type="number" step="any" placeholder="atual" data-kr="${kr.id}" data-kind="value" value="${st.value ?? ''}"/></div>`;
       } else if(kr.editableRange){
         inputHtml = `<div class="baseline-target-inline">
           <input type="number" step="any" placeholder="base" data-kr="${kr.id}" data-kind="baseline" value="${st.baseline ?? ''}"/>
@@ -431,7 +582,7 @@ function renderKRPanel(brandKey, state){
           <input type="number" step="any" placeholder="atual" data-kr="${kr.id}" data-kind="value" value="${st.value ?? ''}" style="margin-left:6px;"/>
         </div>`;
       } else {
-        inputHtml = `<div class="kr-input-wrap"><span class="arrow">${kr.baseline}→${kr.target}${kr.unit}</span><input type="number" step="any" placeholder="atual" data-kr="${kr.id}" data-kind="value" value="${st.value ?? ''}"/></div>`;
+        inputHtml = `<div class="kr-input-wrap"><span class="arrow">${fmtNum(kr.baseline)}→${fmtNum(kr.target)}${kr.unit}</span><input type="number" step="any" placeholder="atual" data-kr="${kr.id}" data-kind="value" value="${st.value ?? ''}"/></div>`;
       }
       let excludeHtml = '';
       if(kr.conditional){
@@ -609,10 +760,9 @@ async function renderAll(){
 }
 
 els.resetBtn.onclick = async ()=>{
-  const brandLabel = KR_DATA[activeBrand].label;
-  if(!confirm(`Limpar todos os dados de ${brandLabel}? Essa ação não pode ser desfeita.`)) return;
-  try{ await window.storage.delete(storageKey(activeBrand), false); } catch(e){}
-  cache[activeBrand] = emptyState();
+  if(!confirm('Descartar alterações feitas neste navegador e voltar aos valores publicados (12/10/2026)?')) return;
+  await storeDel(storageKey(activeBrand));
+  cache[activeBrand] = seedState();
   renderAll();
 };
 

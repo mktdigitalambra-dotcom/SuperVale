@@ -335,12 +335,13 @@
   <div class="pills">
     <label class="ed-select-wrap"><span class="sr-only">Edição</span>
       <select id="ed-select" class="edition-pill ed-select" aria-label="Filtro de edição">
-        <option value="448" selected>Edição 448 · R$ 20,00 · 11/10/2026</option>
+        <option value="449" selected>Edição 449 · R$ 10,00 · 18/10/2026</option>
+        <option value="448">Edição 448 · R$ 20,00 · 11/10/2026</option>
         <option value="447">Edição 447 · R$ 10,00 · 04/10/2026</option>
         <option value="446">Edição 446 · R$ 10,00 · 27/09/2026</option>
       </select>
     </label>
-    <div class="edition-pill" id="ed-periodo">04/10 a 10/10/2026</div>
+    <div class="edition-pill" id="ed-periodo">11/10 a 17/10/2026</div>
   </div>
 </header>
 
@@ -505,7 +506,169 @@
 
 </section>
 
-<section class="edition" data-ed="448">
+<section class="edition" data-ed="449">
+<!-- CARD 1 -->
+<h2 class="section-title">Vendas gerais</h2>
+<p class="section-desc">Total de títulos vendidos na edição, separados entre canal físico e canais online. Fonte: Tabela - Super Vale, edição 449.</p>
+
+<div class="kpi-row six">
+  <div class="kpi-card total"><div class="label">Total de vendas</div><div class="value">66.849</div><div class="foot">títulos na edição</div></div>
+  <div class="kpi-card fisico"><div class="label">Total físico</div><div class="value">54.898</div><div class="foot">82,1% do total · Físico, Pos Comum e Pos Smart</div></div>
+  <div class="kpi-card online"><div class="label">Total online</div><div class="value">11.951</div><div class="foot">App, Compra Rápida, Rev. Virtual e Site</div></div>
+  <div class="kpi-card share"><div class="label">% Online no total</div><div class="value">17,9%</div><div class="foot">11.951 de 66.849</div></div>
+  <div class="kpi-card extra"><div class="label">Cartelas vendidas</div><div class="value">11.960</div><div class="foot">em 9.821 compras</div></div>
+  <div class="kpi-card extra"><div class="label">Média de cartelas por compra</div><div class="value">1,22</div><div class="foot">cartelas ÷ compras</div></div>
+</div>
+
+<!-- CARD 2 -->
+<h2 class="section-title">Vendas canal online</h2>
+<p class="section-desc">Distribuição das vendas online por origem. Os percentuais são calculados sobre o total online da edição (11.951), e não sobre o total geral. Fonte: Tabela - Super Vale, edição 449.</p>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="valores">
+      <thead><tr><th>Origem</th><th>Vendas</th><th>% do online</th></tr></thead>
+      <tbody>
+        <tr><td>Site</td><td>11.064</td><td>92,6%</td></tr>
+        <tr><td>Revendedor Virtual</td><td>487</td><td>4,1%</td></tr>
+        <tr><td>App</td><td>224</td><td>1,9%</td></tr>
+        <tr><td>Compra Rápida</td><td>176</td><td>1,5%</td></tr>
+        <tr class="tt"><td>Total online</td><td>11.951</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CARD 3 -->
+<h2 class="section-title">Vendas origem mídia, CRM e online geral</h2>
+<p class="section-desc">% calculado sobre o total de vendas online da edição (11.951). Receita = vendas × ticket de R$ 10,00. ROAS = receita ÷ investimento. CPA = investimento ÷ vendas.</p>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="valores">
+      <thead><tr><th>Origem</th><th>Vendas</th><th>% do online</th><th>Investimento</th><th>Receita</th><th>ROAS</th><th>CPA</th></tr></thead>
+      <tbody>
+        <tr class="group"><td>Mídia</td><td>2.541</td><td>21,3%</td><td>R$ 12.723,00</td><td>R$ 25.410,00</td><td>2,0</td><td>R$ 5,01</td></tr>
+        <tr class="group"><td>CRM</td><td>486</td><td>4,1%</td><td>R$ 2.175,00</td><td>R$ 4.860,00</td><td>2,2</td><td>R$ 4,48</td></tr>
+        <tr class="tt"><td>Online geral</td><td>11.951</td><td>100%</td><td>R$ 14.898,00</td><td>R$ 119.510,00</td><td>8,0</td><td>R$ 1,25</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">Vendas e investimento de mídia vêm da Tabela - Super Vale (colunas Mídia e Investimento), considerando todos os canais de mídia. Vendas de CRM vêm do GA4 (agrupamento "Sessão Super Vale"); investimento de CRM semanal fixo de R$ 2.175. O investimento do Online geral soma mídia e CRM.</div>
+</div>
+
+<div class="card">
+  <h3>Mídia de conversão · Meta e Google</h3>
+  <p class="hint">Apenas campanhas de conversão, com vendas e investimento direto das plataformas (Windsor.ai), sem imposto. Período de 11/10 a 17/10/2026. % calculado sobre o total de vendas online da edição.</p>
+  <div class="table-wrap">
+    <table class="valores">
+      <thead><tr><th>Campanha</th><th>Vendas</th><th>% do online</th><th>Investimento</th><th>Receita</th><th>ROAS</th><th>CPA</th></tr></thead>
+      <tbody>
+        <tr class="group"><td>Meta Ads</td><td>2.290</td><td>19,2%</td><td>R$ 5.169,38</td><td>R$ 22.900,00</td><td>4,4</td><td>R$ 2,26</td></tr>
+        <tr class="sub"><td>CONVERSÃO_Super-Vale_AON</td><td>1.329</td><td>11,1%</td><td>R$ 3.033,16</td><td>R$ 13.290,00</td><td>4,4</td><td>R$ 2,28</td></tr>
+        <tr class="sub"><td>CONVERSÃO_Super-Vale_RMKT</td><td>961</td><td>8,0%</td><td>R$ 2.136,22</td><td>R$ 9.610,00</td><td>4,5</td><td>R$ 2,22</td></tr>
+        <tr class="group"><td>Google Ads</td><td>57</td><td>0,5%</td><td>R$ 784,19</td><td>R$ 570,00</td><td>0,7</td><td>R$ 13,76</td></tr>
+        <tr class="sub"><td>search_super-vale_aon</td><td>50</td><td>0,4%</td><td>R$ 748,61</td><td>R$ 500,00</td><td>0,7</td><td>R$ 14,97</td></tr>
+        <tr class="sub"><td>pmax_super-vale_aon</td><td>7</td><td>0,1%</td><td>R$ 35,58</td><td>R$ 70,00</td><td>2,0</td><td>R$ 5,08</td></tr>
+        <tr class="tt"><td>Total conversão</td><td>2.347</td><td>19,6%</td><td>R$ 5.953,57</td><td>R$ 23.470,00</td><td>3,9</td><td>R$ 2,54</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">As vendas do Google são atribuídas à data do clique e podem crescer nos dias seguintes ao fim da semana, à medida que compras atrasadas são registradas.</div>
+</div>
+
+<!-- CARD 4 -->
+<h2 class="section-title">Sessões por origem</h2>
+<p class="section-desc">Google Analytics 4, site Super Vale, de 11/10 a 17/10/2026. Origem pelo agrupamento de canais "Sessão Super Vale", criado pelo time no GA4.</p>
+
+<div class="card">
+  <div class="table-wrap scroll-y">
+    <table class="valores">
+      <thead><tr><th>Origem</th><th>Sessões</th><th>Usuários</th><th>Novos usuários</th><th>Add to cart</th><th>Finalização</th><th>Compras</th></tr></thead>
+      <tbody>
+        <tr><td>Direct</td><td>45.584</td><td>26.993</td><td>2.951</td><td>6.114</td><td>4.162</td><td>1.043</td></tr>
+        <tr><td>Organic Search</td><td>10.956</td><td>6.467</td><td>1.864</td><td>1.531</td><td>914</td><td>354</td></tr>
+        <tr><td>Pago</td><td>9.732</td><td>7.348</td><td>5.415</td><td>643</td><td>342</td><td>140</td></tr>
+        <tr><td>Nativo</td><td>5.666</td><td>3.969</td><td>160</td><td>5.642</td><td>4.180</td><td>958</td></tr>
+        <tr><td>CRM</td><td>5.561</td><td>3.015</td><td>283</td><td>2.999</td><td>1.900</td><td>486</td></tr>
+        <tr><td>Redes Sociais</td><td>516</td><td>419</td><td>201</td><td>483</td><td>235</td><td>117</td></tr>
+        <tr><td>Unassigned</td><td>348</td><td>20.433</td><td>45</td><td>194</td><td>113</td><td>8.950</td></tr>
+        <tr><td>QR Code</td><td>348</td><td>252</td><td>135</td><td>155</td><td>67</td><td>21</td></tr>
+        <tr><td>Referral</td><td>42</td><td>29</td><td>4</td><td>22</td><td>15</td><td>5</td></tr>
+        <tr><td>IA's</td><td>2</td><td>2</td><td>2</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr class="tt"><td>Total</td><td>79.231</td><td>58.262</td><td>11.060</td><td>17.784</td><td>11.928</td><td>12.074</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">Uma mesma pessoa pode visitar o site por mais de uma origem na semana. Por isso, somando os usuários linha a linha, o resultado fica maior que o total.</div>
+</div>
+
+<!-- CARD 5 -->
+<h2 class="section-title">Origem da sessão · mídia e CRM</h2>
+<p class="section-desc">Google Analytics 4, site Super Vale, de 11/10 a 17/10/2026. Detalhado por origem / mídia da sessão.</p>
+
+<div class="card">
+  <div class="table-wrap scroll-y">
+    <table class="valores">
+      <thead><tr><th>Origem / mídia</th><th>Sessões</th><th>Usuários</th><th>Novos usuários</th><th>Add to cart</th><th>Finalização</th><th>Compras</th></tr></thead>
+      <tbody>
+        <tr class="group"><td>Mídia (pago)</td><td>9.828</td><td>7.423</td><td>5.415</td><td>643</td><td>342</td><td>140</td></tr>
+        <tr class="sub"><td>facebook / cpc</td><td>5.849</td><td>4.898</td><td>3.594</td><td>471</td><td>231</td><td>103</td></tr>
+        <tr class="sub"><td>tiktok / cpc</td><td>2.715</td><td>1.745</td><td>1.520</td><td>1</td><td>1</td><td>0</td></tr>
+        <tr class="sub"><td>google / cpc</td><td>1.002</td><td>524</td><td>49</td><td>164</td><td>110</td><td>37</td></tr>
+        <tr class="sub"><td>programatica / cpc</td><td>262</td><td>256</td><td>252</td><td>7</td><td>0</td><td>0</td></tr>
+        <tr class="group"><td>CRM</td><td>5.569</td><td>3.146</td><td>283</td><td>2.999</td><td>1.900</td><td>486</td></tr>
+        <tr class="sub"><td>crm / web push</td><td>4.465</td><td>2.396</td><td>85</td><td>2.251</td><td>1.454</td><td>336</td></tr>
+        <tr class="sub"><td>crm / email</td><td>1.033</td><td>710</td><td>193</td><td>709</td><td>417</td><td>142</td></tr>
+        <tr class="sub"><td>crm / popup</td><td>71</td><td>40</td><td>5</td><td>39</td><td>29</td><td>8</td></tr>
+        <tr class="tt"><td>Mídia + CRM</td><td>15.397</td><td>10.569</td><td>5.698</td><td>3.642</td><td>2.242</td><td>626</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">google / cpc junta todas as campanhas do Google (PMax e Busca). Uma mesma pessoa pode aparecer em mais de uma linha, então os usuários dos subtotais podem ficar um pouco acima do real.</div>
+</div>
+
+<div class="card">
+  <h3>Compras: ERP x GA4 x Insider</h3>
+  <p class="hint">Cada fonte mede de um jeito: o ERP conta títulos vendidos online, o GA4 conta eventos de compra no site e o Insider conta os compradores identificados na plataforma na semana.</p>
+  <div class="table-wrap">
+    <table class="valores">
+      <thead><tr><th>Fonte</th><th>Compras</th><th>Diferença vs ERP</th></tr></thead>
+      <tbody>
+        <tr><td>ERP (online)</td><td>11.951</td><td>—</td></tr>
+        <tr><td>GA4</td><td>12.074</td><td>+123 (+1,0%)</td></tr>
+        <tr class="pending"><td>Insider</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">Insider (total de compradores da semana) aguardando os dados da edição 449.</div>
+</div>
+
+<!-- LEITURA FINAL -->
+<h2 class="section-title">Leitura final</h2>
+
+<div class="leituras">
+  <h3>Mídia</h3>
+  <ul>
+    <li>As campanhas de conversão do <b>Meta Ads</b> geraram <b>2.290 vendas</b> com R$ 5.169 investidos, CPA de <b>R$ 2,26</b>. A AON teve 1.329 vendas (CPA de R$ 2,28) e a <b>RMKT</b> 961 (CPA de R$ 2,22, o menor da conta). A campanha de WhatsApp não teve investimento na semana.</li>
+    <li>O <b>Google Ads</b> gerou <b>57 vendas</b> com R$ 784 investidos, CPA de <b>R$ 13,76</b>. O Search concentrou 50 vendas (CPA de R$ 14,97), e o PMax teve 7 vendas com R$ 36 investidos.</li>
+    <li>O <b>TikTok Ads</b> trouxe <b>2.715 sessões</b> ao site. É a <b>segunda maior origem de visitas da mídia paga</b>, atrás apenas do Meta Ads (5.849 sessões).</li>
+  </ul>
+  <h3 class="sub-h">CRM</h3>
+  <ul>
+    <li>O CRM gerou <b>486 vendas</b> (4,1% do online), com R$ 2.175 investidos na semana: <b>ROAS de 2,2</b> e CPA de <b>R$ 4,48</b>.</li>
+    <li>Na comparação com a edição anterior de mesmo valor (<b>ed. 447</b>, de 27/09 a 03/10, R$ 10), as vendas de CRM subiram de <b>421 para 486</b> (+15,4%).</li>
+    <li>O <b>web push</b> concentrou 80% das sessões de CRM e 69% das vendas (336). O <b>e-mail</b> respondeu por 142 vendas (29%) e o <b>pop-up</b> por 8.</li>
+    <li>Na conversão de sessão em compra, o <b>e-mail</b> teve 13,7%, o web push 7,5% e o pop-up 11,3%.</li>
+  </ul>
+  <h3 class="sub-h">Mensuração</h3>
+  <ul>
+    <li>As compras sem origem identificada ("Unassigned") no GA4 ficaram em <b>74%</b> do total (8.950 de 12.074), contra 73% na edição 448.</li>
+  </ul>
+</div>
+</section>
+
+<section class="edition" data-ed="448" hidden>
 <!-- CARD 1 -->
 <h2 class="section-title">Vendas gerais</h2>
 <p class="section-desc">Total de títulos vendidos na edição, separados entre canal físico e canais online. Fonte: Tabela - Super Vale, edição 448.</p>
@@ -834,12 +997,13 @@
 </div>
 </section>
 
-<footer id="ed-footer">Super Vale · Report semanal · Edição 448 · Sorteio 11/10/2026</footer>
+<footer id="ed-footer">Super Vale · Report semanal · Edição 449 · Sorteio 18/10/2026</footer>
 
 
 <script>
 (function(){
   var ED={
+    "449":{periodo:"11/10 a 17/10/2026",footer:"Super Vale · Report semanal · Edição 449 · Sorteio 18/10/2026"},
     "448":{periodo:"04/10 a 10/10/2026",footer:"Super Vale · Report semanal · Edição 448 · Sorteio 11/10/2026"},
     "447":{periodo:"27/09 a 03/10/2026",footer:"Super Vale · Report semanal · Edição 447 · Sorteio 04/10/2026"},
     "446":{periodo:"20/09 a 26/09/2026",footer:"Super Vale · Report semanal · Edição 446 · Sorteio 27/09/2026"}

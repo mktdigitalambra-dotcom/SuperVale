@@ -378,17 +378,50 @@ tr.total-row td{font-weight:700;background:#f5f4f0;border-top:1px solid #d3d1c7}
   <div class="cvx-foot">Ambra · CRM · 2026</div>
 </div>
 <!-- END COVER -->
+<div id="fluxo-panel" style="display:none;max-width:1180px;margin:0 auto;padding:24px 16px;font-family:inherit">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button onclick="backFromFluxo()" style="background:#f0efe9;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:12px;color:#636057;font-family:inherit">← Voltar</button>
+    <div style="font-size:11px;color:#888">Dashboard CRM · Arquitetura</div>
+  </div>
+  <div id="fluxo-panel-content"></div>
+</div>
 
-
-
+<div id="ideias-panel" style="display:none;max-width:900px;margin:0 auto;padding:24px 16px;font-family:inherit">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button onclick="backFromIdeias()" style="background:#f0efe9;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:12px;color:#636057;display:flex;align-items:center;gap:6px">
+      ← Voltar
+    </button>
+    <div style="font-size:11px;color:#888">Dashboard CRM · Planejamento</div>
+  </div>
+  <div id="ideias-panel-content"></div>
+</div>
 
 
 
 <script id="cover-logic">
-
-
-
-
+async function showIdeias(){
+  document.getElementById('cover').style.display='none';
+  document.getElementById('ideias-panel').style.display='block';
+  var el = document.getElementById('ideias-panel-content');
+  if(el) el.innerHTML = '<div style="padding:40px;text-align:center;color:#888">A carregar...</div>';
+  await pmoLoad();
+  rPMO();
+}
+function backFromIdeias(){
+  document.getElementById('ideias-panel').style.display='none';
+  document.getElementById('cover').style.display='block';
+}
+function showFluxo(){
+  document.getElementById('cover').style.display='none';
+  document.getElementById('fluxo-panel').style.display='block';
+  rFluxo();
+  try{ history.replaceState(null,'','#fluxo'); }catch(e){}
+}
+function backFromFluxo(){
+  document.getElementById('fluxo-panel').style.display='none';
+  document.getElementById('cover').style.display='block';
+  try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){}
+}
 
 var CAP_COL = {
   mc: { primary:'#E30613', light:'#fff0f0', border:'#E30613', tabOn:'#E30613' },
@@ -445,7 +478,7 @@ function backToCover() {
 function urlEntrarPeloLink() {
   var h = (location.hash || '').replace(/^#/, '');
   if (!h) return false;
-  
+  if (h === 'fluxo') { showFluxo(); return true; }
   var p = h.split('/'), aba = p[0], c = p[1];
   if (!document.getElementById('t-' + aba)) return false;
   c='sv';
@@ -654,6 +687,8 @@ const FECHO = {
       {mes:'Ago/2026', total:119340, roas:1.6},
       {mes:'Set/2026', total:45975, roas:1.0},
       {mes:'Out/2026', total:107865, roas:1.8}
+    ,
+      {mes:'Nov/2026', total:25965, roas:1.7}
     ],
     meses:[
 
@@ -675,6 +710,9 @@ const FECHO = {
        eds:[{ed:536,val:20,rv:36990,comp:1595},{ed:537,val:15,rv:null,comp:null,ga4_falha:true},{ed:538,val:15,rv:7125,comp:407,parcial:true},{ed:539,val:15,rv:1860,comp:100,parcial:true}]},
       {mes:'Out/2026', total:107865, roas:1.8,
        eds:[{ed:540,val:15,rv:19980,comp:1137,parcial:true},{ed:541,val:20,rv:34555,comp:1552},{ed:542,val:15,rv:32790,comp:1876},{ed:543,val:15,rv:20540,comp:1151}]}
+    ,
+      {mes:'Nov/2026', total:25965, roas:1.7,
+       eds:[{ed:544,val:20,rv:25965,comp:1154}]}
     ]
   },
   sm:{
@@ -691,6 +729,8 @@ const FECHO = {
       {mes:'Ago/2026', total:42765, roas:2.0},
       {mes:'Set/2026', total:40110, roas:2.3},
       {mes:'Out/2026', total:45160, roas:2.6}
+    ,
+      {mes:'Nov/2026', total:7270, roas:1.7}
     ],
     meses:[
 
@@ -712,6 +752,9 @@ const FECHO = {
        eds:[{ed:452,val:20,rv:11490,comp:525},{ed:453,val:15,rv:8845,comp:515},{ed:454,val:15,rv:9975,comp:598},{ed:455,val:15,rv:9800,comp:569}]},
       {mes:'Out/2026', total:45160, roas:2.6,
        eds:[{ed:456,val:15,rv:10320,comp:619},{ed:457,val:20,rv:13115,comp:606},{ed:458,val:15,rv:11165,comp:632},{ed:459,val:15,rv:10560,comp:613}]}
+    ,
+      {mes:'Nov/2026', total:7270, roas:1.7,
+       eds:[{ed:460,val:15,rv:7270,comp:420}]}
     ]
   },
   sv:{
@@ -728,6 +771,8 @@ const FECHO = {
       {mes:'Ago/2026', total:19870, roas:1.8},
       {mes:'Set/2026', total:19155, roas:2.2},
       {mes:'Out/2026', total:25260, roas:2.9}
+    ,
+      {mes:'Nov/2026', total:3780, roas:1.7}
     ],
     meses:[
 
@@ -749,6 +794,9 @@ const FECHO = {
        eds:[{ed:443,val:15,rv:5125,comp:272},{ed:444,val:10,rv:4425,comp:351},{ed:445,val:10,rv:4645,comp:375},{ed:446,val:10,rv:4960,comp:412}]},
       {mes:'Out/2026', total:25260, roas:2.9,
        eds:[{ed:447,val:10,rv:5300,comp:421},{ed:448,val:20,rv:8680,comp:388},{ed:449,val:10,rv:6280,comp:485},{ed:450,val:10,rv:5000,comp:393}]}
+    ,
+      {mes:'Nov/2026', total:3780, roas:1.7,
+       eds:[{ed:451,val:10,rv:3780,comp:289}]}
     ],
     metas:{meses:[
       {mes:'Jun/2026',eds:[{ed:430,val:10,mf:5214,mr:2.5,ef:6580,er:3.2},{ed:431,val:20,mf:12920,mr:6.2,ef:13040,er:6.3},{ed:432,val:10,mf:5214,mr:2.5,ef:6510,er:3.1},{ed:433,val:10,mf:5214,mr:2.5,ef:5290,er:2.5}],tm:28563,te:31490,tr:3.8}
@@ -2787,16 +2835,204 @@ function buildCard(idea){
   return html;
 }
 
+function rPMO(){
+  var el = document.getElementById('ideias-panel-content');
+  var out = '';
 
+  var statusCfg = {
+    em_andamento: {label:'Em andamento',bg:'#e6f4ff',col:'#0066cc',dot:'#0066cc'},
+    planejado:    {label:'Planejado',   bg:'#f8f7f4',col:'#636057',dot:'#aaa'},
+    concluido:    {label:'Concluído',   bg:'#f0fff8',col:'#1D9E75',dot:'#1D9E75'},
+    bloqueado:    {label:'Bloqueado',   bg:'#fff0f0',col:'#E30613',dot:'#E30613'},
+  };
 
+  // ── Header
+  out += '<div style="background:linear-gradient(135deg,#0a1f4e 0%,#0d2b6b 60%,#1a3a80 100%);border-radius:12px;padding:20px 24px;margin-bottom:1.2rem">';
+  out += '<div style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">PMO · CRM</div>';
+  out += '<div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:4px">📋 '+PMO.projeto+'</div>';
 
+  // Equipe chips
+  out += '<div style="display:flex;gap:8px;flex-wrap:wrap">';
+  PMO.equipe.forEach(function(p){
+    var col = p==='Fernanda'?'#FDC300':p==='Aline'?'#7DD3FC':'#F9A8D4';
+    out += '<div style="background:rgba(255,255,255,.08);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:700;color:'+col+'">'+p+'</div>';
+  });
+  out += '</div>';
+  // Summary counts
+  var total = 0, em_and = 0, plan = 0, conc = 0;
+  PMO.semanas.forEach(function(s){ s.acoes.forEach(function(a){ total++; if(a.status==='em_andamento') em_and++; else if(a.status==='planejado') plan++; else if(a.status==='concluido') conc++; }); });
+  out += '<div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">';
+  [[total,'Total','#fff'],[em_and,'Em andamento','#7DD3FC'],[plan,'Planejadas','#aaa'],[conc,'Concluídas','#1D9E75']].forEach(function(k){
+    out += '<div style="background:rgba(255,255,255,.06);border-radius:8px;padding:8px 16px;text-align:center"><div style="font-size:10px;color:rgba(255,255,255,.35)">'+k[1]+'</div><div style="font-size:20px;font-weight:700;color:'+k[2]+'">'+k[0]+'</div></div>';
+  });
+  out += '</div></div>';
 
+  // ── Semanas
+  PMO.semanas.forEach(function(sem){
+    out += '<div style="margin-bottom:1.2rem">';
+    out += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:.6rem">';
+    out += '<div style="font-size:12px;font-weight:700;color:#1a1916">'+sem.label+'</div>';
+    out += '<div style="font-size:11px;color:#888;background:#f0efe9;padding:2px 10px;border-radius:99px">'+sem.periodo+'</div>';
+    out += '<div style="flex:1;height:1px;background:#e8e6e0"></div></div>';
 
+    sem.acoes.forEach(function(a){
+      var sc = statusCfg[a.status] || statusCfg.planejado;
+      var tagCol = a.tag==='CONVERSÃO'?'#1D9E75':'#378ADD';
+      var tid = 'pmo-'+a.id;
+
+      out += '<div style="background:#fff;border:1px solid #e8e6e0;border-radius:10px;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)">';
+
+      // Card header — clickable
+      out += '<div onclick="pmoToggle(\''+tid+'\')" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 16px;border-left:4px solid '+tagCol+'">';
+      out += '<div style="width:8px;height:8px;border-radius:50%;background:'+sc.dot+';flex-shrink:0"></div>';
+      out += '<div style="flex:1">';
+      out += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px">';
+      out += '<div style="font-size:13px;font-weight:700;color:#1a1916">'+a.nome+'</div>';
+      out += '<span style="font-size:9px;font-weight:700;background:'+tagCol+'18;color:'+tagCol+';padding:2px 7px;border-radius:99px;text-transform:uppercase;letter-spacing:.06em">'+a.tag+'</span>';
+      out += '</div>';
+      out += '<div style="display:flex;gap:10px;font-size:10px;color:#888;flex-wrap:wrap">';
+      out += '<span>'+a.caps.join(' · ')+'</span>';
+      out += '<span>'+a.resp.join(' · ')+'</span>';
+      out += '<span>'+a.inicio+' → '+a.entrega+'</span>';
+      out += '</div></div>';
+      out += '<span style="font-size:10px;font-weight:700;background:'+sc.bg+';color:'+sc.col+';padding:3px 10px;border-radius:99px;white-space:nowrap;flex-shrink:0">'+sc.label+'</span>';
+      out += '</div>';
+
+      // Card body
+      out += '<div id="'+tid+'" style="display:none;padding:14px 16px;border-top:1px solid #f0efe9">';
+
+      // Description
+      out += '<div style="font-size:12px;color:#1a1916;line-height:1.6;margin-bottom:10px">'+a.descricao+'</div>';
+
+      // Canais
+      out += '<div style="margin-bottom:10px">';
+      out += '<div style="background:#f8f7f4;border-radius:7px;padding:8px 12px;display:inline-block"><div style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px">Canais</div><div style="font-size:11px;font-weight:700">'+a.canal.join(' · ')+'</div></div>';
+      out += '</div>';
+
+      // Status selector
+      out += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">';
+      out += '<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.08em">Status:</div>';
+      ['planejado','em_andamento','concluido','bloqueado'].forEach(function(st){
+        var sc2 = statusCfg[st];
+        var sel = a.status===st;
+      var sel = a.status===st; out += '<button data-aid="'+a.id+'" data-st="'+st+'" onclick="pmoSetStatus(this.dataset.aid,this.dataset.st)" style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid '+(sel?sc2.col:'#ddd')+';background:'+(sel?sc2.bg:'#fff')+';color:'+(sel?sc2.col:'#aaa')+';cursor:pointer">'+sc2.label+'</button>';
+      });
+      out += '</div>';
+
+      // Comentários + Histórico — sempre visíveis
+      out += '<div>';
+      out += '<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">💬 Comentários & Histórico</div>';
+      out += '<div id="hist-'+a.id+'" style="margin-bottom:8px">';
+      if(a.comentarios && a.comentarios.length){
+        a.comentarios.forEach(function(c){ out += '<div style="font-size:11px;background:#f8f7f4;border-radius:6px;padding:6px 10px;margin-bottom:4px">'+c+'</div>'; });
+      }
+      if(a.historico && a.historico.length){
+        a.historico.forEach(function(h){ out += '<div style="font-size:10px;color:#aaa;padding:3px 8px;border-left:2px solid #e8e6e0;margin-bottom:3px;font-style:italic">'+h+'</div>'; });
+      }
+      if((!a.comentarios||!a.comentarios.length)&&(!a.historico||!a.historico.length)){
+        out += '<div style="font-size:11px;color:#bbb;font-style:italic">Nenhum comentário ainda.</div>';
+      }
+      out += '</div>';
+      out += '<div style="display:flex;gap:6px">';
+      out += '<input id="inp-'+a.id+'" type="text" placeholder="Adicionar comentário..." style="flex:1;font-size:11px;padding:6px 10px;border:1px solid #e8e6e0;border-radius:6px;outline:none">';
+      out += '<button data-id="'+a.id+'" onclick="pmoAddComment(this.dataset.id)" style="font-size:11px;font-weight:700;padding:6px 14px;border-radius:6px;border:none;background:#1a1916;color:#fff;cursor:pointer">Adicionar</button>';
+      out += '</div>';
+      out += '</div>';
+      out += '</div></div>';
+
+      out += '</div></div>';
+    });
+    out += '</div>';
+  });
+
+  // ── Após setembro
+  out += '<div style="display:flex;align-items:center;gap:8px;margin:1.4rem 0 .6rem">';
+  out += '<div style="width:10px;height:10px;border-radius:50%;background:#636057"></div>';
+  out += '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#636057">Após Setembro</div>';
+  out += '<div style="flex:1;height:1px;background:#e8e6e0"></div></div>';
+  out += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px">';
+  PMO.apos_setembro.forEach(function(a){
+    var tagCol = a.tag==='CONVERSÃO'?'#1D9E75':'#378ADD';
+    out += '<div style="background:#fff;border:1px solid #e8e6e0;border-radius:8px;padding:10px 14px;border-left:3px solid '+tagCol+'">';
+    out += '<div style="font-size:12px;font-weight:700;color:#1a1916;margin-bottom:3px">'+a.nome+'</div>';
+    out += '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:10px">';
+    out += '<span style="background:'+tagCol+'18;color:'+tagCol+';padding:1px 7px;border-radius:99px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">'+a.tag+'</span>';
+    out += '<span style="color:#888">'+a.resp.join(' · ')+'</span>';
+    out += '</div></div>';
+  });
+  out += '</div>';
+
+  el.innerHTML = out;
+}
+
+function pmoToggle(id){
+  var el = document.getElementById(id);
+  if(el) el.style.display = el.style.display==='none'?'block':'none';
+}
+
+async function pmoSetStatus(acaoId, novoStatus){
+  PMO.semanas.forEach(function(s){
+    s.acoes.forEach(function(a){
+      if(a.id===acaoId){
+        var old = a.status;
+        a.status = novoStatus;
+        var ts = new Date().toLocaleDateString('pt-BR');
+        var statusLabels = {em_andamento:'Em andamento',planejado:'Planejado',concluido:'Concluído',bloqueado:'Bloqueado'};
+        a.historico.push(ts+' — Status alterado de "'+statusLabels[old]+'" para "'+statusLabels[novoStatus]+'"');
+      }
+    });
+  });
+  await pmoSave();
+  rPMO();
+}
 
 var PMO_URL = 'https://script.google.com/macros/s/AKfycbxJlwOFD4xWsxQ3A4Ysd-EhPX5SfPI6bN9u8ZavfsGZER9MJJLp9qZ9VHj-C8qgjgdd/exec';
-
-
-
+async function pmoSave(){
+  try{
+    var form = new FormData();
+    form.append('data', JSON.stringify(PMO.semanas));
+    await fetch(PMO_URL, {method:'POST', body:form, mode:'no-cors'});
+  } catch(e){ console.warn('pmoSave error:', e); }
+}
+async function pmoLoad(){
+  try{
+    var res = await fetch(PMO_URL);
+    var text = await res.text();
+    if(text && text !== '{}'){
+      var data = JSON.parse(text);
+      if(Array.isArray(data)){
+        data.forEach(function(sem, si){
+          if(PMO.semanas[si]){
+            sem.acoes.forEach(function(a, ai){
+              if(PMO.semanas[si].acoes[ai]){
+                PMO.semanas[si].acoes[ai].comentarios = a.comentarios || [];
+                PMO.semanas[si].acoes[ai].historico = a.historico || [];
+                PMO.semanas[si].acoes[ai].status = a.status || PMO.semanas[si].acoes[ai].status;
+              }
+            });
+          }
+        });
+      }
+    }
+  } catch(e){ console.warn('pmoLoad error:', e); }
+}
+async function pmoAddComment(acaoId){
+  var inp = document.getElementById('inp-'+acaoId);
+  if(!inp || !inp.value.trim()) return;
+  var ts = new Date().toLocaleDateString('pt-BR');
+  var txt = inp.value.trim();
+  inp.value = '';
+  PMO.semanas.forEach(function(s){
+    s.acoes.forEach(function(a){
+      if(a.id===acaoId){
+        a.comentarios.push(ts+' — '+txt);
+        a.historico.push(ts+' — Comentário adicionado');
+      }
+    });
+  });
+  await pmoSave();
+  rPMO();
+}
 
   // Chart data computed from channel metrics
   function rDiaPaisCharts(){
@@ -3366,6 +3602,12 @@ const SESSCONV = {
      ch:[{n:'Web Push',s:11390,t:520,r:9365,best:{n:'Sábado 24/10',s:2926,t:293,r:5475}},{n:'Email',s:9275,t:452,r:7890,best:{n:'Sábado 24/10',s:1786,t:194,r:3180}},{n:'Architect',s:5015,t:179,r:3285,best:{n:'Sábado 24/10',s:1357,t:85,r:1485}}],
      dias:[{d:'18/out dom',ss:108314,st:2715,sr:47005,cs:4952,ct:86,cr:1535},{d:'19/out seg',ss:42074,st:1625,sr:28665,cs:3201,ct:57,cr:1110},{d:'20/out ter',ss:31943,st:2075,sr:36105,cs:2676,ct:82,cr:1335},{d:'21/out qua',ss:39233,st:2841,sr:48785,cs:2978,ct:97,cr:1635},{d:'22/out qui',ss:42357,st:3222,sr:55960,cs:2536,ct:95,cr:1650},{d:'23/out sex',ss:46165,st:5195,sr:90900,cs:2811,ct:144,cr:2865},{d:'24/out sáb',ss:126349,st:27187,sr:462470,cs:6442,ct:590,cr:10410}]}
    ]}
+  ,
+   {mes:'Nov/2026',inv:15225,invMes:76125,eds:[
+    {ed:544,val:20,per:'25–31/out',site:{s:536446,t:49406,r:1091285},crm:{s:25420,t:1154,r:25965},
+     ch:[{n:'Web Push',s:13456,t:576,r:12745,best:{n:'Terça 21h',s:15370,t:43,r:935}},{n:'Email',s:6839,t:412,r:9745,best:{n:'Sexta 17h',s:2824,t:47,r:1220}},{n:'Architect',s:5125,t:166,r:3475,best:{n:'Compra Abandonada',s:5825,t:138,r:4980}}],
+     dias:[{d:'25/out dom',ss:108123,st:2630,sr:55275,cs:4420,ct:95,cr:2130},{d:'26/out seg',ss:52967,st:1661,sr:37165,cs:3650,ct:104,cr:2340},{d:'27/out ter',ss:71669,st:2416,sr:53975,cs:3395,ct:138,cr:3105},{d:'28/out qua',ss:43762,st:2471,sr:55660,cs:3180,ct:131,cr:2950},{d:'29/out qui',ss:44748,st:2956,sr:66970,cs:3010,ct:122,cr:2745},{d:'30/out sex',ss:63306,st:6439,sr:145065,cs:3480,ct:183,cr:4115},{d:'31/out sáb',ss:151871,st:30833,sr:677175,cs:4285,ct:381,cr:8580}]}
+   ]}
   ]},
   sm:{meses:[
    {mes:'Ago/2026',inv:4350,invMes:17400,eds:[
@@ -3412,6 +3654,12 @@ const SESSCONV = {
      ch:[{n:'Web Push',s:3477,t:361,r:6240,best:{n:'Sábado 24/10',s:892,t:186,r:3150}},{n:'Email',s:885,t:113,r:1890,best:{n:'Sábado 24/10',s:409,t:74,r:1230}},{n:'Architect',s:1377,t:139,r:2430,best:{n:'Sábado 24/10',s:238,t:47,r:810}}],
      dias:[{d:'18/out dom',ss:36072,st:1244,sr:21245,cs:1250,ct:44,cr:780},{d:'19/out seg',ss:9668,st:625,sr:11710,cs:612,ct:23,cr:495},{d:'20/out ter',ss:7621,st:777,sr:13005,cs:457,ct:29,cr:480},{d:'21/out qua',ss:9263,st:1092,sr:18130,cs:537,ct:50,cr:870},{d:'22/out qui',ss:8643,st:1236,sr:21320,cs:605,ct:65,cr:1155},{d:'23/out sex',ss:10988,st:2089,sr:35475,cs:655,ct:86,cr:1440},{d:'24/out sáb',ss:36422,st:11772,sr:195580,cs:1607,ct:316,cr:5340}]}
    ]}
+  ,
+   {mes:'Nov/2026',inv:4350,invMes:21750,eds:[
+    {ed:460,val:15,per:'25–31/out',site:{s:117996,t:18027,r:302410},crm:{s:4619,t:420,r:7270},
+     ch:[{n:'Web Push',s:2801,t:256,r:4405,best:{n:'Terça 15h30',s:5622,t:9,r:135}},{n:'Email',s:717,t:83,r:1500,best:{n:'Sábado 10h',s:597,t:12,r:210}},{n:'Architect',s:1101,t:81,r:1365,best:{n:'Estímulo ao cadastro',s:1573,t:42,r:1065}}],
+     dias:[{d:'25/out dom',ss:32581,st:1175,sr:19440,cs:660,ct:38,cr:650},{d:'26/out seg',ss:10427,st:520,sr:8915,cs:560,ct:42,cr:730},{d:'27/out ter',ss:7799,st:603,sr:10420,cs:640,ct:60,cr:1040},{d:'28/out qua',ss:8835,st:809,sr:13455,cs:610,ct:55,cr:950},{d:'29/out qui',ss:9089,st:1126,sr:19140,cs:595,ct:52,cr:900},{d:'30/out sex',ss:12185,st:2014,sr:34400,cs:700,ct:66,cr:1140},{d:'31/out sáb',ss:37080,st:11780,sr:196640,cs:854,ct:107,cr:1860}]}
+   ]}
   ]},
   sv:{meses:[
    {mes:'Ago/2026',inv:2175,invMes:8700,eds:[
@@ -3457,6 +3705,12 @@ const SESSCONV = {
     {ed:450,val:10,per:'18–24/out',site:{s:78767,t:11144,r:135270},crm:{s:4719,t:393,r:5000},
      ch:[{n:'Web Push',s:3217,t:235,r:2870,best:{n:'Sábado 24/10',s:778,t:109,r:1390}},{n:'Email',s:915,t:119,r:1660,best:{n:'Sábado 24/10',s:180,t:50,r:740}},{n:'Architect',s:587,t:39,r:470,best:{n:'Sábado 24/10',s:142,t:20,r:250}}],
      dias:[{d:'18/out dom',ss:21059,st:833,sr:9900,cs:1016,ct:34,cr:420},{d:'19/out seg',ss:7603,st:472,sr:5640,cs:490,ct:15,cr:180},{d:'20/out ter',ss:5182,st:488,sr:6010,cs:434,ct:22,cr:230},{d:'21/out qua',ss:6901,st:752,sr:9810,cs:524,ct:44,cr:540},{d:'22/out qui',ss:7177,st:807,sr:9720,cs:537,ct:39,cr:460},{d:'23/out sex',ss:8723,st:1438,sr:17590,cs:593,ct:55,cr:740},{d:'24/out sáb',ss:22122,st:6354,sr:76600,cs:1138,ct:184,cr:2430}]}
+   ]}
+  ,
+   {mes:'Nov/2026',inv:2175,invMes:10875,eds:[
+    {ed:451,val:10,per:'25–31/out',site:{s:74518,t:10984,r:132810},crm:{s:3946,t:289,r:3780},
+     ch:[{n:'Web Push',s:2421,t:156,r:2020,best:{n:'Terça 10h30',s:9928,t:6,r:110}},{n:'Email',s:1050,t:101,r:1370,best:{n:'Sábado 10h',s:435,t:14,r:320}},{n:'Architect',s:475,t:32,r:390,best:{n:'Estímulo ao cadastro',s:1044,t:34,r:550}}],
+     dias:[{d:'25/out dom',ss:18990,st:445,sr:5440,cs:520,ct:30,cr:390},{d:'26/out seg',ss:7206,st:361,sr:4200,cs:480,ct:34,cr:445},{d:'27/out ter',ss:4569,st:388,sr:4820,cs:545,ct:45,cr:590},{d:'28/out qua',ss:6810,st:610,sr:7620,cs:530,ct:40,cr:520},{d:'29/out qui',ss:7469,st:853,sr:10260,cs:515,ct:38,cr:495},{d:'30/out sex',ss:8204,st:1627,sr:19470,cs:590,ct:46,cr:600},{d:'31/out sáb',ss:21270,st:6700,sr:81000,cs:766,ct:56,cr:740}]}
    ]}
   ]}
 };
@@ -4105,7 +4359,157 @@ function rDiaPaisYoY(){
 
 
 // ===== PAINEL: FLUXO DE DADOS DO CRM =====
-
+const FLUXO_SVG = `<svg viewBox="0 0 1100 1140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#5b84d6"/></marker>
+<marker id="arrowD" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#B8801A"/></marker>
+<marker id="arrowV" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#7F77DD"/></marker>
+<marker id="arrowG" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#a29f97"/></marker>
+<marker id="arrowVM" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto"><path d="M0,0.4 L0,6 L7.5,3.2 z" fill="#C0492A"/></marker>
+<linearGradient id="gerp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d2b6b"/><stop offset="1" stop-color="#2d55a8"/></linearGradient>
+<linearGradient id="gins" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a32a0"/><stop offset="1" stop-color="#7F77DD"/></linearGradient>
+<filter id="sh" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#14110F" flood-opacity="0.09"/></filter>
+<filter id="shB" x="-20%" y="-40%" width="140%" height="190%"><feDropShadow dx="0" dy="7" stdDeviation="13" flood-color="#0d2b6b" flood-opacity="0.24"/></filter>
+<filter id="shV" x="-20%" y="-40%" width="140%" height="190%"><feDropShadow dx="0" dy="7" stdDeviation="13" flood-color="#4a32a0" flood-opacity="0.24"/></filter>
+</defs>
+<rect width="1100" height="1140" fill="#faf9f6"/>
+<rect x="24" y="44" width="1052" height="152" rx="18" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<rect x="24" y="244" width="1052" height="300" rx="18" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<rect x="24" y="574" width="1052" height="124" rx="18" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<rect x="24" y="734" width="1052" height="116" rx="18" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<circle cx="57" cy="70" r="11.5" fill="#14110F"/><text x="57" y="74" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">1</text><text x="78" y="74" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">ONDE A COMPRA ACONTECE</text>
+<rect x="66" y="90" width="180" height="90" rx="13" fill="#fff" stroke="#e6e3db" stroke-width="1.2" filter="url(#sh)"/>
+<text x="156" y="118" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15.5" fill="#14110F" font-weight="800" text-anchor="middle">POS</text>
+<text x="156" y="138" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">maquininha</text>
+<text x="156" y="151" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">PDVs e revendedores</text>
+<rect x="96" y="158" width="120" height="17" rx="8" fill="#eef7f1" stroke="#1D9E75" stroke-width="1"/>
+<text x="156" y="170" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#127a56" font-weight="700" text-anchor="middle">gera contato</text>
+<rect x="262" y="90" width="180" height="90" rx="13" fill="#fdf1ee" stroke="#C0492A" stroke-width="1.4" filter="url(#sh)"/>
+<text x="352" y="118" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15.5" fill="#C0492A" font-weight="800" text-anchor="middle">FÍSICO</text>
+<text x="352" y="138" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">cartela de papel</text>
+<text x="352" y="151" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">a dinheiro</text>
+<rect x="292" y="158" width="120" height="17" rx="8" fill="#f4f2f0" stroke="#c9c6bd" stroke-width="1"/>
+<text x="352" y="170" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#8f8c83" font-weight="700" text-anchor="middle">sem contato</text>
+<rect x="458" y="90" width="180" height="90" rx="13" fill="#fff" stroke="#e6e3db" stroke-width="1.2" filter="url(#sh)"/>
+<text x="548" y="118" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13.5" fill="#14110F" font-weight="800" text-anchor="middle">FÍSICO PIX</text>
+<text x="548" y="138" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">cartela de papel</text>
+<text x="548" y="151" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">paga no Pix</text>
+<rect x="488" y="158" width="120" height="17" rx="8" fill="#eef7f1" stroke="#1D9E75" stroke-width="1"/>
+<text x="548" y="170" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#127a56" font-weight="700" text-anchor="middle">gera contato</text>
+<rect x="654" y="90" width="180" height="90" rx="13" fill="#fdf7e9" stroke="#B8801A" stroke-width="1.4" filter="url(#sh)"/>
+<text x="744" y="118" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13.5" fill="#14110F" font-weight="800" text-anchor="middle">COMPRA RÁPIDA</text>
+<text x="744" y="138" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">LP de compra</text>
+<text x="744" y="151" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">simplificada</text>
+<rect x="684" y="158" width="120" height="17" rx="8" fill="#f4f2f0" stroke="#c9c6bd" stroke-width="1"/>
+<text x="744" y="170" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#8f8c83" font-weight="700" text-anchor="middle">sem contato</text>
+<rect x="850" y="90" width="180" height="90" rx="13" fill="#f6f4fd" stroke="#7F77DD" stroke-width="1.4" filter="url(#sh)"/>
+<text x="940" y="118" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15.5" fill="#4a32a0" font-weight="800" text-anchor="middle">LOJA</text>
+<text x="940" y="138" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">o online</text>
+<rect x="880" y="158" width="120" height="17" rx="8" fill="#eef7f1" stroke="#1D9E75" stroke-width="1"/>
+<text x="940" y="170" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#127a56" font-weight="700" text-anchor="middle">gera contato</text>
+<path d="M 548 186 L 548 304" stroke="#5b84d6" stroke-width="2.2" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 744 186 L 744 304" stroke="#5b84d6" stroke-width="2.2" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 940 186 L 940 262 Q 940 274 928 274 L 802 274 Q 790 274 790 286 L 790 304" stroke="#5b84d6" stroke-width="2" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 156 186 L 156 236 Q 156 248 168 248 L 318 248 Q 330 248 330 260 L 330 304" stroke="#5b84d6" stroke-width="2" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="496" y="208" width="104" height="24" rx="7" fill="#eef3fd" stroke="#5b84d6" stroke-width="1"/>
+<text x="548" y="224" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#0d2b6b" font-weight="700" text-anchor="middle">tempo real</text>
+<rect x="692" y="208" width="104" height="24" rx="7" fill="#eef3fd" stroke="#5b84d6" stroke-width="1"/>
+<text x="744" y="224" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#0d2b6b" font-weight="700" text-anchor="middle">tempo real</text>
+<rect x="888" y="208" width="104" height="24" rx="7" fill="#eef3fd" stroke="#5b84d6" stroke-width="1"/>
+<text x="940" y="224" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#0d2b6b" font-weight="700" text-anchor="middle">tempo real</text>
+<rect x="96" y="208" width="120" height="24" rx="7" fill="#eef3fd" stroke="#5b84d6" stroke-width="1"/>
+<text x="156" y="224" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#0d2b6b" font-weight="700" text-anchor="middle">tempo real</text>
+<path d="M 352 186 L 352 202" stroke="#C0492A" stroke-width="2" fill="none" marker-end="url(#arrowVM)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<rect x="266" y="204" width="172" height="42" rx="9" fill="#fdf1ee" stroke="#C0492A" stroke-width="1.3" stroke-dasharray="7 5"/>
+<text x="352" y="220" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#C0492A" font-weight="800" text-anchor="middle" letter-spacing=".03em">SÓ NO DOMINGO</text>
+<text x="352" y="232" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8" fill="#6b6862" font-weight="400" text-anchor="middle">após o fechamento, e só o total,</text>
+<text x="352" y="242" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8" fill="#6b6862" font-weight="400" text-anchor="middle">sem cartela e sem comprador</text>
+<path d="M 352 246 L 352 304" stroke="#C0492A" stroke-width="2" fill="none" marker-end="url(#arrowVM)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<circle cx="57" cy="270" r="11.5" fill="#14110F"/><text x="57" y="274" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">2</text><text x="78" y="274" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">ONDE O DADO É CONSOLIDADO</text>
+<rect x="66" y="308" width="764" height="88" rx="15" fill="url(#gerp)" filter="url(#shB)"/>
+<text x="448" y="348" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="26" fill="#fff" font-weight="800" text-anchor="middle">ERP</text>
+<text x="448" y="372" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="400" text-anchor="middle" opacity=".72">consolida as compras das cinco origens · fonte do faturamento</text>
+<rect x="860" y="308" width="170" height="88" rx="13" fill="#eef3fd" stroke="#5b84d6" stroke-width="1.3" filter="url(#sh)"/>
+<text x="945" y="338" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#0d2b6b" font-weight="800" text-anchor="middle" letter-spacing=".04em">ERP PUSH</text>
+<text x="945" y="358" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">disparado pelo próprio</text>
+<text x="945" y="372" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">ERP, fora da Insider</text>
+<path d="M 834 352 L 854 352" stroke="#5b84d6" stroke-width="2" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="66" y="416" width="382" height="104" rx="12" fill="#fdf7e9" stroke="#B8801A" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="257" y="440" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="12" fill="#B8801A" font-weight="800" text-anchor="middle" letter-spacing=".04em">⚠ LISTAS MANUAIS</text>
+<text x="257" y="460" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">em casos específicos, o time de tecnologia extrai</text>
+<text x="257" y="474" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">o recorte do ERP e envia para o CRM</text>
+<text x="257" y="496" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#8a5a00" font-weight="700" text-anchor="middle">motivo: a Insider ainda não recebe o evento de</text>
+<text x="257" y="509" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#8a5a00" font-weight="700" text-anchor="middle">compra via Pix — em alteração nesta janela de release</text>
+<path d="M 257 400 L 257 412" stroke="#B8801A" stroke-width="2" fill="none" marker-end="url(#arrowD)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<rect x="478" y="416" width="352" height="50" rx="12" fill="#eef3fd" stroke="#5b84d6" stroke-width="1.3"/>
+<text x="654" y="436" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#0d2b6b" font-weight="800" text-anchor="middle" letter-spacing=".03em">STREAMING · CERCA DE 10 MIN</text>
+<text x="654" y="454" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">chave de identificação: UUID · pode atrasar quando a fila sobrecarrega</text>
+<rect x="478" y="478" width="172" height="52" rx="10" fill="#fdf1ee" stroke="#C0492A" stroke-width="1.3"/>
+<text x="564" y="496" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#C0492A" font-weight="800" text-anchor="middle" letter-spacing=".03em">O FÍSICO PARA AQUI</text>
+<text x="564" y="510" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#6b6862" font-weight="400" text-anchor="middle">sem dados pessoais de</text>
+<text x="564" y="522" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#6b6862" font-weight="400" text-anchor="middle">quem compra</text>
+<rect x="658" y="478" width="172" height="52" rx="10" fill="#fdf7e9" stroke="#B8801A" stroke-width="1.3"/>
+<text x="744" y="496" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#B8801A" font-weight="800" text-anchor="middle" letter-spacing=".03em">COMPRA RÁPIDA TAMBÉM</text>
+<text x="744" y="510" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#6b6862" font-weight="400" text-anchor="middle">GA4 em frente separada,</text>
+<text x="744" y="522" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="8.5" fill="#6b6862" font-weight="400" text-anchor="middle">fora da Insider</text>
+<path d="M 448 400 L 448 612" stroke="#5b84d6" stroke-width="2.6" fill="none" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 400 520 L 400 612" stroke="#B8801A" stroke-width="2" fill="none" marker-end="url(#arrowD)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<path d="M 986 180 L 986 188 Q 986 196 996 196 L 1044 196 Q 1054 196 1054 206 L 1054 568 Q 1054 580 1042 580 L 1000 580 Q 988 580 988 592 L 988 612" stroke="#7F77DD" stroke-width="2" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="860" y="416" width="170" height="64" rx="10" fill="#f6f4fd" stroke="#7F77DD" stroke-width="1.3"/>
+<text x="945" y="436" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#4a32a0" font-weight="800" text-anchor="middle" letter-spacing=".04em">LOJA → INSIDER</text>
+<text x="945" y="453" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">o online manda evento</text>
+<text x="945" y="467" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">direto, sem passar pelo ERP</text>
+<circle cx="57" cy="600" r="11.5" fill="#14110F"/><text x="57" y="604" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">3</text><text x="78" y="604" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">ONDE A COMUNICAÇÃO ACONTECE</text>
+<rect x="230" y="616" width="808" height="72" rx="15" fill="url(#gins)" filter="url(#shV)"/>
+<text x="634" y="649" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="23" fill="#fff" font-weight="800" text-anchor="middle">INSIDER</text>
+<text x="634" y="671" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#fff" font-weight="400" text-anchor="middle" opacity=".72">cadastro e evento de compra viram base de segmentação, jornada e disparo</text>
+<rect x="58" y="624" width="150" height="44" rx="10" fill="#fdf1ee" stroke="#C0492A" stroke-width="1.2"/>
+<text x="133" y="644" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#C0492A" font-weight="800" text-anchor="middle" letter-spacing=".05em">MÃO ÚNICA</text>
+<text x="133" y="659" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">não volta ao ERP</text>
+<circle cx="57" cy="760" r="11.5" fill="#14110F"/><text x="57" y="764" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">4</text><text x="78" y="764" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">O QUE SAI PARA O CLIENTE</text>
+<rect x="230" y="782" width="202" height="52" rx="12" fill="#fff" stroke="#7F77DD" stroke-width="1.3" filter="url(#sh)"/>
+<text x="331" y="814" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#4a32a0" font-weight="700" text-anchor="middle">E-mail</text>
+<path d="M 331 688 L 331 778" stroke="#7F77DD" stroke-width="1.8" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="432" y="782" width="202" height="52" rx="12" fill="#fff" stroke="#7F77DD" stroke-width="1.3" filter="url(#sh)"/>
+<text x="533" y="814" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#4a32a0" font-weight="700" text-anchor="middle">Web Push</text>
+<path d="M 533 688 L 533 778" stroke="#7F77DD" stroke-width="1.8" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="634" y="782" width="202" height="52" rx="12" fill="#fff" stroke="#7F77DD" stroke-width="1.3" filter="url(#sh)"/>
+<text x="735" y="814" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#4a32a0" font-weight="700" text-anchor="middle">App Push</text>
+<path d="M 735 688 L 735 778" stroke="#7F77DD" stroke-width="1.8" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="836" y="782" width="202" height="52" rx="12" fill="#fff" stroke="#7F77DD" stroke-width="1.3" filter="url(#sh)"/>
+<text x="937" y="814" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13" fill="#4a32a0" font-weight="700" text-anchor="middle">Pop Up on-site</text>
+<path d="M 937 688 L 937 778" stroke="#7F77DD" stroke-width="1.8" fill="none" marker-end="url(#arrowV)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 331 834 L 331 854" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 533 834 L 533 854" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 735 834 L 735 854" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 937 834 L 937 854" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 331 854 L 937 854" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<path d="M 550 854 L 550 864" stroke="#a29f97" stroke-width="1.4" stroke-dasharray="5 4" fill="none" stroke-linecap="round"/>
+<rect x="392" y="868" width="316" height="44" rx="10" fill="#f3f6ee" stroke="#5C8A2E" stroke-width="1.2"/>
+<text x="550" y="887" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#3f6b18" font-weight="800" text-anchor="middle" letter-spacing=".05em">O CLIQUE CARREGA UTM</text>
+<text x="550" y="903" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9" fill="#6b6862" font-weight="400" text-anchor="middle">é por aí que o GA4 sabe de onde veio a sessão</text>
+<path d="M 550 912 L 550 960" stroke="#5C8A2E" stroke-width="1.6" fill="none" marker-end="url(#arrowG)" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<circle cx="57" cy="940" r="11.5" fill="#14110F"/><text x="57" y="944" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">5</text><text x="78" y="944" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".16em">COMO CADA FERRAMENTA MEDE</text>
+<rect x="66" y="964" width="284" height="88" rx="13" fill="#eef3fd" stroke="#0d2b6b" stroke-width="1.3" filter="url(#sh)"/>
+<text x="208" y="992" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" fill="#0d2b6b" font-weight="800" text-anchor="middle" letter-spacing=".03em">ERP</text>
+<text x="208" y="1012" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#14110F" font-weight="700" text-anchor="middle">faturamento real</text>
+<text x="208" y="1030" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">a venda que de fato aconteceu,</text>
+<text x="208" y="1043" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">independente do canal</text>
+<rect x="408" y="964" width="284" height="88" rx="13" fill="#f3f6ee" stroke="#3f6b18" stroke-width="1.3" filter="url(#sh)"/>
+<text x="550" y="992" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" fill="#3f6b18" font-weight="800" text-anchor="middle" letter-spacing=".03em">GA4</text>
+<text x="550" y="1012" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#14110F" font-weight="700" text-anchor="middle">o canal da sessão da compra</text>
+<text x="550" y="1030" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">escopo de sessão: credita o canal</text>
+<text x="550" y="1043" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">da visita em que a compra aconteceu</text>
+<rect x="750" y="964" width="284" height="88" rx="13" fill="#f6f4fd" stroke="#4a32a0" stroke-width="1.3" filter="url(#sh)"/>
+<text x="892" y="992" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" fill="#4a32a0" font-weight="800" text-anchor="middle" letter-spacing=".03em">INSIDER</text>
+<text x="892" y="1012" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10" fill="#14110F" font-weight="700" text-anchor="middle">entrega, clique e conversão</text>
+<text x="892" y="1030" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">conta quem recebeu e clicou</text>
+<text x="892" y="1043" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#6b6862" font-weight="400" text-anchor="middle">dentro da janela dela</text>
+<text x="550" y="1068" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#a29f97" font-weight="400" text-anchor="middle">as três medem pedaços diferentes do mesmo fluxo — por isso os números nunca batem exatamente</text>
+<rect x="24" y="1086" width="1052" height="44" rx="12" fill="#fff" stroke="#e6e3db" stroke-width="1"/>
+<text x="46" y="1104" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="9.5" fill="#a29f97" font-weight="800" text-anchor="start" letter-spacing=".14em">POR QUE OS NÚMEROS NÃO BATEM</text>
+<text x="46" y="1120" font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" fill="#6b6862" font-weight="400" text-anchor="start">ERP conta o faturamento real  ·  GA4 credita o canal da sessão da compra  ·  Insider conta quem recebeu e clicou dentro da janela dela</text>
+</svg>`;
 
 
 const FLUXO_DESTRAVA = [
@@ -4115,7 +4519,41 @@ const FLUXO_DESTRAVA = [
   {t:'Prioriza integração', d:'Toda seta que hoje é manual vira item de roadmap com dono e prazo.'}
 ];
 
+function rFluxo(){
+  var el=document.getElementById('fluxo-panel-content'); if(!el) return;
+  var o='';
+  o+='<div style="margin-bottom:18px">';
+  o+='<div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#a29f97;margin-bottom:4px">Ambra · CRM</div>';
+  o+='<div style="font-size:26px;font-weight:800;color:#14110F;letter-spacing:-.4px;margin-bottom:6px">Fluxo de dados do CRM</div>';
+  o+='<div style="font-size:13px;color:#6b6862;line-height:1.6;max-width:720px">Da compra até o disparo: por onde o dado passa, onde ele é consolidado e onde a comunicação acontece. Vale para as três caps. Das cinco origens de venda, três geram contato para o CRM: POS, Físico Pix e Loja. A cartela paga em dinheiro e a Compra Rápida entram como faturamento e não chegam à Insider. Validado com o time de tecnologia em 25/08/2026.</div>';
+  o+='</div>';
 
+  o+='<div style="background:#fff;border:1px solid #e6e3db;border-radius:16px;padding:10px;margin-bottom:20px;overflow-x:auto">'+FLUXO_SVG+'</div>';
+
+  // legenda
+  o+='<div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:24px;padding:12px 16px;background:#fff;border:1px solid #e6e3db;border-radius:12px">';
+  [['#5b84d6','linha cheia','integrado e automático'],
+   ['#B8801A','linha tracejada','manual ou a confirmar'],
+   ['#7F77DD','roxo','o que a Insider controla']].forEach(function(l){
+    o+='<div style="display:flex;align-items:center;gap:8px">'
+      +'<span style="width:22px;height:0;border-top:2.5px '+(l[1].indexOf('traceja')>=0?'dashed':'solid')+' '+l[0]+';display:inline-block"></span>'
+      +'<span style="font-size:11px;color:#6b6862"><b style="color:#14110F">'+l[1]+'</b> — '+l[2]+'</span></div>';
+  });
+  o+='</div>';
+
+  // para que serve
+  o+='<div style="font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a29f97;margin-bottom:10px">Para que serve este mapa</div>';
+  o+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:24px">';
+  FLUXO_DESTRAVA.forEach(function(x){
+    o+='<div style="background:#fff;border:1px solid #e6e3db;border-radius:10px;padding:12px 14px">'
+      +'<div style="font-size:12.5px;font-weight:700;color:#14110F;margin-bottom:4px">'+x.t+'</div>'
+      +'<div style="font-size:11px;color:#6b6862;line-height:1.55">'+x.d+'</div></div>';
+  });
+  o+='</div>';
+
+  o+='<div style="font-size:10px;color:#a29f97;padding-bottom:20px">Mapa mantido pelo CRM. Atualizar sempre que uma integração mudar ou uma seta tracejada virar automática.</div>';
+  el.innerHTML=o;
+}
 
 
 // ===== Comparação na mesma base: campanhas da edição =====
@@ -4254,7 +4692,11 @@ const JORN = {
     {ed:543,per:'18–24/out',s:5015,t:179,r:3285,det:[
       {n:'Compra Abandonada',s:null,t:null,r:null,canais:'web push · e-mail · pop up · app push',ins:{entradas:37608,saidas:5713,rotulo:'saídas por compra',entregas:25466,conv:27,rev:645,versoes:1}},
       {n:'Estímulo ao Cadastro',s:null,t:null,r:null,canais:'pop up · web push',ins:{entradas:36230,saidas:722,rotulo:'cadastros',entregas:4321,conv:39,rev:0,versoes:1}},
-      {n:'Onboarding',s:null,t:null,r:null,canais:'e-mail · web push',ins:{entradas:122,saidas:0,rotulo:'saídas',entregas:331,conv:0,rev:0,versoes:1}}]}]},
+      {n:'Onboarding',s:null,t:null,r:null,canais:'e-mail · web push',ins:{entradas:122,saidas:0,rotulo:'saídas',entregas:331,conv:0,rev:0,versoes:1}}]},
+    {ed:544,per:'25–31/out',s:5125,t:166,r:3475,det:[
+      {n:'Compra Abandonada',s:null,t:null,r:null,canais:'web push · e-mail · pop up · app push',ins:{entradas:40849,saidas:6533,rotulo:'saídas por compra',entregas:27230,conv:26,rev:580,versoes:1}},
+      {n:'Estímulo ao Cadastro',s:null,t:null,r:null,canais:'pop up · web push',ins:{entradas:42072,saidas:1204,rotulo:'cadastros',entregas:6909,conv:136,rev:4940,versoes:1}},
+      {n:'Onboarding',s:null,t:null,r:null,canais:'e-mail · web push',ins:{entradas:151,saidas:0,rotulo:'saídas',entregas:397,conv:0,rev:0,versoes:1}}]}]},
   sm:{eds:[
     {ed:447,per:'26/jul–01/ago',s:206,t:11,r:165,det:[
       {n:'Compra Abandonada',s:202,t:9,r:135,canais:'web push'},
@@ -4310,7 +4752,11 @@ const JORN = {
     {ed:459,per:'18–24/out',s:1377,t:139,r:2430,det:[
       {n:'Compra Abandonada',s:null,t:null,r:null,canais:'web push · e-mail · pop up · app push',ins:{entradas:15167,saidas:2510,rotulo:'saídas por compra',entregas:10256,conv:5,rev:75,versoes:1}},
       {n:'Estímulo ao Cadastro',s:null,t:null,r:null,canais:'pop up · web push',ins:{entradas:16847,saidas:294,rotulo:'cadastros',entregas:2185,conv:19,rev:0,versoes:1}},
-      {n:'Onboarding',s:null,t:null,r:null,canais:'e-mail · web push',ins:{entradas:83,saidas:0,rotulo:'saídas',entregas:234,conv:0,rev:0,versoes:1}}]}]},
+      {n:'Onboarding',s:null,t:null,r:null,canais:'e-mail · web push',ins:{entradas:83,saidas:0,rotulo:'saídas',entregas:234,conv:0,rev:0,versoes:1}}]},
+    {ed:460,per:'25–31/out',s:1101,t:81,r:1365,det:[
+      {n:'Compra Abandonada',s:null,t:null,r:null,canais:'web push · e-mail · pop up · app push',ins:{entradas:14797,saidas:2303,rotulo:'saídas por compra',entregas:9861,conv:4,rev:60,versoes:1}},
+      {n:'Estímulo ao Cadastro',s:null,t:null,r:null,canais:'pop up · web push',ins:{entradas:20490,saidas:295,rotulo:'cadastros',entregas:1985,conv:41,rev:1050,versoes:1}},
+      {n:'Onboarding',s:null,t:null,r:null,canais:'e-mail · web push',ins:{entradas:76,saidas:0,rotulo:'saídas',entregas:216,conv:1,rev:15,versoes:1}}]}]},
   sv:{eds:[
     {ed:438,per:'26/jul–01/ago',s:69,t:4,r:40,det:[
       {n:'Compra Abandonada',s:69,t:4,r:40,canais:'web push'}]},
@@ -4362,7 +4808,11 @@ const JORN = {
     {ed:450,per:'18–24/out',s:587,t:39,r:470,det:[
       {n:'Compra Abandonada',s:null,t:null,r:null,canais:'web push · e-mail · pop up · app push',ins:{entradas:9033,saidas:1516,rotulo:'saídas por compra',entregas:6126,conv:11,rev:170,versoes:1}},
       {n:'Estímulo ao Cadastro',s:null,t:null,r:null,canais:'pop up · web push',ins:{entradas:8824,saidas:236,rotulo:'cadastros',entregas:1551,conv:21,rev:0,versoes:1}},
-      {n:'Onboarding',s:null,t:null,r:null,canais:'e-mail · web push',ins:{entradas:77,saidas:1,rotulo:'saídas por compra',entregas:221,conv:1,rev:10,versoes:1}}]}]}
+      {n:'Onboarding',s:null,t:null,r:null,canais:'e-mail · web push',ins:{entradas:77,saidas:1,rotulo:'saídas por compra',entregas:221,conv:1,rev:10,versoes:1}}]},
+    {ed:451,per:'25–31/out',s:475,t:32,r:390,det:[
+      {n:'Compra Abandonada',s:null,t:null,r:null,canais:'web push · e-mail · pop up · app push',ins:{entradas:8786,saidas:1530,rotulo:'saídas por compra',entregas:5793,conv:5,rev:70,versoes:1}},
+      {n:'Estímulo ao Cadastro',s:null,t:null,r:null,canais:'pop up · web push',ins:{entradas:7370,saidas:212,rotulo:'cadastros',entregas:1205,conv:33,rev:530,versoes:1}},
+      {n:'Onboarding',s:null,t:null,r:null,canais:'e-mail · web push',ins:{entradas:58,saidas:0,rotulo:'saídas',entregas:158,conv:1,rev:10,versoes:1}}]}]}
 };
 
 function rJornadas(){

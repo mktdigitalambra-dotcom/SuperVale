@@ -2262,6 +2262,52 @@ const TESTES = [
       'O assunto do piloto não trazia a objeção entre aspas como o combinado para a série. A partir do segundo e-mail dá para testar se o formato de objeção abre mais que a chamada de curiosidade.'
     ]
   }
+
+  ,
+  {
+    id:'reaquecimento',
+    titulo:'Régua de Reaquecimento — base sem compra e sem acesso em 2026',
+    periodo:'Nov/2026 — em andamento',
+    descricao:'Quatro e-mails semanais para quem não comprou e não acessou o site em 2026 nenhuma vez. É a maior fatia da base dormente, e a que nunca recebeu comunicação própria. A régua não cita prêmio nem edição: fala do produto, da causa, dos ganhadores e de como comprar. Cada e-mail vai acompanhado de um web push com a mesma mensagem.',
+    caps:['mc','sm','sv'],
+    resultado:'andamento',
+    badge:'Semana 1 de 4',
+    badge_cor:'#EF9F27',
+    cronograma:[
+      {n:1,tema:'Lembrete do produto',data:'29–30/out',feito:true},
+      {n:2,tema:'A filantropia',data:'semana 2',feito:false},
+      {n:3,tema:'Ganhadores da semana',data:'semana 3',feito:false},
+      {n:4,tema:'Como comprar',data:'semana 4',feito:false}
+    ],
+    metricas:[
+      {cap:'mc',label:'Minas Cap',
+       grupos:[
+         {n:'E-mail 1 · 29/10 — "Você lembra do Minas Cap?"',camp:1,del:2535,ctr:'0,43%',sess:0,conv:1,rev:20,tx:'6,00% abertura',email:true},
+         {n:'Web push 1 · 29/10',camp:1,del:73,ctr:'0,00%',sess:0,conv:0,rev:0,tx:'35,3% entrega'},
+         {n:'E-mails de premiação da semana',camp:5,del:303763,ctr:'0,20%',sess:0,conv:159,rev:4280,tx:'4,38% abertura'}
+       ]},
+      {cap:'sm',label:'Super Minas',
+       grupos:[
+         {n:'E-mail 1 · 30/10 — "Todo mundo tem um sonho!"',camp:1,del:1381,ctr:'0,07%',sess:0,conv:0,rev:0,tx:'2,17% abertura',email:true},
+         {n:'Web push 1 · 30/10',camp:1,del:116,ctr:'0,86%',sess:0,conv:0,rev:0,tx:'31,5% entrega'},
+         {n:'E-mails de premiação da semana',camp:5,del:120200,ctr:'0,16%',sess:0,conv:27,rev:495,tx:'3,24% abertura'}
+       ]},
+      {cap:'sv',label:'Super Vale',
+       grupos:[
+         {n:'E-mail 1 · 30/10 — "Você lembra do Super Vale?"',camp:1,del:729,ctr:'0,00%',sess:0,conv:0,rev:0,tx:'2,88% abertura',email:true},
+         {n:'Web push 1 · 30/10',camp:1,del:72,ctr:'0,00%',sess:0,conv:0,rev:0,tx:'30,3% entrega'},
+         {n:'E-mails de premiação da semana',camp:5,del:68191,ctr:'0,23%',sess:0,conv:44,rev:720,tx:'4,07% abertura'}
+       ]}
+    ],
+    insights:[
+      'Primeira semana no ar. O e-mail 1 do Minas Cap abriu 6,00% — acima da premiação da própria praça, que fez 4,38%.',
+      {cap:'mc',txt:'Minas Cap: melhor abertura de e-mail da praça na semana, com 11 cliques únicos em 2.535 entregas e 1 conversão.'},
+      {cap:'sm',txt:'Super Minas: 2,17% de abertura e 1 clique único. A copy usada aqui foi diferente das outras duas, mais emocional.'},
+      {cap:'sv',txt:'Super Vale: 2,88% de abertura e nenhum clique em 729 entregas.'},
+      'O web push praticamente não alcança essa base: 813 envios somando as três praças, 261 entregas e 1 clique. Sem opt-in, o canal não chega.',
+      'Bases pequenas nas três praças, então a leitura da semana 1 é indicativa. Acompanhar até a semana 4 antes de concluir.'
+    ]
+  }
 ];
 
 function dpPick(cap, ix){

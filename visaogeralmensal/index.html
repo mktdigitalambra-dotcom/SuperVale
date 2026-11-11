@@ -318,6 +318,7 @@
     align-items:center;
     margin-bottom:2px;
   }
+  .origens h3::before{ content:"📊"; }
 </style>
 </head>
 <body>
@@ -341,7 +342,8 @@
       <option value="Junho">Junho</option>
       <option value="Julho">Julho</option>
       <option value="Agosto">Agosto</option>
-      <option value="Setembro" selected>Setembro</option>
+      <option value="Setembro">Setembro</option>
+      <option value="Outubro" selected>Outubro</option>
     </select>
   </div>
 </header>
@@ -457,6 +459,11 @@
   <ul id="leiturasFunilList"></ul>
 </div>
 
+<div class="leituras origens" id="origensBox" style="display:none; margin-top:24px;">
+  <h3>Origens que mais contribuíram</h3>
+  <ul id="origensList"></ul>
+</div>
+
 <script>
 const DATA = {
 "Janeiro":{"n25":2,"n26":4,"TT25":116998,"TT26":261349,"Fisico25":92133,"Fisico26":195672,"Online25":24865,"Online26":65677,"ReceitaTT25":1435850,"ReceitaTT26":2089750,"Ticket25":12.27,"Ticket26":8.00,"varReceitaRaw":45.5,"varTTRaw":123.4,"ReceitaPorEd25":717925,"ReceitaPorEd26":522438,"TTPorEd25":58499,"TTPorEd26":65337,"varReceitaEd":-27.2,"varTTEd":11.7,
@@ -471,15 +478,17 @@ const DATA = {
 "leituras":["Mix de edições: 2025 teve 4 semanas (1 de R$20 e 3 de R$10); 2026 teve 5 semanas (1 de R$20 e 4 de R$10).","Faturamento <b>1,5x maior</b> que 2025 (<b>+R$1,8MM</b>), equivalente a <b>+160 mil títulos</b> no TT — <b>+142 mil</b> no físico e <b>+18,1 mil</b> no Online.","Na composição de vendas, Norte respondeu por <b>35%</b>, POS por <b>43%</b> e Online por <b>11%</b> — o Online ainda enfrenta dificuldade para escalar no Norte, mesmo padrão observado no Minas Cap Norte."]},
 "Junho":{"n25":5,"n26":4,"TT25":277886,"TT26":283935,"Fisico25":216759,"Fisico26":235797,"Online25":61127,"Online26":48138,"ReceitaTT25":3028555,"ReceitaTT26":3478530,"Ticket25":10.90,"Ticket26":12.25,"varReceitaRaw":14.9,"varTTRaw":2.2,"ReceitaPorEd25":605711,"ReceitaPorEd26":869632,"TTPorEd25":55577,"TTPorEd26":70984,"varReceitaEd":43.6,"varTTEd":27.7,
 "leituras":["Mix de edições: 2025 teve 5 semanas (4 de R$10 e 1 de R$15); 2026 teve 4 semanas (3 de R$10 e 1 de R$20).","Faturamento cresceu <b>R$450k (+15%)</b> vs 2025.","Volume TT cresceu <b>2%</b> e o Físico <b>9%</b>, mas o Online recuou <b>-21%</b> — puxando a queda de representatividade do canal no mês."]},
-"Julho":{"n25":4,"n26":4,"TT25":295794,"TT26":275455,"Fisico25":228154,"Fisico26":227688,"Online25":67640,"Online26":47214,"ReceitaTT25":2568250,"ReceitaTT26":2754550,"Ticket25":8.68,"Ticket26":10.00,"varReceitaRaw":7.3,"varTTRaw":-6.9,"ReceitaPorEd25":642062,"ReceitaPorEd26":688638,"TTPorEd25":73948,"TTPorEd26":68864,"varReceitaEd":7.3,"varTTEd":-6.9,
+"Julho":{"n25":4,"n26":4,"TT25":295794,"TT26":275455,"Fisico25":228154,"Fisico26":227688,"Online25":67640,"Online26":47767,"ReceitaTT25":2568250,"ReceitaTT26":2754550,"Ticket25":8.68,"Ticket26":10.00,"varReceitaRaw":7.3,"varTTRaw":-6.9,"ReceitaPorEd25":642062,"ReceitaPorEd26":688638,"TTPorEd25":73948,"TTPorEd26":68864,"varReceitaEd":7.3,"varTTEd":-6.9,
 "leituras":["Mix de edições: 2025 teve 2 de R$10, 1 de R$20 e 1 de R$5; 2026 teve 3 de R$10 e 1 de R$15 — estratégia de valores diferente entre os anos.","Considerando o volume da edição de R$5 ajustado (dividido por 2), o TT cresceu <b>18% (+42,4 mil títulos)</b> e o Físico <b>27% (+48 mil títulos)</b>; o Online recuou <b>-12% (-9,3 mil títulos)</b>.","Receita ficou <b>7% acima</b> de julho/2025 (<b>+R$186.300</b>). No Online, a divisão Leste/Norte segue em <b>88%/12%</b> — 1pp acima de maio, mantendo o padrão observado desde junho."]},
-"Agosto":{"n25":5,"n26":5,"TT25":287635,"TT26":365379,"Fisico25":218371,"Fisico26":300857,"Online25":69264,"Online26":64084,"ReceitaTT25":3481160,"ReceitaTT26":4419410,"Ticket25":12.10,"Ticket26":12.10,"varReceitaRaw":27.0,"varTTRaw":27.0,"ReceitaPorEd25":696232,"ReceitaPorEd26":883882,"TTPorEd25":57527,"TTPorEd26":73076,"varReceitaEd":27.0,"varTTEd":27.0,
-"leituras":["Agosto tem edições iguais nos dois anos (5) — comparação 100% limpa: receita e volume cresceram no mesmo ritmo, <b>+27,0%</b> cada, superando o ano passado. Ainda assim, <b>fica 13 pontos percentuais abaixo da meta de +40%</b> traçada para a expansão no Norte de Minas.","Ticket médio ficou idêntico (R$ 12,10 nos dois anos), sinal de que o crescimento veio de volume real, não de mudança de mix.","Participação Online seguiu baixa (24,1% → 17,5% do TT) — efeito estrutural da entrada do Norte de Minas (região com forte resistência à compra online), não uma perda de eficiência de mídia."]},
+"Agosto":{"n25":5,"n26":5,"TT25":287635,"TT26":365379,"Fisico25":218371,"Fisico26":300857,"Online25":69264,"Online26":64522,"ReceitaTT25":3481160,"ReceitaTT26":4419410,"Ticket25":12.10,"Ticket26":12.10,"varReceitaRaw":27.0,"varTTRaw":27.0,"ReceitaPorEd25":696232,"ReceitaPorEd26":883882,"TTPorEd25":57527,"TTPorEd26":73076,"varReceitaEd":27.0,"varTTEd":27.0,
+"leituras":["Agosto tem edições iguais nos dois anos (5) — comparação 100% limpa: receita e volume cresceram no mesmo ritmo, <b>+27,0%</b> cada, superando o ano passado. Ainda assim, <b>fica 13 pontos percentuais abaixo da meta de +40%</b> traçada para a expansão no Norte de Minas.","Ticket médio ficou idêntico (R$ 12,10 nos dois anos), sinal de que o crescimento veio de volume real, não de mudança de mix.","Participação Online seguiu baixa (24,1% → 17,7% do TT) — efeito estrutural da entrada do Norte de Minas (região com forte resistência à compra online), não uma perda de eficiência de mídia."]},
 "Setembro":{"n25":4,"n26":4,"TT25":205732,"TT26":271906,"Fisico25":158802,"Fisico26":223739,"Online25":46930,"Online26":48167,"ReceitaTT25":2301170,"ReceitaTT26":3031890,"Ticket25":11.19,"Ticket26":11.15,"varReceitaRaw":31.8,"varTTRaw":32.2,"ReceitaPorEd25":575293,"ReceitaPorEd26":757973,"TTPorEd25":51433,"TTPorEd26":67977,"varReceitaEd":31.8,"varTTEd":32.2,
-"leituras":["Mix de edições idêntico nos dois anos: 4 edições (1 de R$15,00 e 3 de R$10,00) — comparação direta. Receita <b>+31,8%</b> (R$2,30MM → R$3,03MM, <b>+R$730,7k</b>) e volume (TT) <b>+32,2%</b> (+66.174 títulos), com ticket médio estável (R$11,19 → R$11,15).","O crescimento veio do canal Físico: <b>+40,9%</b> (+64.937 títulos), contra apenas <b>+2,6%</b> no Online (+1.237 títulos). A participação do Online caiu de <b>22,8% para 17,7%</b> do TT, coerente com a entrada do Norte de Minas, região com forte resistência à compra online.","O crescimento de volume por edição (+32,2%) fica <b>cerca de 8 pontos percentuais abaixo da expectativa de +40%</b> traçada para a expansão no Norte de Minas."]}
+"leituras":["Mix de edições idêntico nos dois anos: 4 edições (1 de R$15,00 e 3 de R$10,00) — comparação direta. Receita <b>+31,8%</b> (R$2,30MM → R$3,03MM, <b>+R$730,7k</b>) e volume (TT) <b>+32,2%</b> (+66.174 títulos), com ticket médio estável (R$11,19 → R$11,15).","O crescimento veio do canal Físico: <b>+40,9%</b> (+64.937 títulos), contra apenas <b>+2,6%</b> no Online (+1.237 títulos). A participação do Online caiu de <b>22,8% para 17,7%</b> do TT, coerente com a entrada do Norte de Minas, região com forte resistência à compra online.","O crescimento de volume por edição (+32,2%) fica <b>cerca de 8 pontos percentuais abaixo da expectativa de +40%</b> traçada para a expansão no Norte de Minas."]},
+"Outubro":{"n25":4,"n26":4,"TT25":208647,"TT26":263026,"Fisico25":161634,"Fisico26":218299,"Online25":47013,"Online26":44727,"ReceitaTT25":2320780,"ReceitaTT26":3207630,"Ticket25":11.12,"Ticket26":12.20,"varReceitaRaw":38.2,"varTTRaw":26.1,"ReceitaPorEd25":580195,"ReceitaPorEd26":801908,"TTPorEd25":52162,"TTPorEd26":65757,"varReceitaEd":38.2,"varTTEd":26.1,
+"leituras":["Mesmo número de edições nos dois anos (4), mas com mix de valores diferente: 2025 teve 3 de R$10,00 e 1 de R$15,00; 2026 teve 3 de R$10,00 e 1 de R$20,00. Receita <b>+38,2%</b> (R$2,32MM → R$3,21MM, <b>+R$886,9k</b>) e volume (TT) <b>+26,1%</b> (+54.379 títulos).","A receita cresce mais que o volume porque o ticket médio subiu de <b>R$11,12 para R$12,20</b> (+9,6%), efeito da edição de R$20 no lugar da de R$15. Nas 3 edições de R$10, a média de TT subiu <b>26,9%</b> (53.928 → 68.430 títulos por edição).","O Físico cresceu <b>+35,1%</b> (+56.665 títulos), enquanto o Online recuou <b>-4,9%</b> (-2.286 títulos). A participação do Online caiu de <b>22,5% para 17,0%</b> do TT, coerente com a entrada do Norte de Minas, região com forte resistência à compra online.","O crescimento de volume por edição (+26,1%) fica <b>cerca de 14 pontos percentuais abaixo da expectativa de +40%</b> traçada para a expansão no Norte de Minas."]}
 };
 
-const MES_ABREV = {"Janeiro":"Jan","Fevereiro":"Fev","Março":"Mar","Abril":"Abr","Maio":"Mai","Junho":"Jun","Julho":"Jul","Agosto":"Ago","Setembro":"Set"};
+const MES_ABREV = {"Janeiro":"Jan","Fevereiro":"Fev","Março":"Mar","Abril":"Abr","Maio":"Mai","Junho":"Jun","Julho":"Jul","Agosto":"Ago","Setembro":"Set","Outubro":"Out"};
 
 const fmt = n => Math.round(n).toLocaleString('pt-BR');
 const fmtR = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
@@ -637,15 +646,15 @@ const EDICOES_DATA = {
   {edicao:433, data:"28/06/2026", valor:10, fisico:58887, online:11152, tt:70039, midia:104}
 ],
 "Julho": [
-  {edicao:434, data:"05/07/2026", valor:10, fisico:65463, online:12213, tt:77794, midia:367},
-  {edicao:435, data:"12/07/2026", valor:15, fisico:51855, online:10205, tt:62178, midia:2100},
-  {edicao:436, data:"19/07/2026", valor:10, fisico:52127, online:12504, tt:64756, midia:2294},
-  {edicao:437, data:"26/07/2026", valor:10, fisico:58243, online:12292, tt:70727, midia:2532}
+  {edicao:434, data:"05/07/2026", valor:10, fisico:65463, online:12331, tt:77794, midia:367},
+  {edicao:435, data:"12/07/2026", valor:15, fisico:51855, online:10323, tt:62178, midia:2100},
+  {edicao:436, data:"19/07/2026", valor:10, fisico:52127, online:12629, tt:64756, midia:2294},
+  {edicao:437, data:"26/07/2026", valor:10, fisico:58243, online:12484, tt:70727, midia:2532}
 ],
 "Agosto": [
-  {edicao:438, data:"02/08/2026", valor:10, fisico:60714, online:12127, tt:72996, midia:2795},
-  {edicao:439, data:"09/08/2026", valor:20, fisico:62295, online:14124, tt:76562, midia:4694},
-  {edicao:440, data:"16/08/2026", valor:10, fisico:59895, online:12723, tt:72758, midia:2407},
+  {edicao:438, data:"02/08/2026", valor:10, fisico:60714, online:12282, tt:72996, midia:2795},
+  {edicao:439, data:"09/08/2026", valor:20, fisico:62295, online:14267, tt:76562, midia:4694},
+  {edicao:440, data:"16/08/2026", valor:10, fisico:59895, online:12863, tt:72758, midia:2455},
   {edicao:441, data:"23/08/2026", valor:10, fisico:60108, online:12701, tt:72809, midia:2741},
   {edicao:442, data:"30/08/2026", valor:10, fisico:57845, online:12409, tt:70254, midia:2512}
 ],
@@ -654,6 +663,12 @@ const EDICOES_DATA = {
   {edicao:444, data:"13/09/2026", valor:10, fisico:58862, online:12636, tt:71498, midia:2803},
   {edicao:445, data:"20/09/2026", valor:10, fisico:57013, online:12440, tt:69453, midia:2777},
   {edicao:446, data:"27/09/2026", valor:10, fisico:56348, online:12041, tt:68389, midia:2526}
+],
+"Outubro": [
+  {edicao:447, data:"04/10/2026", valor:10, fisico:59636, online:12227, tt:71863, midia:2465},
+  {edicao:448, data:"11/10/2026", valor:20, fisico:48226, online:9511, tt:57737, midia:2201},
+  {edicao:449, data:"18/10/2026", valor:10, fisico:54898, online:11951, tt:66849, midia:2541},
+  {edicao:450, data:"25/10/2026", valor:10, fisico:55539, online:11038, tt:66577, midia:2325}
 ]
 };
 
@@ -694,7 +709,7 @@ const LEITURAS_EDICOES = {
 ],
 "Agosto": [
   "Participação do Físico ficou estável entre 81,4% e 83,2% em todas as edições — sem grandes oscilações de mix dentro do mês.",
-  "% Mídia sobre Online variou de 18,9% (edição 440) a 33,2% (edição 439) — a edição de R$20 (Dia dos Pais) teve o maior investimento proporcional em mídia por venda Online, mas também o melhor retorno em volume."
+  "% Mídia sobre Online variou de 19,1% (edição 440) a 32,9% (edição 439) — a edição de R$20 (Dia dos Pais) teve o maior investimento proporcional em mídia por venda Online, mas também o melhor retorno em volume."
 ],
 "Setembro": [
   "Participação do Físico estável nas 4 edições (<b>82,1% a 82,4%</b> do TT), sem oscilação de mix dentro do mês; o Online ficou entre 17,6% e 17,9%.",
@@ -702,6 +717,15 @@ const LEITURAS_EDICOES = {
   "A edição de R$15 (443) teve o menor volume TT do mês (<b>62.566</b>, contra 68.389 a 71.498 nas de R$10) e o maior % Mídia/Online — comportamento padrão de edições com tickets mais altos.",
   "<b style='color:var(--orange);'>Meta:</b> por conta das rejeições de criativos, as peças das campanhas não foram atualizadas no mês.",
   "<b style='color:var(--orange);'>Entrada do TikTok na edição 446</b>, que já ocupa o <b>2º lugar</b> como canal pago com maior volume de visitas ao site, acima do Google."
+],
+"Outubro": [
+  "Vendas de mídia entre <b>2.201 e 2.541 títulos por edição</b> (total de 9.532 no mês, <b>-11,6%</b> vs setembro), equivalente a <b>21,3% do Online</b> (setembro: 22,4%). O % Mídia/Online variou de 20,2% a 23,1%.",
+  "A edição de R$20 (448) teve o menor volume TT do mês (<b>57.737</b>, contra 66.577 a 71.863 nas de R$10) por conta do ticket mais alto, mas o <b>maior faturamento</b> (R$1,15MM, contra R$666 mil a R$719 mil nas de R$10). Também teve o maior % Mídia/Online (23,1%) e o <b>maior ROAS entre as edições de R$20 do ano até outubro (3,5)</b>, desconsiderando as edições especiais (Mães e Pais).",
+  "Conforme a planilha, o investimento em mídia no mês foi de <b>R$50.840</b>, com CPA médio de <b>R$5,33</b> e ROAS de <b>2,3</b> (setembro: CPA R$4,43 e ROAS 2,5). Entre as edições de R$10, as de 04/10 e 25/10 tiveram os menores ROAS (1,9).",
+  "<b style='color:var(--orange);'>Meta:</b> sem otimizações em outubro, por conta das limitações da conta.",
+  "<b style='color:var(--orange);'>Programática:</b> entrou a partir da edição 447 e gerou <b>607 mil impressões</b> no período, mas sem impacto relevante no tráfego para o site, pois também houve reprovação de algumas peças.",
+  "<b style='color:var(--orange);'>Google:</b> a LP <a href='https://quemsomos.supervalemg.com.br/' target='_blank' style='color:var(--orange);'>quemsomos.supervalemg.com.br</a> entrou como teste nas campanhas, para ver se deixavam de ser limitadas, mas sem sucesso: seguem com pouca entrega e baixa performance e serão descontinuadas em novembro. A LP somou apenas <b>568 sessões</b> no período, porém levou <b>48% dos usuários</b> que acessaram a LP para o site oficial (ponto positivo).",
+  "<b style='color:var(--orange);'>TikTok</b> segue em destaque: é o 2º canal de mídia que mais leva tráfego para o site, atrás apenas do Meta."
 ]
 };
 
@@ -899,6 +923,11 @@ const FUNNEL_DATA = {
   label1:"26/07 a 29/08/26", label2:"30/08 a 25/09/26",
   p1:{sessions:425562, users:135394, novos:58610, addcart:100508, checkout:63467, compras:67511},
   p2:{sessions:288405, users:103538, novos:33771, addcart:63574, checkout:42091, compras:42192}
+},
+"Outubro": {
+  label1:"30/08 a 26/09/26", label2:"27/09 a 24/10/26",
+  p1:{sessions:312130, users:108440, novos:37232, addcart:73394, checkout:48904, compras:49329},
+  p2:{sessions:313033, users:116050, novos:46979, addcart:68704, checkout:45416, compras:46170}
 }
 };
 
@@ -943,6 +972,20 @@ const LEITURAS_FUNIL = {
   "Melhoras no funil: Sessões para Usuários subiu de <b>32% para 36%</b> e Add ao Carrinho para Finalização de Compra de <b>63% para 66%</b>.",
   "<b style='color:var(--red);'>⚠️ Pontos de atenção:</b> Usuários para Novos Usuários caiu de <b>43% para 33%</b> (-10,7pp) e Usuários para Add ao Carrinho de <b>74% para 61%</b> (-12,8pp). Isso acontece porque, na edição de Pais, houve aporte de mídia principalmente nas campanhas com foco em alcançar novas pessoas para o site.",
   "Finalização de Compra para Compras ficou em <b>100,2%</b> (era 106% no período anterior): praticamente equiparados, mas ainda acima de 100%. Segue em investigação."
+],
+"Outubro": [
+  "Os dois períodos têm 28 dias (4 semanas fechadas, de domingo a sábado). As Sessões ficaram estáveis (<b>+0,3%</b>) e os Usuários cresceram <b>+7,0%</b>, com Novos usuários em alta de <b>+26,2%</b> (+9.747). Já Add ao Carrinho, Finalização de Compra e Compras recuaram: <b>-6,4%</b>, <b>-7,1%</b> e <b>-6,4%</b>.",
+  "<b style='color:var(--red);'>⚠️ Ponto de atenção:</b> Usuários para Add ao Carrinho caiu de <b>68% para 59%</b> (-8,5pp), a menor taxa entre todos os períodos já analisados neste dashboard. A queda coincide com a entrada de novos usuários vindos de TikTok e programática (veja o bloco de origens abaixo).",
+  "Melhoras no funil: Sessões para Usuários subiu de <b>35% para 37%</b> e Usuários para Novos Usuários de <b>34% para 41%</b> (+6,2pp).",
+  "Add ao Carrinho para Finalização de Compra ficou estável (<b>67% para 66%</b>). Finalização de Compra para Compras ficou em <b>101,7%</b> (100,9% no período anterior): ainda acima de 100%. Segue em investigação."
+]
+};
+
+const ORIGENS_FUNIL = {
+"Outubro": [
+  "<b>Sessões:</b> praticamente estáveis (+903). O TikTok (<b>+15.916</b>, de 2.141 para 18.057 sessões, reflexo do investimento em mídia) e a programática (<b>+2.347</b>) compensaram quedas no app (<b>-9.108</b>: home-comprar -7.932 e menu-comprar -1.176), no Direto (<b>-4.641</b>), no Meta (<b>-2.119</b>) e no Google Ads (<b>-1.170</b>).",
+  "<b>Novos usuários:</b> o aumento de 9.747 veio do TikTok (<b>+8.977</b>, 92% do total) e da programática (<b>+2.276</b>, 23%). O Meta recuou <b>-1.102</b>.",
+  "<b>Add ao Carrinho:</b> a queda de 4.690 veio do app (<b>-7.158</b>: home-comprar -6.316 e menu-comprar -842), do Meta (<b>-549</b>) e do Google Ads (<b>-528</b>). Direto (<b>+2.081</b>), web push do CRM (<b>+1.036</b>) e LP (<b>+239</b>) compensaram parte."
 ]
 };
 
@@ -979,6 +1022,7 @@ function updateFunil(){
     document.getElementById('funnelCol2').innerHTML = '';
     document.getElementById('leiturasFunilList').innerHTML =
       `<li>Ainda sem leituras de funil de ${mes} nesta parte — manda os períodos que eu incluo.</li>`;
+    document.getElementById('origensBox').style.display = 'none';
     return;
   }
 
@@ -989,6 +1033,15 @@ function updateFunil(){
 
   const leituras = LEITURAS_FUNIL[mes] || [];
   document.getElementById('leiturasFunilList').innerHTML = leituras.map(l => `<li>${l}</li>`).join('');
+
+  const origens = ORIGENS_FUNIL[mes];
+  const box = document.getElementById('origensBox');
+  if(origens){
+    document.getElementById('origensList').innerHTML = origens.map(l => `<li>${l}</li>`).join('');
+    box.style.display = '';
+  } else {
+    box.style.display = 'none';
+  }
 }
 
 updateFunil();

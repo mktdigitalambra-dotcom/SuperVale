@@ -2215,14 +2215,14 @@ const TESTES = [
     id:'serie_objecoes',
     titulo:'Série Objeções — e-mails para quem não compra há 90 dias',
     periodo:'Set–Out/2026 — concluída',
-    descricao:'Cinco e-mails semanais, um por semana, cada um respondendo a uma objeção comum de quem parou de comprar. O título de cada e-mail é a objeção entre aspas, como se o cliente estivesse falando. A base foi congelada em 22/09: quem comprar sai na hora, e o grupo fica de fora dos e-mails de premiação de terça durante as cinco semanas, para não misturar. O piloto de 15/09 foi disparado para toda a base de quem não compra há 90 dias. A partir do e-mail 1, passou a valer um filtro de engajamento: além de não comprar há 90 dias, a pessoa precisa ter visitado o site entre 5 e 8 meses atrás e aberto ao menos um e-mail em 2026. Foi essa mudança de recorte, e não o texto, que levou a abertura de 0,33% para 16,68%.',
+    descricao:'Cinco e-mails semanais, um por semana, cada um respondendo a uma objeção comum de quem parou de comprar. O título de cada e-mail é a objeção entre aspas, como se o cliente estivesse falando. A base foi congelada em 15/09: quem comprar sai na hora, e o grupo fica de fora dos e-mails de premiação de terça durante as cinco semanas, para não misturar. O e-mail 1, de 15/09, foi disparado para toda a base de quem não compra há 90 dias. A partir do e-mail 2, passou a valer um filtro de engajamento: além de não comprar há 90 dias, a pessoa precisa ter visitado o site entre 5 e 8 meses atrás e aberto ao menos um e-mail em 2026. Foi essa mudança de recorte, e não o texto, que levou a abertura de 0,33% para 16,68%.',
     caps:['mc','sm','sv'],
     resultado:'positivo',
     badge:'Concluída — 5 de 5 e-mails',
     badge_cor:'#1D9E75',
     cronograma:[
-      {n:1,tema:'"Ninguém ganha de verdade"',data:'22/set',feito:true},
-      {n:2,tema:'"É muito caro pra mim"',data:'25/set',feito:true},
+      {n:1,tema:'"Ninguém ganha de verdade"',data:'15/set',feito:true},
+      {n:2,tema:'"É muito caro pra mim"',data:'22 e 25/set',feito:true},
       {n:3,tema:'"É impossível ganhar"',data:'06/out',feito:true},
       {n:4,tema:'"Perdi meu dinheiro"',data:'13/out',feito:true},
       {n:5,tema:'"Não vou conseguir receber"',data:'20/out',feito:true}
@@ -2230,8 +2230,8 @@ const TESTES = [
     metricas:[
       {cap:'mc',label:'Minas Cap',
        grupos:[
-         {n:'Piloto · 15/09 — sem filtro de engajamento',camp:1,del:18724,ctr:'0,03%',sess:0,conv:0,rev:0,tx:'0,33% abertura',email:true},
-         {n:'E-mails 1 e 2 · 22 e 25/09 — com filtro de engajamento',camp:2,del:24914,ctr:'0,44%',sess:0,conv:5,rev:90,tx:'9,00% abertura',email:true},
+         {n:'E-mail 1 · 15/09 — sem filtro de engajamento*',camp:1,del:18724,ctr:'0,03%',sess:0,conv:0,rev:0,tx:'0,33% abertura',email:true},
+         {n:'E-mail 2 · 22 e 25/09 — 2 disparos, com filtro de engajamento*',camp:2,del:24914,ctr:'0,44%',sess:0,conv:5,rev:90,tx:'9,00% abertura',email:true},
          {n:'E-mail 3 · 06/10',camp:1,del:14352,ctr:'0,32%',sess:0,conv:4,rev:120,tx:'12,70% abertura',email:true},
          {n:'E-mail 4 · 13/10',camp:1,del:15793,ctr:'0,35%',sess:0,conv:4,rev:135,tx:'15,23% abertura',email:true},
          {n:'E-mail 5 · 20/10 — último da série',camp:1,del:17113,ctr:'0,78%',sess:0,conv:5,rev:120,tx:'16,68% abertura',email:true},
@@ -2239,8 +2239,8 @@ const TESTES = [
        ]},
       {cap:'sm',label:'Super Minas',
        grupos:[
-         {n:'Piloto · 15/09 — sem filtro de engajamento',camp:1,del:6075,ctr:'0,00%',sess:0,conv:0,rev:0,tx:'0,15% abertura',email:true},
-         {n:'E-mails 1 e 2 · 22 e 25/09 — com filtro de engajamento',camp:2,del:5309,ctr:'0,23%',sess:0,conv:2,rev:30,tx:'9,59% abertura',email:true},
+         {n:'E-mail 1 · 15/09 — sem filtro de engajamento*',camp:1,del:6075,ctr:'0,00%',sess:0,conv:0,rev:0,tx:'0,15% abertura',email:true},
+         {n:'E-mail 2 · 22 e 25/09 — 2 disparos, com filtro de engajamento*',camp:2,del:5309,ctr:'0,23%',sess:0,conv:2,rev:30,tx:'9,59% abertura',email:true},
          {n:'E-mail 3 · 06/10',camp:1,del:3072,ctr:'0,26%',sess:0,conv:0,rev:0,tx:'15,07% abertura',email:true},
          {n:'E-mail 4 · 13/10',camp:1,del:3489,ctr:'0,14%',sess:0,conv:0,rev:0,tx:'13,53% abertura',email:true},
          {n:'E-mail 5 · 20/10 — último da série',camp:1,del:3626,ctr:'0,47%',sess:0,conv:0,rev:0,tx:'17,54% abertura',email:true},
@@ -2248,8 +2248,8 @@ const TESTES = [
        ]},
       {cap:'sv',label:'Super Vale',
        grupos:[
-         {n:'Piloto · 15/09 — sem filtro de engajamento',camp:1,del:2864,ctr:'0,07%',sess:0,conv:0,rev:0,tx:'0,63% abertura',email:true},
-         {n:'E-mails 1 e 2 · 22 e 25/09 — com filtro de engajamento',camp:2,del:3243,ctr:'0,22%',sess:0,conv:1,rev:10,tx:'8,36% abertura',email:true},
+         {n:'E-mail 1 · 15/09 — sem filtro de engajamento*',camp:1,del:2864,ctr:'0,07%',sess:0,conv:0,rev:0,tx:'0,63% abertura',email:true},
+         {n:'E-mail 2 · 22 e 25/09 — 2 disparos, com filtro de engajamento*',camp:2,del:3243,ctr:'0,22%',sess:0,conv:1,rev:10,tx:'8,36% abertura',email:true},
          {n:'E-mail 3 · 06/10',camp:1,del:1786,ctr:'0,17%',sess:0,conv:0,rev:0,tx:'9,80% abertura',email:true},
          {n:'E-mail 4 · 13/10',camp:1,del:1923,ctr:'0,31%',sess:0,conv:2,rev:30,tx:'12,17% abertura',email:true},
          {n:'E-mail 5 · 20/10 — último da série',camp:1,del:1960,ctr:'0,56%',sess:0,conv:0,rev:0,tx:'12,55% abertura',email:true},
@@ -3419,7 +3419,7 @@ function rTestes(){
             +'<td style="text-align:right">'+g.ctr+'</td>'
             +'<td style="text-align:right;font-weight:600">'+g.conv+'</td></tr>';
         });
-        html+='</tbody></table><div style="font-size:10px;color:#888780;margin-top:5px">Métricas da Insider, em ordem cronológica. A última linha não faz parte da série: é a comunicação normal de premiação no mesmo período, para comparação.</div></div>';
+        html+='</tbody></table><div style="font-size:10px;color:#888780;margin-top:5px">* Filtro de engajamento: visitou o site entre 5 e 8 meses atrás e abriu ao menos um e-mail em 2026. O e-mail 1 saiu sem esse filtro, para toda a base de quem não compra há 90 dias. A partir do e-mail 2 o filtro passou a valer, e foi o que mudou o resultado. O e-mail 2 saiu em duas levas, 22 e 25/09.<br>Métricas da Insider, em ordem cronológica. A última linha não faz parte da série: é a comunicação normal de premiação no mesmo período, para comparação.</div></div>';
       }
     } else if(t.id==='var_idade'){
       var mi=metricas[0];

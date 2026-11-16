@@ -177,7 +177,7 @@
       </div>
     </div>
 
-    <div class="section-title">INVESTIMENTO + CLIQUES + SESSÕES (DIÁRIO)</div>
+    <div class="section-title">INVESTIMENTO + CLIQUES + SESSÕES (SEMANAL · POR EDIÇÃO)</div>
     <div class="content">
       <div class="panel" style="margin-top:0;">
         <div class="chart-box"><canvas id="chartProgCombo"></canvas></div>
@@ -325,18 +325,34 @@ const progDates = ["02/10", "03/10", "04/10", "05/10", "06/10", "07/10", "08/10"
 const progSpend = [535.01, 986.48, 162.36, 166.22, 166.49, 167.37, 197.82, 198.03, 199.53, 160.81, 159.5, 160.0, 160.39, 203.93, 205.47, 208.11, 141.08, 141.17, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
 const progClicks = [90, 68, 382, 344, 281, 153, 313, 259, 249, 352, 321, 424, 291, 436, 398, 553, 425, 278, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
 const progSessions = [645, 288, 171, 119, 165, 63, 193, 93, 49, 87, 38, 23, 23, 27, 25, 39, 69, 9, 19, 26, 31, 31, 19, 50, 40, 32, 33, 22, 24, 47, 62, 31, 20];
-new Chart(document.getElementById('chartProgCombo'), {
-  data:{ labels:progDates, datasets:[
-    { type:'bar', label:'Investimento (R$)', data:progSpend, backgroundColor:'#1565c0', borderRadius:4, yAxisID:'y', order:2 },
-    { type:'line', label:'Cliques', data:progClicks, borderColor:'#1a1a2e', backgroundColor:'#1a1a2e', tension:.3, yAxisID:'y1', order:1 },
-    { type:'line', label:'Sessões (GA4)', data:progSessions, borderColor:'#2e7d32', backgroundColor:'#2e7d32', tension:.3, yAxisID:'y1', order:0 }
-  ]},
-  options:{ responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:10} } }, datalabels:{ display:false } },
-    scales:{ x:{ grid:{display:false}, ticks:baseTicks() },
-      y:{ position:'left', grid:baseGrid(), ticks:{...baseTicks(), callback:(v)=>'R$'+v}, beginAtZero:true },
-      y1:{ position:'right', grid:{display:false}, ticks:baseTicks(), beginAtZero:true } } }
-});
+
+/* ---------- grafico semanal por edicao (lido da tabela "Resultados por Edicao" da aba) ---------- */
+function weeklyChart(canvasId, panelId, barColor){
+  const panel = document.getElementById(panelId);
+  const table = [...panel.querySelectorAll('table')].find(t => [...t.querySelectorAll('thead th')].some(th => th.textContent.trim()==='Período de veiculação'));
+  const heads = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim());
+  const iInv=heads.indexOf('Investimento'), iClk=heads.indexOf('Cliques'), iSes=heads.indexOf('Sessões');
+  const num = s => { const v=parseFloat(s.replace('R$','').replace(/\./g,'').replace(',','.').trim()); return isNaN(v)?null:v; };
+  const rows = [...table.tBodies[0].rows];
+  const labels = rows.map(r => ['Ed. '+r.cells[0].textContent.replace('Edição','').trim(), r.cells[2].textContent.trim()]);
+  const spend  = rows.map(r => num(r.cells[iInv].textContent));
+  const clicks = rows.map(r => num(r.cells[iClk].textContent));
+  const sess   = rows.map(r => num(r.cells[iSes].textContent));
+  new Chart(document.getElementById(canvasId), {
+    data:{ labels, datasets:[
+      { type:'bar',  label:'Investimento (R$)', data:spend,  backgroundColor:barColor, borderRadius:4, maxBarThickness:46, yAxisID:'y',  order:2 },
+      { type:'line', label:'Cliques',           data:clicks, borderColor:'#1a1a2e', backgroundColor:'#1a1a2e', tension:.25, pointRadius:4, yAxisID:'y1', order:1 },
+      { type:'line', label:'Sessões (GA4)',     data:sess,   borderColor:'#2e7d32', backgroundColor:'#2e7d32', tension:.25, pointRadius:4, yAxisID:'y1', order:0 }
+    ]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:10} } }, datalabels:{ display:false },
+        tooltip:{ callbacks:{ title:(items)=> items[0].label.join(' · ') } } },
+      scales:{ x:{ grid:{display:false}, ticks:baseTicks() },
+        y:{ position:'left', grid:baseGrid(), ticks:{...baseTicks(), callback:(v)=>'R$'+v.toLocaleString('pt-BR')}, beginAtZero:true },
+        y1:{ position:'right', grid:{display:false}, ticks:baseTicks(), beginAtZero:true } } }
+  });
+}
+weeklyChart('chartProgCombo','panel-prog','#1565c0');
 </script>
 </body>
 </html>

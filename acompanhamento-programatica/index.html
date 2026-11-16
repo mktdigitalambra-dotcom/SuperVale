@@ -344,9 +344,9 @@ function weeklyChart(canvasId, panelId, barColor){
       { type:'line', label:'Cliques',           data:clicks, borderColor:'#1a1a2e', backgroundColor:'#1a1a2e', tension:.25, pointRadius:4, yAxisID:'y1', order:1 },
       { type:'line', label:'Sessões (GA4)',     data:sess,   borderColor:'#2e7d32', backgroundColor:'#2e7d32', tension:.25, pointRadius:4, yAxisID:'y1', order:0 }
     ]},
-    options:{ responsive:true, maintainAspectRatio:false,
+    options:{ responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
       plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:10} } }, datalabels:{ display:false },
-        tooltip:{ callbacks:{ title:(items)=> items[0].label.join(' · ') } } },
+        tooltip:{ filter:(c)=> c.parsed.y!==null && !isNaN(c.parsed.y), callbacks:{ title:(items)=>{ const l=items[0].chart.data.labels[items[0].dataIndex]; return Array.isArray(l)?l.join(' · '):String(l); }, label:(c)=>{ const v=c.parsed.y; const bar=(c.dataset.type==='bar'); return ' '+c.dataset.label+': '+(bar?'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):v.toLocaleString('pt-BR')); } } } },
       scales:{ x:{ grid:{display:false}, ticks:baseTicks() },
         y:{ position:'left', grid:baseGrid(), ticks:{...baseTicks(), callback:(v)=>'R$'+v.toLocaleString('pt-BR')}, beginAtZero:true },
         y1:{ position:'right', grid:{display:false}, ticks:baseTicks(), beginAtZero:true } } }

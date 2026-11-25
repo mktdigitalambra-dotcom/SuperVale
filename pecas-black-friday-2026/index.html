@@ -143,7 +143,7 @@ button.tab:hover:not(.on){background:rgba(42,19,0,.1)}
   <h1>Black Friday Super Vale</h1>
   <p>Exemplos das peças programadas para a edição de Black Friday 2026.</p>
   <p class="dest"><strong>Direcionamento:</strong> LP Black Friday — <a href="https://quemsomos.supervalemg.com.br/black-friday-chegou/" target="_blank" rel="noopener">quemsomos.supervalemg.com.br/black-friday-chegou</a></p>
-  <div class="tabs" role="tablist"><button type="button" class="tab" role="tab" data-t="google">Google Ads<span class="nv">sem veiculação</span></button><button type="button" class="tab" role="tab" data-t="programatica">Programática<span class="nv">sem veiculação</span></button><button type="button" class="tab" role="tab" data-t="meta">Meta Ads</button><button type="button" class="tab" role="tab" data-t="tiktok">TikTok Ads</button><button type="button" class="tab" role="tab" data-t="uol">UOL Ads<span class="nv">sem veiculação</span></button><button type="button" class="tab" role="tab" data-t="crm">CRM</button></div>
+  <div class="tabs" role="tablist"><button type="button" class="tab" role="tab" data-t="crm">CRM</button><button type="button" class="tab" role="tab" data-t="meta">Meta Ads</button><button type="button" class="tab" role="tab" data-t="tiktok">TikTok Ads</button><button type="button" class="tab" role="tab" data-t="uol">UOL Ads<span class="nv">sem veiculação</span></button><button type="button" class="tab" role="tab" data-t="programatica">Programática<span class="nv">sem veiculação</span></button><button type="button" class="tab" role="tab" data-t="google">Google Ads<span class="nv">sem veiculação</span></button></div>
 </div></section>
 <main><div class="wrap">
 <div class="panel" id="p-google" hidden>
@@ -216,5 +216,5 @@ d.addEventListener('click',()=>d.close());
 const tabs=document.querySelectorAll('button.tab[data-t]');
 function show(t){document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+t);
 tabs.forEach(b=>{const on=b.dataset.t===t;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});window.scrollTo(0,0);}
-tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.t)));show('google');
+tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.t)));show('crm');
 </script></body></html>

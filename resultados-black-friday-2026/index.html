@@ -891,7 +891,7 @@ dash.draw('h_canais', (el) => {
   el.replaceChildren();
   const cm = BF.corMidia();
   const h0 = document.createElement('th'); h0.textContent = 'Canal'; el.append(h0);
-  BF.COLS_CANAIS.forEach(([t, f]) => { const h = document.createElement('th'); h.textContent = t; h.setAttribute('data-field', f); BF.pinta(h, cm, 0.12); el.append(h); });
+  BF.COLS_CANAIS.forEach(([t, f]) => { const h = document.createElement('th'); h.textContent = t; h.setAttribute('data-field', f); el.append(h); });
 });
 dash.draw('t_canais', (el) => {
   const k = dash.data('midia_canais');
@@ -908,7 +908,7 @@ dash.draw('t_canais', (el) => {
     if (r.pendente) {
       const td = BF.td('Aguardando o arquivo de resultados', 'bf-err'); td.colSpan = BF.COLS_CANAIS.length; td.style.textAlign = 'left'; tr.append(td);
     } else {
-      BF.COLS_CANAIS.forEach(([, f, t]) => { const v = r[f]; const td = BF.td(v == null ? '—' : fmt[t](v), f === 'roas' && v != null ? (v >= 1 ? 'bf-up' : 'bf-down') : ''); BF.pinta(td, cm, tot ? 0.14 : 0.06); tr.append(td); });
+      BF.COLS_CANAIS.forEach(([, f, t]) => { const v = r[f]; const td = BF.td(v == null ? '—' : fmt[t](v), f === 'roas' && v != null ? (v >= 1 ? 'bf-up' : 'bf-down') : ''); tr.append(td); });
     }
     el.append(tr);
   });

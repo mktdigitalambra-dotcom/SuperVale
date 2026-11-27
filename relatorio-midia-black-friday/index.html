@@ -871,7 +871,7 @@ table.tq tr.tot td{background:#f1f1ec!important;border-top:2px solid rgba(0,0,0,
    ===================================================================== */
 const CONFIG = {
   titulo: 'Black Friday 2026',
-  atualizadoEm: '2026-11-25'    // Esquenta fechado em 21/11; Black Friday com mídia até 25/11 (parcial) e BI até 24/11
+  atualizadoEm: '2026-11-27'    // Esquenta fechado em 21/11; Black Friday com mídia até 25/11 (parcial) e BI até 24/11
 };
 
 // Plataformas disponíveis. "imposto" é aplicado sobre o investimento quando o
@@ -923,8 +923,8 @@ const DATA = {
     nome: 'Super Vale',
     // visitantes (usuários) de mídia paga (Meta e TikTok) por dia: LP (páginas da Black, 558748476) e site (303250712, só na semana da Black)
     visitantes: {
-      lp: { '2026-11-06': 33, '2026-11-07': 48, '2026-11-08': 33, '2026-11-09': 57, '2026-11-10': 381, '2026-11-11': 312, '2026-11-12': 780, '2026-11-13': 799, '2026-11-14': 883, '2026-11-15': 965, '2026-11-16': 225, '2026-11-17': 464, '2026-11-18': 748, '2026-11-19': 451, '2026-11-20': 570, '2026-11-21': 313, '2026-11-22': 4365, '2026-11-23': 1746, '2026-11-24': 1268, '2026-11-25': 892 },
-      site: { '2026-11-22': 37, '2026-11-23': 9, '2026-11-24': 240, '2026-11-25': 63 }
+      lp: { '2026-11-06': 33, '2026-11-07': 48, '2026-11-08': 33, '2026-11-09': 57, '2026-11-10': 381, '2026-11-11': 312, '2026-11-12': 780, '2026-11-13': 799, '2026-11-14': 883, '2026-11-15': 965, '2026-11-16': 225, '2026-11-17': 464, '2026-11-18': 748, '2026-11-19': 451, '2026-11-20': 570, '2026-11-21': 313, '2026-11-22': 4365, '2026-11-23': 1746, '2026-11-24': 1268, '2026-11-25': 2712, '2026-11-26': 2599, '2026-11-27': 560 },
+      site: { '2026-11-22': 37, '2026-11-23': 9, '2026-11-24': 240, '2026-11-25': 259, '2026-11-26': 187, '2026-11-27': 38 }
     },
     criativos: {
       esquenta: {
@@ -952,9 +952,9 @@ const DATA = {
         ]
       }
     },
-    alcanceDiarioPlat: { tiktok: { '2026-11-24': 1130, '2026-11-25': 1799 } },
+    alcanceDiarioPlat: { tiktok: { '2026-11-24': 1130, '2026-11-25': 6914, '2026-11-26': 5901, '2026-11-27': 1066 } },
     // alcance diário: soma do alcance das campanhas Meta + TikTok no dia (Windsor); serve para tendência
-    alcanceDiario: {'2026-11-06': 4568, '2026-11-07': 7409, '2026-11-08': 5461, '2026-11-09': 2981, '2026-11-10': 19652, '2026-11-11': 17677, '2026-11-12': 27088, '2026-11-13': 23095, '2026-11-14': 27513, '2026-11-15': 35117, '2026-11-16': 7043, '2026-11-17': 13465, '2026-11-18': 15297, '2026-11-19': 13945, '2026-11-20': 17713, '2026-11-21': 8371, '2026-11-22': 423118, '2026-11-23': 225142, '2026-11-24': 171164, '2026-11-25': 101985},
+    alcanceDiario: {'2026-11-06': 4568, '2026-11-07': 7409, '2026-11-08': 5461, '2026-11-09': 2981, '2026-11-10': 19652, '2026-11-11': 17677, '2026-11-12': 27088, '2026-11-13': 23095, '2026-11-14': 27513, '2026-11-15': 35117, '2026-11-16': 7043, '2026-11-17': 13465, '2026-11-18': 15297, '2026-11-19': 13945, '2026-11-20': 17713, '2026-11-21': 8371, '2026-11-22': 423118, '2026-11-23': 225142, '2026-11-24': 171164, '2026-11-25': 183861, '2026-11-26': 154746, '2026-11-27': 77516},
     plataformas: ['meta', 'tiktok'],
     insightsGeral: { positivos: [], eficiencia: [], atencao: [], otimizacoes: [], aprendizados: [] },
     esquentaConversao: { metodo: null, leadsCompraram: null, receitaLeads: null, reativadosCompraram: null, receitaReativados: null },
@@ -1048,17 +1048,17 @@ const DATA = {
         inicio: '2026-11-22', fim: '2026-11-28',
         plataformas: ['meta', 'tiktok'],
         ticket: null,
-        lp: { urls: ['https://quemsomos.supervalemg.com.br/black-friday-chegou/'], sessoes: 8477, usuarios: 7749, usuariosUnicos: 7819, sessoesCompra: 560, btnCompra: 819,
-          nota: 'GA4 da LP (propriedade 558748476), 22–25/11 (25/11 parcial), sessões com entrada em /black-friday-chegou, todas as origens. Clique para compra = evento click do GA4 (clique no link de saída para o app de compra), 819 cliques em 560 sessões. Atenção: 202 sessões do Meta entraram por uma URL quebrada (/blachk-friday-chego…), sinal de link digitado errado em algum anúncio.' },
+        lp: { urls: ['https://quemsomos.supervalemg.com.br/black-friday-chegou/'], sessoes: 14844, usuarios: 12352, usuariosUnicos: 12435, sessoesCompra: 1098, btnCompra: 1738,
+          nota: 'GA4 da LP (propriedade 558748476), 22–27/11 (27/11 parcial), sessões com entrada em /black-friday-chegou, todas as origens. Clique para compra = evento click do GA4 (clique no link de saída para o app de compra), 1.738 cliques em 1.098 sessões. Atenção: 202 sessões do Meta entraram por uma URL quebrada (/blachk-friday-chego…), sinal de link digitado errado em algum anúncio.' },
         planejado: {},
-        alcance: { meta: 663186, tiktok: 2742 },   // 22–25/11: soma do alcance das campanhas no período (Windsor); pode haver sobreposição
+        alcance: { meta: 807122, tiktok: 12775 },   // 22–27/11: soma do alcance das campanhas no período (Windsor); pode haver sobreposição
         // compras atribuídas na Black às campanhas do Esquenta (já desligadas): TRAFEGO 4 (Meta, 22–25/11)
         esquentaCompras: 4,
         // meta da mídia — "Super Vale - Projeções BF.xlsx" (SharePoint Marketing): mídia desejada 13.800; intermediária 6.900; mínima 5.520
         metaMidia: { desejada: 13800, minima: 5520 },
         campanhas: [],
         midia: [
-          // Windsor.ai (APIs do Meta e do TikTok), conferido em 25/11: campanhas BLACK, 22–25/11 (25/11 parcial). Super Vale sem Google na Black.
+          // Windsor.ai (APIs do Meta e do TikTok), atualizado em 27/11: campanhas BLACK, 22–27/11 (27/11 parcial). Super Vale sem Google na Black.
           // conversoes = compras atribuídas pelo Meta; receita = valor das compras registrado no pixel.
           { data: '2026-11-22', plataforma: 'meta', campanha: 'ALCANCE_Super-Vale_BLACK-2026', investimento: 384.5, impressoes: 233321, cliques: 320, lpv: 108, leads: 53, conversoes: 8, receita: 50 },
           { data: '2026-11-22', plataforma: 'meta', campanha: 'TRAFEGO_Super-Vale_BLACK-2026', investimento: 1889.18, impressoes: 310470, cliques: 4919, lpv: 3021, leads: 101, conversoes: 26, receita: 100 },
@@ -1072,28 +1072,45 @@ const DATA = {
           { data: '2026-11-24', plataforma: 'meta', campanha: 'TRAFEGO_Super-Vale_BLACK-2026', investimento: 186.17, impressoes: 42973, cliques: 575, lpv: 265, leads: 12, conversoes: 10, receita: 55 },
           { data: '2026-11-24', plataforma: 'meta', campanha: 'CONVERSAO_Super-Vale_BLACK-2026', investimento: 589.18, impressoes: 48508, cliques: 617, lpv: 325, leads: 46, videoViews: 1283, conversoes: 96, receita: 445.71 },
           { data: '2026-11-24', plataforma: 'meta', campanha: 'REMARKETING_Super-Vale_BLACK-2026', investimento: 320.17, impressoes: 54942, cliques: 412, lpv: 135, leads: 133, conversoes: 157, receita: 745 },
-          { data: '2026-11-25', plataforma: 'meta', campanha: 'ALCANCE_Super-Vale_BLACK-2026', investimento: 120.12, impressoes: 63439, cliques: 101, lpv: 31, leads: 11, conversoes: 9, receita: 35 },
-          { data: '2026-11-25', plataforma: 'meta', campanha: 'TRAFEGO_Super-Vale_BLACK-2026', investimento: 141.2, impressoes: 35872, cliques: 485, lpv: 201, leads: 11, conversoes: 8, receita: 45 },
-          { data: '2026-11-25', plataforma: 'meta', campanha: 'CONVERSAO_Super-Vale_BLACK-2026', investimento: 492.67, impressoes: 36289, cliques: 386, lpv: 229, leads: 41, videoViews: 956, conversoes: 47, receita: 210 },
-          { data: '2026-11-25', plataforma: 'meta', campanha: 'REMARKETING_Super-Vale_BLACK-2026', investimento: 218.13, impressoes: 31217, cliques: 292, lpv: 106, leads: 92, conversoes: 124, receita: 540 },
+          { data: '2026-11-25', plataforma: 'meta', campanha: 'ALCANCE_Super-Vale_BLACK-2026', investimento: 215.48, impressoes: 111864, cliques: 187, lpv: 64, leads: 19, conversoes: 15, receita: 60 },
+          { data: '2026-11-25', plataforma: 'meta', campanha: 'TRAFEGO_Super-Vale_BLACK-2026', investimento: 237.22, impressoes: 69953, cliques: 877, lpv: 391, leads: 17, conversoes: 16, receita: 85 },
+          { data: '2026-11-25', plataforma: 'meta', campanha: 'CONVERSAO_Super-Vale_BLACK-2026', investimento: 715.95, impressoes: 54896, cliques: 575, lpv: 335, leads: 59, videoViews: 1477, conversoes: 66, receita: 290 },
+          { data: '2026-11-25', plataforma: 'meta', campanha: 'REMARKETING_Super-Vale_BLACK-2026', investimento: 315.65, impressoes: 47674, cliques: 418, lpv: 162, leads: 130, conversoes: 177, receita: 735 },
+          { data: '2026-11-26', plataforma: 'meta', campanha: 'ALCANCE_Super-Vale_BLACK-2026', investimento: 207.12, impressoes: 99688, cliques: 176, lpv: 46, leads: 20, conversoes: 24, receita: 130 },
+          { data: '2026-11-26', plataforma: 'meta', campanha: 'TRAFEGO_Super-Vale_BLACK-2026', investimento: 186.68, impressoes: 65741, cliques: 716, lpv: 309, leads: 22, conversoes: 12, receita: 40 },
+          { data: '2026-11-26', plataforma: 'meta', campanha: 'CONVERSAO_Super-Vale_BLACK-2026', investimento: 471.28, impressoes: 43274, cliques: 505, lpv: 288, leads: 40, videoViews: 686, conversoes: 71, receita: 285 },
+          { data: '2026-11-26', plataforma: 'meta', campanha: 'REMARKETING_Super-Vale_BLACK-2026', investimento: 230.05, impressoes: 39045, cliques: 296, lpv: 111, leads: 78, conversoes: 153, receita: 660 },
+          { data: '2026-11-27', plataforma: 'meta', campanha: 'ALCANCE_Super-Vale_BLACK-2026', investimento: 87.2, impressoes: 39104, cliques: 58, lpv: 18, leads: 3, conversoes: 4, receita: 10 },
+          { data: '2026-11-27', plataforma: 'meta', campanha: 'TRAFEGO_Super-Vale_BLACK-2026', investimento: 65.6, impressoes: 15247, cliques: 197, lpv: 106, leads: 3, conversoes: 2, receita: 10 },
+          { data: '2026-11-27', plataforma: 'meta', campanha: 'CONVERSAO_Super-Vale_BLACK-2026', investimento: 344.35, impressoes: 26098, cliques: 292, lpv: 154, leads: 26, videoViews: 331, conversoes: 44, receita: 190 },
+          { data: '2026-11-27', plataforma: 'meta', campanha: 'REMARKETING_Super-Vale_BLACK-2026', investimento: 212.76, impressoes: 29274, cliques: 205, lpv: 76, leads: 51, conversoes: 87, receita: 410 },
           { data: '2026-11-24', plataforma: 'tiktok', campanha: 'Trafego_Super-Vale_BLACK-FRIDAY-2026', objetivo: 'trafego', investimento: 54.05, impressoes: 7400, cliques: 2328 },
-          { data: '2026-11-25', plataforma: 'tiktok', campanha: 'Trafego_Super-Vale_BLACK-FRIDAY-2026', objetivo: 'trafego', investimento: 144.55, impressoes: 18964, cliques: 3910 }
+          { data: '2026-11-25', plataforma: 'tiktok', campanha: 'Trafego_Super-Vale_BLACK-FRIDAY-2026', objetivo: 'trafego', investimento: 243.54, impressoes: 39152, cliques: 6771 },
+          { data: '2026-11-26', plataforma: 'tiktok', campanha: 'Trafego_Super-Vale_BLACK-FRIDAY-2026', objetivo: 'trafego', investimento: 233.17, impressoes: 39401, cliques: 9038 },
+          { data: '2026-11-27', plataforma: 'tiktok', campanha: 'Trafego_Super-Vale_BLACK-FRIDAY-2026', objetivo: 'trafego', investimento: 115.04, impressoes: 15825, cliques: 4646 }
         ],
         ga4: [
-          // GA4, sessões de Meta e TikTok (cpc), 22–25/11 (25/11 parcial). prop 'lp' = LP (558748476, páginas da Black, inclui a URL quebrada); prop 'site' = site (303250712).
+          // GA4, sessões de Meta e TikTok (cpc), 22–27/11 (27/11 parcial). prop 'lp' = LP (558748476, páginas da Black, inclui a URL quebrada); prop 'site' = site (303250712).
           { data: '2026-11-22', prop: 'lp', plataforma: 'meta', sessoes: 4557 },
           { data: '2026-11-23', prop: 'lp', plataforma: 'meta', sessoes: 1792 },
           { data: '2026-11-24', prop: 'lp', plataforma: 'meta', sessoes: 834 },
           { data: '2026-11-24', prop: 'lp', plataforma: 'tiktok', sessoes: 500 },
-          { data: '2026-11-25', prop: 'lp', plataforma: 'meta', sessoes: 288 },
-          { data: '2026-11-25', prop: 'lp', plataforma: 'tiktok', sessoes: 737 },
+          { data: '2026-11-25', prop: 'lp', plataforma: 'meta', sessoes: 784 },
+          { data: '2026-11-25', prop: 'lp', plataforma: 'tiktok', sessoes: 2540 },
+          { data: '2026-11-26', prop: 'lp', plataforma: 'meta', sessoes: 644 },
+          { data: '2026-11-26', prop: 'lp', plataforma: 'tiktok', sessoes: 2702 },
+          { data: '2026-11-27', prop: 'lp', plataforma: 'meta', sessoes: 122 },
+          { data: '2026-11-27', prop: 'lp', plataforma: 'tiktok', sessoes: 517 },
           { data: '2026-11-22', prop: 'site', plataforma: 'meta', sessoes: 41 },
           { data: '2026-11-22', prop: 'site', plataforma: 'tiktok', sessoes: 2 },
           { data: '2026-11-23', prop: 'site', plataforma: 'meta', sessoes: 8 },
           { data: '2026-11-23', prop: 'site', plataforma: 'tiktok', sessoes: 1 },
           { data: '2026-11-24', prop: 'site', plataforma: 'meta', sessoes: 240 },
           { data: '2026-11-24', prop: 'site', plataforma: 'tiktok', sessoes: 1 },
-          { data: '2026-11-25', prop: 'site', plataforma: 'meta', sessoes: 65 }
+          { data: '2026-11-25', prop: 'site', plataforma: 'meta', sessoes: 268 },
+          { data: '2026-11-25', prop: 'site', plataforma: 'tiktok', sessoes: 1 },
+          { data: '2026-11-26', prop: 'site', plataforma: 'meta', sessoes: 205 },
+          { data: '2026-11-27', prop: 'site', plataforma: 'meta', sessoes: 39 }
         ],
         erp: [],
         insights: { positivos: [], eficiencia: [], atencao: [], otimizacoes: [], aprendizados: [] }
@@ -1116,10 +1133,10 @@ const CONTEUDO = {
     conclusao: {
       resultados: [
         'Esquenta (06–21/11): R$ 2.543 só no Meta, 254 leads no pixel (CPL R$ 10,01) e 7.002 sessões de mídia paga na LP.',
-        'Black Friday (22–25/11, 25/11 parcial): R$ 8,3 mil em Meta e TikTok e 882 vendas atribuídas pelo Meta, CPA R$ 9,17.'
+        'Black Friday (22–27/11, 27/11 parcial): R$ 11,4 mil em Meta e TikTok e 1.387 compras atribuídas pelo Meta, CPA R$ 8,26 e ROAS 0,55.'
       ],
       aprendizados: [
-        'O Remarketing é o motor de vendas da Black: 489 vendas a CPA R$ 2,79, mais da metade das vendas do Meta.',
+        'O Remarketing é o motor de vendas da Black: 804 compras a CPA R$ 2,48, mais da metade das compras do Meta.',
         'No Esquenta, a campanha de Tráfego concentrou 81% da verba e 71% dos leads.'
       ],
       limitacoes: [
@@ -1147,8 +1164,8 @@ const CONTEUDO = {
       },
       black: {
         resumo: [
-          'Investimento de R$ 8,3 mil em Meta e TikTok de 22 a 25/11, com foco em vendas.',
-          '882 vendas atribuídas pelo Meta, CPA R$ 9,17; Remarketing com 489 vendas a R$ 2,79.'
+          'Investimento de R$ 11,4 mil em Meta e TikTok de 22 a 27/11 (27/11 parcial), com foco em vendas.',
+          '1.387 compras atribuídas pelo Meta, CPA R$ 8,26; Remarketing com 804 compras a R$ 2,48.'
         ],
         analise: {
           meta: { papel: 'Canal de vendas da Black: Alcance, Tráfego, Conversão e Remarketing.', positivos: [], atencao: [], oportunidades: [] },
@@ -2244,7 +2261,7 @@ function renderDayTabs() {
   setEmpty('wPlatDay', !!msg || !window.Chart);
   $('#platDayHint').innerHTML = msg ? '' : V === 'geral' ? 'Só investimento: os resultados de cada fase são analisados nas abas de cada fase.'
     : esq ? (cadR ? 'Cadastros pelo GA4 da LP com origem nesta mídia.' : 'Leads atribuídos pelo pixel (cadastros do GA4 não confirmados nesta praça).')
-    : vendeu ? 'Compras atribuídas pela própria plataforma. Linha dourada: CPA do dia (dias com pelo menos 5 compras).' : 'Esta mídia não tem venda atribuída na Black: o gráfico mostra investimento e cliques por dia (25/11 parcial).';
+    : vendeu ? 'Compras atribuídas pela própria plataforma. Linha dourada: CPA do dia (dias com pelo menos 5 compras).' : 'Esta mídia não tem venda atribuída na Black: o gráfico mostra investimento e cliques por dia (27/11 parcial).';
   ['sv_imp', 'sv_cli', 'sv_alc'].forEach(kill);
   $('#svGrid').style.display = 'none'; $('#wPlatDay').style.display = '';
   if (!msg && V === 'black' && semVenda(p) && window.Chart) {
@@ -2256,7 +2273,7 @@ function renderDayTabs() {
     const temAlc = dates.some(d => ok(alc[d]));
     setEmpty('wSvAlc', !temAlc);
     if (temAlc) lineChart('sv_alc', dates, dates.map(d => ok(alc[d]) ? alc[d] : null), false, cor);
-    $('#platDayHint').innerHTML = 'Mídia sem venda atribuída na Black: os resultados são de mídia (impressões, cliques e alcance). 25/11 é dia parcial.';
+    $('#platDayHint').innerHTML = 'Mídia sem venda atribuída na Black: os resultados são de mídia (impressões, cliques e alcance). 27/11 é dia parcial; UOL e Programática com relatório até 25/11.';
     return;
   }
   if (msg || !window.Chart) return;
@@ -2828,7 +2845,7 @@ function renderVisitantes() {
   charts.cVis = new Chart($('#cVis'), { type: 'line', data: { labels: dates.map(dBR), datasets: ds }, options: o });
   const soma = src => dates.reduce((s, d) => s + (src[d] || 0), 0);
   $('#visHint').innerHTML = `LP: ${F.int(soma(V.lp || {}))} visitantes · site: ${F.int(soma(V.site || {}))} visitantes no período. Visitantes = usuários do dia; a soma dos dias pode contar a mesma pessoa mais de uma vez. ` +
-    (fase !== 'black' ? 'No Esquenta, a mídia levou só para a LP; o site entra a partir da Black.' : '') + ' 25/11 parcial.';
+    (fase !== 'black' ? 'No Esquenta, a mídia levou só para a LP; o site entra a partir da Black.' : '') + ' 27/11 parcial.';
 }
 
 function renderAll() {
